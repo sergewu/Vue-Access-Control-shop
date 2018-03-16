@@ -39,7 +39,7 @@
 					</template>
       </el-form-item>
       <el-form-item style="float:right">
-        <el-button type="primary" v-on:click="getUsers">查询</el-button>
+        <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
       </el-form-item>
     </el-form>
   </el-row>
@@ -48,20 +48,20 @@
   <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
     <el-table-column prop="account_name" label="会员姓名">
     </el-table-column>
-    <el-table-column prop="account_num" label="会员卡号">
+    <el-table-column prop="account_num" label="会员卡号" min-width="120">
     </el-table-column>
-    <el-table-column prop="amount" label="交易金额（元）">
+    <el-table-column prop="amount" label="交易金额（元）" min-width="120">
     </el-table-column>
-    <el-table-column prop="bouns" label="获得积分">
+    <el-table-column prop="bouns" label="获得积分" min-width="120">
       <template slot-scope="scope">
 					<span style="margin-left: 10px;color:blue">{{ scope.row.trans_type == 'OUT' ? '+' : '' }}</span>
 					<span style="color:red">{{ scope.row.trans_type == 'IN' ? '-' : '' }}</span>
 					<span style="margin-left: 10px">{{ scope.row.bouns }}</span>
 				</template>
     </el-table-column>
-    <el-table-column prop="account_balance" label="余额（元）">
+    <el-table-column prop="account_balance" label="余额（元）" min-width="120">
     </el-table-column>
-    <el-table-column prop="creat_stamp" label="交易时间" :formatter="creat_stamp" width="180">
+    <el-table-column prop="creat_stamp" label="交易时间" :formatter="creat_stamp" min-width="160">
     </el-table-column>
     <el-table-column prop="status" label="订单状态" :formatter="status">
     </el-table-column>
@@ -71,7 +71,7 @@
     </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
-					<el-button type="danger" size="small" :disabled="scope.row.status==3" @click="refundClick(scope.$index, scope.row)" v-if="String(scope.row.reason_id)==='2'">{{scope.row.status==3?'已退款':'退款'}}</el-button>
+					<el-button type="danger" size="mini" :disabled="scope.row.status==3" @click="refundClick(scope.$index, scope.row)" v-if="String(scope.row.reason_id)==='2'">{{scope.row.status==3?'已退款':'退款'}}</el-button>
 				</template>
     </el-table-column>
   </el-table>
@@ -122,8 +122,8 @@ export default {
       filters: {
         card_no: '',
         status: '',
-        startTime: [new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate())],
-        endTime: [new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate(), 23, 59, 59)],
+        startTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()),
+        endTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate(), 23, 59, 59),
         reason_id: ''
       },
       statusOptions: [{

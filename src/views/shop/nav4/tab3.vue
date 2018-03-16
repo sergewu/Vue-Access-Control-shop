@@ -10,34 +10,34 @@
         <el-input v-model="filters.cardNum" placeholder="请输入账户卡号"></el-input>
       </el-form-item>
       <el-form-item  style="float:right">
-        <el-button type="primary" @click="handleAdd"><i class="el-icon-plus"></i> 新增公司账户</el-button>
+        <el-button type="primary" @click="handleAdd" size="medium" round><i class="el-icon-plus"></i> 新增公司账户</el-button>
       </el-form-item>
       <el-form-item  style="float:right">
-        <el-button type="primary" @click="getUsers">查询</el-button>
+        <el-button type="primary" @click="getUsers" size="medium" round>查询</el-button>
       </el-form-item>
     </el-form>
   </el-row>
 
   <!--列表-->
   <el-table :data="users" highlight-current-row v-loading="listLoading" style="width: 100%;" border>
-    <el-table-column prop="card_num" label="公司卡号">
+    <el-table-column prop="card_num" label="公司卡号" min-width="120">
     </el-table-column>
     <el-table-column prop="name" label="公司名称">
     </el-table-column>
     <el-table-column prop="address" label="公司地址">
     </el-table-column>
-    <el-table-column prop="person" label="负责人姓名">
+    <el-table-column prop="person" label="负责人姓名" min-width="100">
     </el-table-column>
-    <el-table-column prop="phone" label="负责人电话">
+    <el-table-column prop="phone" label="负责人电话" min-width="120">
     </el-table-column>
     <el-table-column prop="balance" label="余额￥">
     </el-table-column>
-    <el-table-column prop="birth" width="330">
+    <el-table-column label="操作" min-width="370">
       <template slot-scope="scope">
-					<el-button type="primary" size="small" @click="clickBind(scope.$index, scope.row)">绑定<i class="el-icon-edit el-icon--right"></i></el-button>
-					<el-button type="success" size="small" @click="clickSee(scope.$index, scope.row)">已绑定会员</el-button>
-          <el-button type="success" size="small" @click="clickRecharge(scope.$index, scope.row)">充值</el-button>
-          <el-button :plain="true" type="info" size="small" @click="clickDetailed(scope.$index, scope.row)">操作记录</el-button>
+					<el-button type="primary" size="mini" @click="clickBind(scope.$index, scope.row)">绑定<i class="el-icon-edit el-icon--right"></i></el-button>
+					<el-button type="success" size="mini" @click="clickSee(scope.$index, scope.row)">已绑定会员</el-button>
+          <el-button type="success" size="mini" @click="clickRecharge(scope.$index, scope.row)">充值</el-button>
+          <el-button :plain="true" type="info" size="mini" @click="clickDetailed(scope.$index, scope.row)">操作记录</el-button>
 				</template>
     </el-table-column>
   </el-table>

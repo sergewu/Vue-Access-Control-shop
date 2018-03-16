@@ -4,7 +4,7 @@
 		<el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
 			<el-form :inline="true">
 				<el-form-item>
-					<el-button type="primary" v-on:click="getUsers"><i class="fa fa-refresh fa-fw"></i>同步</el-button>
+					<el-button type="primary" v-on:click="getUsers" size="medium" round><i class="fa fa-refresh fa-fw"></i>同步</el-button>
 				</el-form-item>
 			</el-form>
 		</el-row>

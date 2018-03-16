@@ -47,8 +47,8 @@
       </el-col>
       <el-col :span="4">
         <el-form-item style="float: right;">
-          <el-button type="primary" v-on:click="getUsers">查询</el-button>
-          <el-button @click="resetForm('filters')">重置</el-button>
+          <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
+          <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
         </el-form-item>
       </el-col>
     </el-row>

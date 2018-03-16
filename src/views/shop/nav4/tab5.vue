@@ -10,8 +10,8 @@
 					<el-input v-model="filters.code" placeholder="请输入卡券号码"></el-input>
 				</el-form-item>
 				<el-form-item style="float:right">
-					<el-button type="primary" v-on:click="getUsers">查询</el-button>
-					<el-button type="primary" @click="dialogClick">核销卡券</el-button>
+					<el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
+					<el-button type="primary" @click="dialogClick" size="medium" round>核销卡券</el-button>
 				</el-form-item>
 			</el-form>
 		</el-row>

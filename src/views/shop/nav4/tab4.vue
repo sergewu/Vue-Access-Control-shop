@@ -10,32 +10,32 @@
 					<el-input v-model="filters.card_no" placeholder="会员卡号"></el-input>
 				</el-form-item>
 				<el-form-item style="float:right">
-					<el-button type="primary" v-on:click="getUsers">查询</el-button>
-					<el-button type="primary" v-on:click="cogradientCard">同步会员卡</el-button>
+					<el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
+					<el-button type="primary" v-on:click="cogradientCard" size="medium" round>同步会员卡</el-button>
 				</el-form-item>
 			</el-form>
 		</el-row>
 		<!--列表-->
 		<el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" @sort-change="sortChange" style="width: 100%;">
-			<el-table-column prop="card_no" label="会员卡号">
+			<el-table-column prop="card_no" label="会员卡号" min-width="120">
 			</el-table-column>
 			<el-table-column prop="wx_name" label="微信昵称">
 			</el-table-column>
 			<el-table-column prop="name" label="持卡人">
 			</el-table-column>
-			<el-table-column prop="phone" label="手机号">
+			<el-table-column prop="phone" label="手机号" min-width="120">
 			</el-table-column>
-			<el-table-column prop="creat_time" label="领卡时间" :formatter="creat_time">
+			<el-table-column prop="creat_time" label="领卡时间" :formatter="creat_time" min-width="95">
 			</el-table-column>
-			<el-table-column prop="account_bouns" label="积分" sortable="custom" width="120" v-if="supplyBouns">
+			<el-table-column prop="account_bouns" label="积分" sortable="custom" min-width="120" v-if="supplyBouns">
 			</el-table-column>
-			<el-table-column prop="actual_balance" label="余额（元）" sortable="custom" width="130" v-if="supplyBalance">
+			<el-table-column prop="actual_balance" label="余额（元）" sortable="custom" min-width="130" v-if="supplyBalance">
 			</el-table-column>
-			<el-table-column label="操作" width="350">
+			<el-table-column label="操作" min-width="220">
 				<template slot-scope="scope">
-					<el-button size="small" type="info" @click="makeupEdit(scope.$index, scope.row)">线下消费补录</el-button>
-					<el-button size="small" type="warning" @click="resetPassword(scope.$index, scope.row)" v-if="supplyBalance">会员卡支付密码重置</el-button>
-					<el-button size="small" type="success" @click="handleEdit(scope.$index, scope.row)">消费记录</el-button>
+					<el-button size="mini" type="info" @click="makeupEdit(scope.$index, scope.row)">线下消费补录</el-button>
+					<el-button size="mini" type="warning" @click="resetPassword(scope.$index, scope.row)" v-if="supplyBalance">会员卡支付密码重置</el-button>
+					<el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">消费记录</el-button>
 				</template>
 			</el-table-column>
 		</el-table>

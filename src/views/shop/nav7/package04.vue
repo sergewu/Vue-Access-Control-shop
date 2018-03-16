@@ -7,8 +7,8 @@
         <el-input v-model="filters.name" placeholder="请输入套餐名称"></el-input>
       </el-form-item>
       <el-form-item style="float:right">
-        <el-button type="primary" v-on:click="getUsers">查询</el-button>
-        <el-button type="primary" v-on:click="establishClick">创建套餐</el-button>
+        <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
+        <el-button type="primary" v-on:click="establishClick" size="medium" round>创建套餐</el-button>
       </el-form-item>
     </el-form>
   </el-row>

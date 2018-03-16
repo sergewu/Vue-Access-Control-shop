@@ -161,7 +161,7 @@ export default {
         // vm.setInterceptor(resourcePermission);
         //获得实际路由
         let allowedRouter = vm.getRoutes(userInfo);
-        // console.log(allowedRouter);
+        console.log(userPath);
         //若无可用路由限制访问
         if (!allowedRouter || !allowedRouter.length) {
           return vm.$router.push({ path: '/login', query: { from: vm.$router.currentRoute.path } });
@@ -207,6 +207,8 @@ export default {
       this.$root.hashMenus = {};
       //回到登录页
       this.$router.replace({path: '/login'});
+      //清除动态标签
+      this.$store.dispatch('delAllViews')
     }
   },
   created: function(newPath) {

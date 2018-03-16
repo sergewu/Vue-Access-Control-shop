@@ -19,10 +19,10 @@
           </template>
         </el-form-item>
 				<el-form-item style="float:right">
-					<el-button type="primary" @click="handleAdd">新增卡券</el-button>
+					<el-button type="primary" @click="handleAdd" size="medium" round>新增卡券</el-button>
 				</el-form-item>
 				<el-form-item style="float:right">
-					<el-button type="primary" v-on:click="getUsers">查询</el-button>
+					<el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
 				</el-form-item>
 			</el-form>
 		</el-row>
@@ -31,20 +31,20 @@
 		<el-table border :data="users" highlight-current-row v-loading="listLoading" style="width: 100%;">
 			<el-table-column prop="card_type" label="卡券类型" :formatter="card_type">
 			</el-table-column>
-			<el-table-column prop="title" label="卡券名称">
+			<el-table-column prop="title" label="卡券名称" min-width="120">
 			</el-table-column>
 			<el-table-column prop="quantity" label="库存">
 			</el-table-column>
 			<el-table-column prop="get_limit" label="限领次数">
 			</el-table-column>
-      <el-table-column prop="status" label="状态" width="100" :formatter="status">
+      <el-table-column prop="status" label="状态" min-width="90" :formatter="status">
       </el-table-column>
-			<el-table-column label="操作" width="260">
+			<el-table-column label="操作" min-width="270">
 				<template slot-scope="scope">
-						<el-button type="primary" size="small" @click="editCard(scope.$index, scope.row)">修改</el-button>
-						<el-button type="primary" size="small" v-if="scope.row.status!=2" @click="uploadWinxin(scope.$index, scope.row)">上传<i class="el-icon-upload el-icon--right"></i></el-button>
-						<el-button type="primary" size="small" v-else :disabled="true">已上传</el-button>
-						<el-button type="info" size="small" @click="deliveryCode(scope.$index, scope.row)">投放二维码</el-button>
+						<el-button type="primary" size="mini" @click="editCard(scope.$index, scope.row)">修改</el-button>
+						<el-button type="primary" size="mini" v-if="scope.row.status!=2" @click="uploadWinxin(scope.$index, scope.row)">上传<i class="el-icon-upload el-icon--right"></i></el-button>
+						<el-button type="primary" size="mini" v-else :disabled="true">已上传</el-button>
+						<el-button type="info" size="mini" @click="deliveryCode(scope.$index, scope.row)">投放二维码</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -230,7 +230,7 @@
 				var id=row.id;
 				sessionStorage.setItem('id', JSON.stringify(id));
 				this.$router.push({
-					path: '/tab7-modify',
+					path: '/index/tab7-modify',
 				});
 			},
 			//卡券状态转换
@@ -300,7 +300,7 @@
 				let card_type=this.addForm.card_type;
 				sessionStorage.setItem('card_type', JSON.stringify(card_type));
 				this.$router.push({
-					path: '/tab7s'
+					path: '/index/tab7s'
 				});
 			},
 		},

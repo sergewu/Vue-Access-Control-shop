@@ -1,6 +1,7 @@
 <template>
   <div class="errPage-container">
-    <el-button @click="back" icon='arrow-left' class="pan-back-btn">返回</el-button>
+    <el-button type="primary"  @click="back" icon='el-icon-back' class="pan-back-btn" round>返回</el-button>
+    <!-- <el-button @click="back" icon='arrow-left' class="pan-back-btn">返回</el-button> -->
     <el-row>
       <el-col :span="12">
         <h1 class="text-jumbo text-ginormous">Oops!</h1>
@@ -38,10 +39,6 @@ export default {
   .errPage-container {
     width: 800px;
     margin: 100px auto;
-    .pan-back-btn {
-      background: #008489;
-      color: #fff;
-    }
     .pan-gif {
       margin: 0 auto;
       display: block;

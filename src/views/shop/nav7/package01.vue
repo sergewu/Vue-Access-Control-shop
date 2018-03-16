@@ -42,7 +42,7 @@
         </el-select>
       </el-form-item>
       <el-form-item style="float:right">
-        <el-button type="primary" v-on:click="getUsers">查询</el-button>
+        <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
         <el-button type="text" @click="downExcel()"><i class="el-icon-date"></i>导出Excel</el-button>
       </el-form-item>
     </el-form>

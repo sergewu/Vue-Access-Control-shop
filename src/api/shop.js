@@ -15,7 +15,7 @@ export const getCode = {
 //门店汇总
 export const getUserList = params => { return instance.post(`${preUrlPath}/pay1/mer/querySummary`, params).then(res => res.data);};
 //收款记录
- export const getUserListPage = params => { return instance.post(`${preUrlPath}pay1/sysacl/test`,params).then(res => res.data); };
+ export const getUserListPage = params => { return instance.post(`${preUrlPath}/pay1/mer/queryOrderShop`,params).then(res => res.data); };
 //修改密码
  export const modifyPassword= params => { return instance.post(`${preUrlPath}/pay1/mer/updateMerMpwd`, params).then(res => res.data); };
 //退出登录

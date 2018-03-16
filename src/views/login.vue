@@ -130,7 +130,7 @@ export default {
           var user = res.data.userName;
           sessionStorage.setItem('user', JSON.stringify(user));
           sessionStorage.setItem('name', JSON.stringify(name));
-          vm.$emit('login', '/index/table');
+          vm.$emit('login', '/');
         }else{
           return Promise.reject({
             message: '登录异常！'

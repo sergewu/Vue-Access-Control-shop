@@ -7,46 +7,59 @@
 					<el-input v-model="filters.name" placeholder="请输入会员卡名称"></el-input>
 				</el-form-item>
 				<el-form-item style="float:right">
-					<el-button type="primary" @click="handleAdd">新增会员卡</el-button>
+					<el-button type="primary" size="medium" @click="handleAdd" round>新增会员卡</el-button>
 				</el-form-item>
 				<el-form-item style="float:right">
-					<el-button type="primary" v-on:click="getUsers">查询</el-button>
+					<el-button type="primary" size="medium" v-on:click="getUsers" round>查询</el-button>
 				</el-form-item>
 			</el-form>
 		</el-row>
 		<!--列表-->
 		<el-table :data="users" highlight-current-row v-loading="listLoading" style="width: 100%;" border>
-			<el-table-column prop="id" label="编号" width="90">
+			<el-table-column prop="id" label="编号">
 			</el-table-column>
-			<el-table-column prop="brand_name" label="会员卡名称">
+			<el-table-column prop="brand_name" label="会员卡名称" min-width="120">
 			</el-table-column>
-			<el-table-column prop="wxcard_id" label="会员卡ID" width="280">
+			<el-table-column prop="wxcard_id" label="会员卡ID" min-width="250">
 			</el-table-column>
-			<el-table-column prop="date_info" label="会员卡有效期" :formatter="date_info" width="120">
+			<el-table-column prop="date_info" label="会员卡有效期" :formatter="date_info" min-width="120">
 			</el-table-column>
 			<el-table-column prop="status" label="状态" width="100" :formatter="status">
 			</el-table-column>
 			<!-- <el-table-column prop="max_increase_bonus" width="100" label="总库存" sortable>
 			</el-table-column> -->
-			<el-table-column label="剩余库存">
+			<el-table-column label="剩余库存" min-width="250">
 				<template slot-scope="scope">
 					<el-tag type="gray" style="width:80px;text-align: center;">{{scope.row.quantity}}</el-tag>
-					<el-input size="small" style="width:80px;" v-model="scope.row.addQuantity" :maxlength="6"></el-input>
-					<el-button type="primary" size="small" @click="stockClick(scope.$index, scope.row)">增加</el-button>
+					<el-input size="mini" style="width:80px;" v-model="scope.row.addQuantity" :maxlength="6"></el-input>
+					<el-button type="primary" size="mini" @click="stockClick(scope.$index, scope.row)">增加</el-button>
 				</template>
 			</el-table-column>
-			<el-table-column label="操作" width="430">
+			<el-table-column label="操作" min-width="120">
 				<template slot-scope="scope">
-						<el-button type="primary" size="small" @click="vipDataClick(scope.$index, scope.row)">会员日</el-button>
-						<el-button type="primary" size="small" @click="modifyClick(scope.$index, scope.row)">修改</el-button>
-						<el-button type="primary" size="small" @click="rechargeClick(scope.$index, scope.row)">充值设置</el-button>
-						<el-button type="info" size="small" @click="deliveryCode(scope.$index, scope.row)">投放二维码</el-button>
-						<el-button type="primary" size="small" v-if="scope.row.status!=2" @click="uploadWinxin(scope.$index, scope.row)">上传微信<i class="el-icon-upload el-icon--right"></i></el-button>
-						<el-button type="primary" size="small" v-else :disabled="true">已上传</el-button>
+					<el-dropdown trigger="click">
+						<el-button size="mini">
+							更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
+						</el-button>
+						<el-dropdown-menu slot="dropdown">
+							<el-dropdown-item @click.native="vipDataClick(scope.$index, scope.row)">会员日</el-dropdown-item>
+							<el-dropdown-item @click.native="modifyClick(scope.$index, scope.row)">修改</el-dropdown-item>
+							<el-dropdown-item @click.native="rechargeClick(scope.$index, scope.row)">充值设置</el-dropdown-item>
+							<el-dropdown-item @click.native="deliveryCode(scope.$index, scope.row)">投放二维码</el-dropdown-item>
+							<el-dropdown-item v-if="scope.row.status!=2" @click.native="uploadWinxin(scope.$index, scope.row)">上传微信</el-dropdown-item>
+							<el-dropdown-item v-else :disabled="true">已上传</el-dropdown-item>
+						</el-dropdown-menu>
+					</el-dropdown>
+						<!-- <el-button type="primary" size="mini" @click="vipDataClick(scope.$index, scope.row)">会员日</el-button>
+						<el-button type="primary" size="mini" @click="modifyClick(scope.$index, scope.row)">修改</el-button>
+						<el-button type="primary" size="mini" @click="rechargeClick(scope.$index, scope.row)">充值设置</el-button>
+						<el-button type="info" size="mini" @click="deliveryCode(scope.$index, scope.row)">投放二维码</el-button>
+						<el-button type="primary" size="mini" v-if="scope.row.status!=2" @click="uploadWinxin(scope.$index, scope.row)">上传微信<i class="el-icon-upload el-icon--right"></i></el-button>
+						<el-button type="primary" size="mini" v-else :disabled="true">已上传</el-button> -->
 				</template>
 			</el-table-column>
 		</el-table>
-		<el-dialog title="投放设置" :visible.sync="codeFormVisible" :close-on-click-modal="false" @close="closeDialog" size="tiny">
+		<el-dialog title="投放设置" :visible.sync="codeFormVisible" :close-on-click-modal="false" @close="closeDialog" width="600px">
 			<el-form :model="codeForm" label-width="80px" :rules="codeFormRules" ref="codeForm">
 				<el-form-item label="选择门店" prop="parag">
 					<el-select v-model="codeForm.store" placeholder="请选择门店名称" :multiple="false" filterable remote clearable :remote-method="remoteStore" :loading="loading" @visible-change="clickStore">
@@ -67,7 +80,7 @@
 				</el-form-item>
 			</el-form>
 		</el-dialog>
-		<el-dialog title="绑定会员" :visible.sync="dialogvipDataVisible" size="tiny">
+		<el-dialog title="绑定会员" :visible.sync="dialogvipDataVisible" width="600px">
 			<el-form :model="vipDataForm" ref="vipDataForm" :rules="vipDataFormRules">
 				<el-form-item label="折扣率（“1”到“10”）" prop="discount">
 					<el-input v-model="vipDataForm.discount"></el-input>
@@ -392,7 +405,7 @@
 				var id=row.id;
 				sessionStorage.setItem('id', JSON.stringify(id));
 				this.$router.push({
-					path: '/tab1-modify',
+					path: '/index/tab1-modify',
 				});
 			},
 			//充值设置
@@ -464,7 +477,7 @@
 			//新增
 			handleAdd:function () {
 				var _this = this;
-				_this.$router.push('/tab1s');
+				_this.$router.push('/index/tab1s');
 			},
 			//上传微信
 			uploadWinxin:function (index,row) {
