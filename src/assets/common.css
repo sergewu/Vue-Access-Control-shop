@@ -1,0 +1,45 @@
+/* page */
+#app{
+    height: 100%;
+}
+html,body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+}
+a{
+    text-decoration:none
+}
+.g-center{
+    display: table-cell;
+
+    vertical-align: middle;
+}
+.page{
+    margin: 20px 0 0;
+
+    text-align: center;
+}
+
+.operation{
+    margin-bottom: 20px;
+}
+@font-face {
+    font-family: 'iconfont';  /* project id 581304 */
+    src: url('//at.alicdn.com/t/font_581304_ftbi347wmugi7ldi.eot');
+    src: url('//at.alicdn.com/t/font_581304_ftbi347wmugi7ldi.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_581304_ftbi347wmugi7ldi.woff') format('woff'),
+    url('//at.alicdn.com/t/font_581304_ftbi347wmugi7ldi.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_581304_ftbi347wmugi7ldi.svg#iconfont') format('svg');
+  }
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:16px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}

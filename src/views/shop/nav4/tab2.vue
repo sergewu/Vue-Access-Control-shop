@@ -1,0 +1,93 @@
+<template>
+	<section>
+		<!--工具条-->
+		<el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+			<el-form :inline="true">
+				<el-form-item>
+					<el-button type="primary" v-on:click="getUsers"><i class="fa fa-refresh fa-fw"></i>同步</el-button>
+				</el-form-item>
+			</el-form>
+		</el-row>
+
+		<!--列表-->
+		<el-table :data="users" highlight-current-row v-loading="listLoading" style="width: 100%;" border>
+			<el-table-column prop="mname" label="门店名称" min-width="100">
+			</el-table-column>
+			<el-table-column prop="address" label="门店地址" min-width="100">
+			</el-table-column>
+		</el-table>
+
+		<!--工具条-->
+		<el-col :span="24" class="toolbar">
+			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+			</el-pagination>
+		</el-col>
+	</section>
+</template>
+
+<script>
+	import * as util from '../../../assets/util.js'
+	//
+	import { synStoreList, queryStoreList} from '../../../api/shop';
+
+	export default {
+		data() {
+			return {
+				users: [],
+				total: 0,
+				page: 1,
+				listLoading: false,
+				sels: [],//列表选中列
+			}
+		},
+		methods: {
+			handleCurrentChange(val) {
+				this.page = val;
+				let para = {
+					pageNum: this.page,
+				};
+				this.listLoading = true;
+				queryStoreList(para).then((res) => {
+					this.total = res.data.map.totalCount;
+					this.users = res.data.map.storeList
+					this.listLoading = false;
+				});
+			},
+			//获取用户列表
+			getUsers() {
+				synStoreList(para).then((res)=>{
+					let {status,message}=res;
+					if (status==200) {
+						this.$notify({
+							title: '成功',
+							message: message,
+							type: 'success'
+						});
+					}else {
+						this.$notify.error({
+							title: '错误',
+							message: message
+						});
+					}
+				})
+				let para = {
+					pageNum: this.page,
+				};
+				this.listLoading = true;
+				queryStoreList(para).then((res) => {
+					this.total = res.data.map.totalCount;
+					this.users = res.data.map.storeList
+					this.listLoading = false;
+				});
+			},
+		},
+		mounted() {
+			this.getUsers();
+		}
+	}
+
+</script>
+
+<style scoped>
+
+</style>
