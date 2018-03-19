@@ -103,7 +103,7 @@
         </el-form>
       </el-dialog>
       <el-container style="border: 1px solid #eee;">
-            <el-menu :default-active="activeMenu" class="el_menu_vertical" unique-opened :collapse="isCollapse" router background-color="#545c64" text-color="#fff" active-text-color="#409EFF">
+            <el-menu :default-active="activeMenu" class="el_menu_vertical" unique-opened :collapse="isCollapse" router background-color="#414F61" text-color="#fff" active-text-color="#409EFF">
               <template v-for="(route, index) in menus">
                 <template v-if="route.children">
                   <el-submenu :key="index" :index="route.name">
