@@ -81,7 +81,7 @@
   </el-col>
 
   <!--详情界面-->
-  <el-dialog title="交易详情" :visible.sync="editFormVisible" :close-on-click-modal="false">
+  <el-dialog title="交易详情" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="editForm" label-width="160px" ref="editForm" label-position="left">
       <el-form-item label="订单号：">
         <span>{{editForm.orderId}}</span>
@@ -117,7 +117,7 @@
     </el-form>
   </el-dialog>
   <!--退款界面-->
-  <el-dialog title="退款" :visible.sync="refundFormVisible" :close-on-click-modal="false" size="tiny">
+  <el-dialog title="退款" :visible.sync="refundFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="refundForm" :rules="refundFormRules" ref="refundForm">
       <el-form-item label="订单号：">
         <span>{{refundForm.orderId}}</span>
@@ -359,15 +359,6 @@ export default {
           this.whole.memAmt = res.data.memAmt;
           this.whole.memCount = res.data.memCount;
           this.users = res.data.summaryCopyList;
-        } else if (status == 301 || status == 302) {
-          sessionStorage.removeItem('user');
-          _this.$router.push('/login');
-          this.listLoading = false;
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: message
-          });
         }
         this.listLoading = false;
       });
@@ -449,18 +440,6 @@ export default {
       } = res;
       if (status == 200) {
         this.options = res.data.storeList;
-      } else if (status == 301 || status == 302) {
-        //sessionStorage.removeItem('user');
-        //_this.$router.push('/login');
-        this.$notify.error({
-          title: '错误',
-          message: message
-        });
-      } else {
-        this.$notify.error({
-          title: '错误',
-          message: message
-        });
       }
     });
   }

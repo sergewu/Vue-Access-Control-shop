@@ -76,7 +76,7 @@
     </el-table-column>
   </el-table>
   <!--编辑界面-->
-  <el-dialog title="退款" :visible.sync="editFormVisible" :close-on-click-modal="false">
+  <el-dialog title="退款" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="editForm" label-position="right" label-width="90px" :rules="editFormRules" ref="editForm">
       <el-form-item label="验证码：" prop="code">
         <el-input v-model="editForm.code" placeholder="请输入验证码" style="width:60%;"></el-input>

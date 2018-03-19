@@ -21,7 +21,7 @@
 				</el-form-item>
 				<el-tag type="gray">注：不能统计当天数据</el-tag>
 				<el-form-item style="float:right">
-					<el-button type="primary" v-on:click="getUsers">查询</el-button>
+					<el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
 				</el-form-item>
 			</el-form>
 		</el-row>

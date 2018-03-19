@@ -62,7 +62,7 @@
 		</el-col>
 
 		<!--编辑界面-->
-		<el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false" size="tiny">
+		<el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
 			<el-form :model="editForm" label-width="120px" :rules="editFormRules" ref="editForm">
         <el-form-item label="商户名称：" prop="name">
           <el-input v-model="editForm.name" auto-complete="off" style="width:200px;"></el-input>
@@ -118,7 +118,7 @@
 		</el-dialog>
 
 		<!--新增界面-->
-		<el-dialog title="新增商品" :visible.sync="addFormVisible" :close-on-click-modal="false" size="tiny">
+		<el-dialog title="新增商品" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
 			<el-form :model="addForm" label-width="120px" :rules="addFormRules" ref="addForm">
         <el-form-item label="商品缩略图：" prop="small_url">
           <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="small_urlSuccess" :before-upload="beforeAvatarUpload">

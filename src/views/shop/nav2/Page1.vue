@@ -58,7 +58,7 @@
     </el-pagination>
   </el-col>
   <!--详情界面-->
-  <el-dialog title="门店详情" :visible.sync="detFormVisible" :close-on-click-modal="false">
+  <el-dialog title="门店详情" :visible.sync="detFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="detForm" label-width="120px" ref="detForm" label-position="left">
       <el-form-item label="门店名称：">
         <span>{{detForm.storeName}}</span>
@@ -81,7 +81,7 @@
     </el-form>
   </el-dialog>
   <!--修改界面-->
-  <el-dialog title="修改信息" :visible.sync="editFormVisible" :close-on-click-modal="false" size="tiny">
+  <el-dialog title="修改信息" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="editForm" :rules="editFormRules" ref="editForm">
       <el-form-item label="门店名称" prop="storeName">
         <el-input v-model="editForm.storeName" auto-complete="off"></el-input>
@@ -128,7 +128,7 @@
   </el-dialog>
 
   <!--新增界面-->
-  <el-dialog title="新增门店" :visible.sync="addFormVisible" :close-on-click-modal="false" size="tiny">
+  <el-dialog title="新增门店" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="addForm" :rules="addFormRules" ref="addForm">
       <el-form-item label="门店名称" prop="storeName">
         <el-input v-model="addForm.storeName" auto-complete="off"></el-input>
@@ -391,18 +391,6 @@ export default {
               sta.state = false
             }
           }
-        } else if (status == 302 || status == 301) {
-          sessionStorage.removeItem('user');
-          _this.$router.push('/login');
-          this.$notify.error({
-            title: '错误',
-            message: message
-          });
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: message
-          });
         }
         this.listLoading = false;
       });

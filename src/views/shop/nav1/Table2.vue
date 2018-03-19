@@ -227,16 +227,6 @@ export default {
         } = res;
         if (status == 200) {
           this.options = res.data.storeList;
-        } else if (status == 301 || status == 302) {
-					this.$notify.error({
-          title: '错误',
-          message: message
-        	});
-        } else {
-					this.$notify.error({
-          title: '错误',
-          message: message
-        	});
         }
       });
       this.listLoading = true;
@@ -250,21 +240,10 @@ export default {
         if (status == 200) {
           this.total = res.data.totalCount;
           this.filters.time1 = res.data.returnST;
-          //console.log(this.total);
           this.whole.countRow = res.data.countRow;
           this.whole.sumAmt = res.data.sumAmt;
           this.users = res.data.summaryList;
           this.listLoading = false;
-        } else if (status == 301 || status == 302) {
-					this.$notify.error({
-          title: '错误',
-          message: message
-        	});
-        } else {
-					this.$notify.error({
-          title: '错误',
-          message: message
-        	});
         }
       });
     },

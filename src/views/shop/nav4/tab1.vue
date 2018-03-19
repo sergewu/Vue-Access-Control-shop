@@ -413,7 +413,7 @@
 				var wxcard_id=row.wxcard_id;
 				sessionStorage.setItem('wxcard_id', JSON.stringify(wxcard_id));
 				this.$router.push({
-					path: '/tab11',
+					path: '/index/tab11',
 				});
 			},
 			//修改库存

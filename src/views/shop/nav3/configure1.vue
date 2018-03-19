@@ -55,7 +55,7 @@
     </el-pagination>
   </el-col>
   <!--详情界面-->
-  <el-dialog title="打印详情" :visible.sync="detFormVisible" :close-on-click-modal="false">
+  <el-dialog title="打印详情" :visible.sync="detFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="detForm" label-width="" ref="detForm">
       <el-form-item label="打印机名称：">
         <span>{{detForm.printname}}</span>
@@ -78,7 +78,7 @@
     </el-form>
   </el-dialog>
   <!--修改界面-->
-  <el-dialog title="打印配置修改" :visible.sync="editFormVisible" :close-on-click-modal="false" size="tiny">
+  <el-dialog title="打印配置修改" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="editForm" :rules="editFormRules" ref="editForm">
       <el-form-item label="打印机名称" prop="printname">
         <el-input v-model="editForm.printname" auto-complete="off"></el-input>
@@ -119,7 +119,7 @@
   </el-dialog>
 
   <!--新增界面-->
-  <el-dialog title="新增打印机" :visible.sync="addFormVisible" :close-on-click-modal="false" size="tiny">
+  <el-dialog title="新增打印机" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="addForm" :rules="addFormRules" ref="addForm">
       <el-form-item label="打印机名称" prop="printname">
         <el-input v-model="addForm.printname" auto-complete="off"></el-input>
@@ -347,11 +347,6 @@ export default {
               type: 'success',
               message: '修改成功!'
             });
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: message
-            });
           }
         })
       }).catch(() => {
@@ -395,18 +390,6 @@ export default {
               sta.isOpen = false
             }
           }
-        } else if (status == 302 || status == 301) {
-          sessionStorage.removeItem('user');
-          _this.$router.push('/login');
-          this.$notify.error({
-            title: '错误',
-            message: message
-          });
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: message
-          });
         }
         this.listLoading = false;
         
@@ -466,20 +449,7 @@ export default {
         if (status == 200) {
           this.detForm = res.data.machine
           this.detForm.storeName = res.data.eName
-        } else if (status == 301 || status == 302) {
-         sessionStorage.removeItem('user');
-         _this.$router.push('/login');
-          this.$notify.error({
-            title: '错误',
-            message: message
-          });
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: message
-          });
         }
-
       })
     },
     //显示编辑界面
@@ -507,18 +477,6 @@ export default {
         } = res;
         if (status == 200) {
           this.options = res.data.empList;
-        } else if (status == 301 || status == 302) {
-
-          this.$notify.error({
-            title: '错误',
-            message: message
-          });
-        } else {
-          this.$notify.error;
-          ({
-            title: '错误',
-            message: message,
-          });
         }
       });
       this.addForm = {
@@ -565,18 +523,6 @@ export default {
                   message: message,
                   type: 'success'
                 });
-              } else if (status == 301 || status == 302) {
-               sessionStorage.removeItem('user');
-               _this.$router.push('/login');
-                this.$notify.error({
-                  title: '错误',
-                  message: message
-                });
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: message,
-                });
               }
               this.$refs['editForm'].resetFields();
               this.editFormVisible = false;
@@ -620,16 +566,7 @@ export default {
                 this.$refs['addForm'].resetFields();
                 this.addFormVisible = false;
                 this.getUsers();
-              } else if (status == 301 || status == 302) {
-               sessionStorage.removeItem('user');
-               _this.$router.push('/login');
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: message
-                });
               }
-
             });
           });
         }

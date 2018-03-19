@@ -56,7 +56,7 @@
 		</el-col>
 
 		<!--新增界面-->
-		<el-dialog title="投放设置" :visible.sync="codeFormVisible" :close-on-click-modal="false" @close="closeDialog" size="tiny">
+		<el-dialog title="投放设置" :visible.sync="codeFormVisible" :close-on-click-modal="false" @close="closeDialog" width="600px">
 			<el-form :model="codeForm" label-width="80px" :rules="codeFormRules" ref="codeForm">
 				<el-form-item label="选择场景" prop="parag">
 					<el-select v-model="codeForm.scene" clearable placeholder="请选择场景">
@@ -89,7 +89,7 @@
 		</el-dialog>
 		<!--二维码 -->
 		<!--新增界面-->
-		<el-dialog title="请选择新增卡券类型" :visible.sync="addFormVisible" :close-on-click-modal="false" size="tiny">
+		<el-dialog title="请选择新增卡券类型" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
 			<el-form :model="addForm" label-width="120px" :rules="addFormRules" ref="addForm">
           <template>
             <el-radio-group v-model="addForm.card_type">

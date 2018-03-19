@@ -237,18 +237,6 @@ export default {
           this.total = res.data.totalCount;
           this.users = res.data.strStatementList;
           this.listLoading = false;
-        } else if (status == 301||status==302) {
-          // sessionStorage.removeItem('user');
-          // this.$router.push('/login');
-          this.$notify.error({
-            title: '错误',
-            message:message,
-          });
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message:message,
-          });
         }
       });
 

@@ -67,7 +67,7 @@
     </el-pagination>
   </el-col>
   <!--修改界面-->
-  <el-dialog title="修改信息" :visible.sync="modFormVisible" :close-on-click-modal="false" size="tiny">
+  <el-dialog title="修改信息" :visible.sync="modFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="modForm" :rules="modFormRules" ref="editForm">
       <el-form-item label="款台名称" prop="username">
         <el-input v-model="modForm.username" auto-complete="off"></el-input>
@@ -102,21 +102,21 @@
     </div>
   </el-dialog>
   <!-- 二维码 -->
-  <el-dialog :visible.sync="editFormCode" :close-on-click-modal="true" size="tiny">
+  <el-dialog :visible.sync="editFormCode" :close-on-click-modal="true" width="600px">
     <el-form :model="editCode" label-width="" ref="editCode" style="width:auto">
       <img :src="editCode.code" alt="二维码" width="100%">
       <el-button type="primary" @click="code" style="position:absolute;left:50%;margin-left:-44px;margin-top:-20px;">点击下载</el-button>
     </el-form>
   </el-dialog>
   <!-- 会员支付二维码 -->
-  <el-dialog :visible.sync="editFormVipCode" :close-on-click-modal="true" size="tiny">
+  <el-dialog :visible.sync="editFormVipCode" :close-on-click-modal="true" width="600px">
     <el-form :model="editVipCode" label-width="" ref="editVipCode" style="width:auto">
       <img :src="editVipCode.vipCode" alt="二维码" width="100%">
       <el-button type="primary" @click="vipCode" style="position:absolute;left:50%;margin-left:-44px;margin-top:-20px;">点击下载</el-button>
     </el-form>
   </el-dialog>
   <!--详情界面-->
-  <el-dialog title="交易详情" :visible.sync="editFormVisible" :close-on-click-modal="false">
+  <el-dialog title="交易详情" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="editForm" label-width="140px" ref="editForm" label-position="left">
       <el-form-item label="款台名称：">
         <span>{{editForm.username}}</span>
@@ -149,14 +149,11 @@
   </el-dialog>
 
   <!--新增界面-->
-  <el-dialog title="新增款台" :visible.sync="addFormVisible" :close-on-click-modal="false" size="tiny">
+  <el-dialog title="新增款台" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="addForm" :rules="addFormRules" ref="addForm">
       <el-form-item label="款台名称" prop="username">
         <el-input v-model="addForm.username" auto-complete="off"></el-input>
       </el-form-item>
-      <!-- <el-form-item label="支付宝操作员编号" prop="ali_operation_id">
-          <el-input v-model="addForm.ali_operation_id" auto-complete="off"></el-input>
-        </el-form-item> -->
       <el-form-item label="电话" prop="phone">
         <el-input v-model="addForm.phone" auto-complete="off"></el-input>
       </el-form-item>
@@ -464,18 +461,6 @@ export default {
               sta.status = false
             }
           }
-        } else if (status == 301 || status == 302) {
-          sessionStorage.removeItem('user');
-          _this.$router.push('/login');
-          this.$notify.error({
-            title: '错误',
-            message: message
-          });
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: message
-          });
         }
         this.listLoading = false;
         
@@ -507,18 +492,6 @@ export default {
               title: '成功',
               message: message,
               type: 'success'
-            });
-          } else if (status == 301 || status == 302) {
-            sessionStorage.removeItem('user');
-            _this.$router.push('/login');
-            this.$notify.error({
-              title: '错误',
-              message: message
-            });
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: message
             });
           }
         })
@@ -565,18 +538,6 @@ export default {
         if (status == 200) {
           this.editForm = res.data.employee;
           this.editForm.storeName = res.data.storeName
-        } else if (status == 302 || status == 301) {
-          sessionStorage.removeItem('user');
-          _this.$router.push('/login');
-          this.$notify.error({
-            title: '错误',
-            message: message
-          });
-        } else {
-          this.$notify.error({
-            title: '错误',
-            message: message
-          });
         }
       })
     },
@@ -626,18 +587,6 @@ export default {
                   title: '成功',
                   message: message,
                   type: 'success'
-                });
-              } else if (status == 301 || status == 302) {
-                sessionStorage.removeItem('user');
-                _this.$router.push('/login');
-                this.$notify.error({
-                  title: '错误',
-                  message: message
-                });
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: message
                 });
               }
               this.modFormVisible = false;
@@ -706,11 +655,6 @@ export default {
                   title: '成功',
                   message: message,
                   type: 'success'
-                });
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: message
                 });
               }
               this.$refs['addForm'].resetFields();

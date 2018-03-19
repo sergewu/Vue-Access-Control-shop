@@ -344,7 +344,6 @@ export default {
     },
     //切换顶部导航
     handleSelect(change){
-      console.log(typeof change);
       if (change==='1') {
         this.$router.push({ path: "/" });
       } else if(change==='2'){
@@ -371,7 +370,6 @@ export default {
     if (user) {
       user = JSON.parse(user);
       this.sysUserName = user || '';
-      //				this.sysUserAvatar = user.avatar || '';
     }
   }
 };

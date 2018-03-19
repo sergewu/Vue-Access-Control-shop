@@ -45,7 +45,7 @@
     </el-table-column>
   </el-table>
   <!-- 修改套餐 -->
-  <el-dialog title="修改套餐" :visible.sync="modifyVisible" :close-on-click-modal="false" size="tiny">
+  <el-dialog title="修改套餐" :visible.sync="modifyVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="modifyForm" :rules="modify" ref="modifyForm" label-width="90px">
       <el-row>
         <el-col :span="12">
@@ -177,7 +177,7 @@
     </el-form>
   </el-dialog>
   <!-- 创建套餐 -->
-  <el-dialog title="创建套餐" :visible.sync="establishVisible" :close-on-click-modal="false" size="tiny">
+  <el-dialog title="创建套餐" :visible.sync="establishVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="establishForm" :rules="establish" ref="establishForm" label-width="90px">
       <el-row>
         <el-col :span="12">

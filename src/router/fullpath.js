@@ -3,7 +3,7 @@ const path = [{
     path: '/',
     name: '首页',
     meta: {
-      title: '首页', icon: 'table', noCache: true  
+      title: '首页', noCache: true  
     },
     component: (resolve) => require(['../views/index.vue'], resolve),
     children: shoppath

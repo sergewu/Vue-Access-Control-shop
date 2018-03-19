@@ -18,7 +18,7 @@
     <el-table-column prop="donate_price" label="赠送金额(元)">
     </el-table-column>
     <el-table-column prop="is_open" label="是否启用">
-      <template scope="scope">
+      <template slot-scope="scope">
 						<el-switch
 							name="value"
 							on-text="开启"
@@ -29,14 +29,14 @@
 					</template>
     </el-table-column>
     <el-table-column label="操作" width="80">
-      <template scope="scope">
+      <template slot-scope="scope">
 					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
 				</template>
     </el-table-column>
   </el-table>
 
   <!--编辑界面-->
-  <el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false" size="tiny">
+  <el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
     <div class="dialog_title">
       <span>注意：设置充值区间请不要重叠，以免出现赠送金额不准确。赠送公式为：<br />最小充值---(大于)--->赠送金额---(小于或者等于)---最大充值金额</span>
     </div>
@@ -70,7 +70,7 @@
   </el-dialog>
 
   <!--新增界面-->
-  <el-dialog title="充值赠送" :visible.sync="addFormVisible" :close-on-click-modal="false" size="tiny">
+  <el-dialog title="充值赠送" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
     <div class="dialog_title">
       <span>注意：设置充值区间请不要重叠，以免出现赠送金额不准确。赠送公式为：<br />最小充值---(大于)--->赠送金额---(小于或者等于)---最大充值金额</span>
     </div>

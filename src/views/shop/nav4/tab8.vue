@@ -13,7 +13,7 @@
         <el-input auto-complete="off" v-model="filters.carNum" placeholder="请输入车牌号"></el-input>
       </el-form-item>
       <el-form-item style="float:right">
-        <el-button type="primary" @click="getUsers">查询</el-button>
+        <el-button type="primary" @click="getUsers" size="medium" round>查询</el-button>
       </el-form-item>
     </el-form>
   </el-row>
@@ -31,14 +31,14 @@
     <el-table-column prop="actual_balance" label="账户余额￥">
     </el-table-column>
     <el-table-column label="操作" width="185">
-      <template scope="scope">
+      <template slot-scope="scope">
         	<el-button type="success" size="small" @click="clickRecharge(scope.$index, scope.row)">充值</el-button>
 					<el-button type="danger" size="small" @click="clickRelieve(scope.$index, scope.row)">解除绑定<i class="el-icon-edit el-icon--right"></i></el-button>
 				</template>
     </el-table-column>
   </el-table>
   <!--绑定会员-->
-  <el-dialog title="会员卡充值" :visible.sync="dialogBindingVisible" size="tiny">
+  <el-dialog title="会员卡充值" :visible.sync="dialogBindingVisible" width="600px">
     <el-form :model="form" ref="form" :rules="formRules" label-position="right" label-width="100px">
       <el-form-item label="姓名：" prop="name">
         <el-tag type="gray">{{form.name}}</el-tag>

@@ -40,7 +40,7 @@
 			</el-table-column>
 		</el-table>
 		<!--新增界面-->
-		<el-dialog title="线下消费补录" :visible.sync="addFormVisible" :close-on-click-modal="false" size='tiny'>
+		<el-dialog title="线下消费补录" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
 			<el-form :model="addForm" label-width="100px" :rules="addFormRules" ref="addForm">
 				<el-form-item label="选择门店" prop="store">
 					<el-select v-model="addForm.store" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">

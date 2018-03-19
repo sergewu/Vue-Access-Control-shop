@@ -42,7 +42,7 @@
     </el-table-column>
   </el-table>
   <!--绑定会员-->
-  <el-dialog title="绑定会员" :visible.sync="dialogBindingVisible" size="tiny">
+  <el-dialog title="绑定会员" :visible.sync="dialogBindingVisible" width="600px">
     <el-form :model="addForm" ref="addForm" :rules="addFormRules">
       <el-form-item label="姓名" prop="name">
         <el-input auto-complete="off" v-model="addForm.name"></el-input>
@@ -299,7 +299,7 @@ export default {
       var cid=String(row.id);
       sessionStorage.setItem('cid', JSON.stringify(cid));
       var _this = this;
-      _this.$router.push('/tab8');
+      _this.$router.push('/index/tab8');
     },
     //查看交易明细
     clickDetailed(index,row){
@@ -367,7 +367,7 @@ export default {
     //新增公司账户
     handleAdd: function() {
       var _this = this;
-      _this.$router.push('/tab3s');
+      _this.$router.push('/index/tab3s');
     }
   },
   mounted() {

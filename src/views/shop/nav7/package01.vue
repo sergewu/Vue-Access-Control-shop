@@ -81,7 +81,7 @@
     </el-pagination>
   </el-col>
   <!-- 二维码 -->
-  <el-dialog :visible.sync="receiveCard" :close-on-click-modal="true" size="tiny">
+  <el-dialog :visible.sync="receiveCard" :close-on-click-modal="true" width="600px">
     <el-form :model="receive" label-width="" ref="editCode" style="width:auto">
       <img :src="receive.code" alt="二维码" width="100%">
       <el-button type="primary" @click="clickCode" style="position:absolute;left:50%;margin-left:-44px;margin-top:-20px;">点击下载</el-button>

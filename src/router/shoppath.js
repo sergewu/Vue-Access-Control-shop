@@ -11,7 +11,7 @@ export default [{
       path: 'table',
       name: '收款记录',
       meta: {
-        title: '收款记录', icon: 'table', noCache: true, code:'',
+        title: '收款记录', icon: 'table1', noCache: false, code:'',
       },
       component: (resolve) => require(['../views/shop/nav1/Table.vue'], resolve)
     },{
@@ -75,7 +75,7 @@ export default [{
     }]
   },{
     path: '/index',
-    name: '卡券管理',
+    name: '会员管理',
     meta: {
       icon: 'icon-qiaquan'
     },
@@ -178,6 +178,20 @@ export default [{
         title: '修改券', icon: 'table', noCache: true, code:'20180316142914_71', hidden:true
       },
       component: (resolve) => require(['../views/shop/tab7-modify.vue'], resolve)
+    },{
+      path: 'tab11',
+      name: '充值设置',
+      meta: {
+        title: '充值设置', icon: 'table', noCache: true, code:'20180319104742_11', hidden:true
+      },
+      component: (resolve) => require(['../views/shop/nav4/tab11.vue'], resolve)
+    },{
+      path: 'tab8',
+      name: '已绑定会员',
+      meta: {
+        title: '已绑定会员', icon: 'table', noCache: true, code:'20180319104742_11', hidden:true
+      },
+      component: (resolve) => require(['../views/shop/nav4/tab8.vue'], resolve)
     }]
   },{
     path: '/index',
@@ -238,10 +252,10 @@ export default [{
       component: (resolve) => require(['../views/shop/nav5/shop2.vue'], resolve)
     }]
   },{
-    path: '/index',
-    name: '交易账单',
+    path: '/bill1',
+    name: '总交易账单',
     meta: {
-      title: '交易账单', icon: 'icon-icon--', noCache: true, code:'20180308145050_98'
+      title: '总交易账单', icon: 'icon-icon--', noCache: true, code:'20180308145050_98'
     },
     component: (resolve) => require(['../views/shop/nav6/bill1.vue'], resolve)
   }]
