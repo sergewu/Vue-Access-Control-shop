@@ -8,6 +8,5 @@ const path = [{
     component: (resolve) => require(['../views/index.vue'], resolve),
     children: shoppath
 }]
-console.log(path);
 
 export default path;

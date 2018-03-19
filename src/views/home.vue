@@ -50,20 +50,17 @@
 <template>
   <div>
     <el-container style="height:100%">
-      <el-header style="background: #fff;height:96px;">
+      <el-header style="background: #fff;">
         <el-row>
           <el-col :span="6">
             <div class="top_logo">
               <img src="../assets/images/logo4.png" /> 
               <span>万 鼎 科 技</span>
             </div>
-            <el-button type="text" @click="isCollapse=!isCollapse" class="menu_icon">
-              <i class="iconfont icon-caidan"></i>
-            </el-button>
           </el-col>
           <el-col :span="9">
             <div class="navmenu_horizontal">
-              <el-menu default-active="2" class="el_menu_horizontal" mode="horizontal" @select="handleSelect" background-color="#fff">
+              <el-menu default-active="1" class="el_menu_horizontal" mode="horizontal" @select="handleSelect" background-color="#fff">
                 <el-menu-item index="1">首页</el-menu-item>
                 <el-menu-item index="2">收款明细</el-menu-item>
                 <el-menu-item index="3">消息中心</el-menu-item>
@@ -81,11 +78,10 @@
             </el-dropdown>
           </el-col>
         </el-row>
-        <TagsView v-bind:style="{ marginLeft: isCollapseSty }"></TagsView>
       </el-header>
       <!--修改密码-->
       <el-dialog :visible.sync="editFormVisible" :close-on-click-modal="false" width="400px">
-        <span style="font-size:10px;color:#20a0ff;float:left;line-height: 1;width: 100%;">提示：密码修改成功后需重新登录</span>
+          <span style="font-size:10px;color:#20a0ff;line-height: 1;width: 100%;">提示：密码修改成功后需重新登录</span>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
           <el-form-item label="旧密码" prop="usedPass">
             <el-input type="password" v-model="ruleForm.usedPass"></el-input>
@@ -102,41 +98,10 @@
           </el-form-item>
         </el-form>
       </el-dialog>
-      <el-container style="border: 1px solid #eee;">
-            <el-menu :default-active="activeMenu" class="el_menu_vertical" unique-opened :collapse="isCollapse" router background-color="#545c64" text-color="#fff" active-text-color="#409EFF">
-              <template v-for="(route, index) in menus">
-                <template v-if="route.children">
-                  <el-submenu :key="index" :index="route.name">
-                    <template slot="title">
-                      <i class="iconfont route_icon" v-bind:class="[route.meta.icon]"></i>
-                      <span slot="title">{{route.meta.name || route.name}}</span>
-                    </template>
-                    <el-menu-item v-for="(cRoute, cIndex) in route.children" :key="cIndex" :index="cRoute.name" :route="cRoute" v-if="!cRoute.meta.hidden">
-                      {{cRoute.meta.name || cRoute.name}}
-                    </el-menu-item>
-                  </el-submenu>
-                </template>
-                <template v-else>
-                  <el-menu-item :key="index" :route="route" :index="route.name"><i class="iconfont route_icon" v-bind:class="[route.meta.icon]"></i><span slot="title">{{route.meta.name || route.name}}</span></el-menu-item>
-                </template>
-              </template>
-            </el-menu>
-        <el-main>
-          <template>
-            <transition name="fade" mode="out-in">
-              <keep-alive :include="cachedViews">
-                <ErrorPage v-if="accessPerMission"></ErrorPage>
-                <router-view v-else id="main"></router-view>
-              </keep-alive>
-            </transition>
-          </template>
-        </el-main>
-      </el-container>
     </el-container>
   </div>
 </template>
 <script>
-import { TagsView, ErrorPage } from '../components'
 import instance from "../api";
 import CryptoJS from "crypto-js";
 import {
@@ -146,8 +111,6 @@ import {
 
 export default {
   components: {
-    TagsView,
-    ErrorPage
   },
   data() {
     //  修改密码
@@ -181,14 +144,10 @@ export default {
     };
     return {
       user: {},
-      menus: [],
-      isCollapse:false,
       sysUserName: '',
-      accessPerMission:false,
       editFormVisible: false, //修改密码弹窗是否显示
       editLoading: false,
       logining:false,
-      isCollapseSty:'182px',
       //修改密码弹窗数据
       ruleForm: {
         pass: '',
@@ -236,44 +195,12 @@ export default {
     };
   },
   computed: {
-    activeMenu: function(){
-      return this.$route.name
-    },
-    breadcrumbs: function(){
-      return (this.$route && this.$route.matched) || []
-    },
-    cachedViews() {
-      return this.$store.state.tagsView.cachedViews
-    },
-    // accessPerMission() {
-    //   return this.$store.state.perMission.accessPerMission
-    // }
+
   },
   watch: {
-    $route() {
-      this.isTab()
-    },
-    isCollapse(curVal,oldVal){
-      if (curVal) {
-        this.isCollapseSty='45px'
-      } else {
-        this.isCollapseSty='182px'
-      }
-      
-    }
+
   },
   methods: {
-    isTab(){
-      instance.post(`/pay1/syscore/checkPermission`, {
-        code:this.$route.meta.code
-      }).then((res) => {        
-        if (res.data.status===200) {
-          this.accessPerMission=false
-        }else{
-          this.accessPerMission=true
-        }
-      })
-    },
         //修改密码提交按钮
     submitForm() {
       let name = sessionStorage.getItem('name');
@@ -356,13 +283,8 @@ export default {
     } else {
       this.$router.push({ path: "/login" });
     }
-    let menus = this.$parent.menuData;
-    if (menus) {
-      this.menus = menus;
-    }
   },
   mounted () {
-    this.isTab()
         //用户名
     let user = sessionStorage.getItem('user');
     if (user) {
@@ -372,3 +294,4 @@ export default {
   }
 };
 </script>
+

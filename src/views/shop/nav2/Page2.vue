@@ -407,9 +407,7 @@ export default {
         eid: row.eid,
         storeId: row.storeId
       }
-      getEmpTwoCode(para).then((res) => {
-        this.editCode.code = process.env.API_ROOT + "/pay/cashier/getEmpTwoCode" + "?" + "mid=" + para.mid + "&" + "eid=" + para.eid + "&" + "storeId=" + para.storeId
-      })
+      this.editCode.code = process.env.API_ROOT + "/pay/cashier/getEmpTwoCode" + "?" + "mid=" + para.mid + "&" + "eid=" + para.eid + "&" + "storeId=" + para.storeId
     },
     code: function() {
       window.location.href = this.editCode.code
@@ -422,9 +420,7 @@ export default {
         eid: row.eid,
         storeId: row.storeId
       }
-      getEmpMemCode(para).then((res) => {
-        this.editVipCode.vipCode = process.env.API_ROOT + "/pay/emp/getEmpMemCode" + "?" + "mid=" + para.mid + "&" + "eid=" + para.eid + "&" + "storeId=" + para.storeId
-      })
+      this.editVipCode.vipCode = process.env.API_ROOT + "/pay/emp/getEmpMemCode" + "?" + "mid=" + para.mid + "&" + "eid=" + para.eid + "&" + "storeId=" + para.storeId
     },
     vipCode: function() {
       window.location.href = this.editVipCode.vipCode
