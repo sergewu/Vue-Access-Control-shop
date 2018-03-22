@@ -21,6 +21,7 @@
   "dependencies": {
     "axios": "",
     "crypto-js": "",
+    "echarts": "^4.0.4",
     "element-ui": "^2.0.3",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",

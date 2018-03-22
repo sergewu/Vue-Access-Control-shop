@@ -12,6 +12,10 @@ let baseRoute = [{
   name: '首页',
   component: (resolve) => require(['../views/home.vue'], resolve)
 },{
+  path: '/details',
+  name: '公告',
+  component: (resolve) => require(['../views/details.vue'], resolve)
+},{
   path: '/401',
   name: '无权访问',
   component: (resolve) => require(['../views/common/401.vue'], resolve)

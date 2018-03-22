@@ -1,12 +1,4 @@
 <style scoped lang="scss">
-.navmenu{
-  background-color: #DCDFE6
-}
-.navmenu_vertical{
-  height: 100%;
-  background-color: #DCDFE6;
-  float: left;
-}
 .el_menu_vertical{
   margin-top: -35px;
 }
@@ -14,9 +6,6 @@
   width: 200px;
   min-height: 400px;
   margin-top: -35px;
-}
-.template_tabs{
-  float: right
 }
 .top_logo{
   width: 180px;
@@ -33,18 +22,80 @@
   color: #284890;
   line-height: 60px;
 }
-.menu_icon{
-  line-height: 32px;
-}
-.menu_icon span i{
-  font-size: 24px;
-}
-.route_icon{
-  color: #fff;
-}
 .el_menu_horizontal{
   border: none;
   float: right;
+}
+.grid-content {
+  min-height: 36px;
+  background: #fff;
+  border: 1px solid #DCDFE6;
+  padding: 15px;
+  height: 613px;;
+  .grid_content_left_top{
+    border-bottom: 1px solid #DCDFE6;
+    height: 100px;
+    div{
+      height: 80px;
+      line-height: 80px;
+    }
+    i{
+      font-size: 36px;
+      color: #C0C4CC
+    }
+    img{
+      width: 80px;
+    }
+  }
+  .grid_content_left_main{
+    margin: 35px 0;
+    div{
+      height: 60px;
+      text-align: center;
+      span{
+        color: #909399;
+      }
+    }
+    .grid_line{
+      border-left: solid 1px #DCDFE6;
+      border-right: solid 1px #DCDFE6;
+    }
+  }
+  .grid_content_right_top{
+    p{
+      color: #909399;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .grid_content_right_bottom{
+    a{
+      color: #333;
+    }
+    margin-top: 55px;
+    h3{
+      border-bottom: 1px solid #DCDFE6;
+      padding-bottom: 15px;
+      i{
+        width: 10px;
+        height: 20px;
+        display: block;
+        background-color: #409EFF;
+        float: left;
+        margin: 2px 10px 0 0;
+      }
+    }
+    div{
+      line-height: 2.8;
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border-bottom: 1px #DCDFE6 dashed;
+    }
+  }
+
 }
 </style>
 <template>
@@ -79,9 +130,71 @@
           </el-col>
         </el-row>
       </el-header>
-      <!--修改密码-->
-      <el-dialog :visible.sync="editFormVisible" :close-on-click-modal="false" width="400px">
-          <span style="font-size:10px;color:#20a0ff;line-height: 1;width: 100%;">提示：密码修改成功后需重新登录</span>
+      <el-main>
+        <el-row :gutter="20">
+          <el-col :span="18">
+            <div class="grid-content">
+              <div class="grid_content_left_top">
+                <el-row>
+                  <el-col :span="20">
+                    <div><i class="iconfont icon-tianjia"></i></div>
+                  </el-col>
+                  <el-col :span="4">
+                    <div><img src="http://fakeimg.pl/300/?text=erweima" alt=""></div>
+                  </el-col>
+                </el-row>
+              </div>
+              <div class="grid_content_left_main">
+                <el-row>
+                  <el-col :span="8">
+                    <div>
+                      <span>最近一周交易金额(元)</span>
+                      <h2>555,100.98</h2>
+                    </div>
+                  </el-col>
+                  <el-col :span="8">
+                    <div class="grid_line">
+                      <span>最近一周交易金额(元)</span>
+                      <h2>555,100.98</h2>
+                    </div>
+                  </el-col>
+                  <el-col :span="8">
+                    <div>
+                      <span>最近一周交易金额(元)</span>
+                      <h2>555,100.98</h2>
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
+              <div class="grid_content_left_bottom">
+                <LineChart :chart-data="lineChartData"></LineChart>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="grid-content">
+              <div class="grid_content_right_top">
+                <p>预留信息：</p>
+                <p>商户简称：西安万鼎网络科技有限公司</p>
+                <p>企业名称：西安万鼎网络科技有限公司</p>
+                <p>企业类目：微信支付服务商</p>
+              </div>
+              <div class="grid_content_right_bottom">
+                <h3><i></i>平台公告</h3>
+                  <div v-for="o in 4" :key="o">
+                    <router-link :to="{ path: '/details', query: { plan: o }}" target="_blank">
+                      <span>{{'列表内容 ' + o }}</span>
+                    </router-link>
+                  </div>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </el-main>
+    </el-container>
+    <!--修改密码-->
+    <el-dialog :visible.sync="editFormVisible" :close-on-click-modal="false" width="400px">
+      <span style="font-size:10px;color:#20a0ff;line-height: 1;width: 100%;">提示：密码修改成功后需重新登录</span>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
           <el-form-item label="旧密码" prop="usedPass">
             <el-input type="password" v-model="ruleForm.usedPass"></el-input>
@@ -96,21 +209,38 @@
             <el-button @click="editFormVisible=false">取消</el-button>
             <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
           </el-form-item>
-        </el-form>
-      </el-dialog>
-    </el-container>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
 import instance from "../api";
 import CryptoJS from "crypto-js";
-import {
-  modifyPassword,
-  batchRemoveUser
-} from '../api/shop';
+import { modifyPassword,batchRemoveUser} from '../api/shop';
+import { LineChart } from '../components'
+
+const lineChartData = {
+  newVisitis: {
+    expectedData: [100, 120, 161, 134, 105, 160, 165],
+    actualData: [120, 82, 91, 154, 162, 140, 145]
+  },
+  messages: {
+    expectedData: [200, 192, 120, 144, 160, 130, 140],
+    actualData: [180, 160, 151, 106, 145, 150, 130]
+  },
+  purchases: {
+    expectedData: [80, 100, 121, 104, 105, 90, 100],
+    actualData: [120, 90, 100, 138, 142, 130, 130]
+  },
+  shoppings: {
+    expectedData: [130, 140, 141, 142, 145, 150, 160],
+    actualData: [120, 82, 91, 154, 162, 140, 130]
+  }
+}
 
 export default {
   components: {
+    LineChart
   },
   data() {
     //  修改密码
@@ -143,6 +273,7 @@ export default {
       }
     };
     return {
+      lineChartData: lineChartData.messages,
       user: {},
       sysUserName: '',
       editFormVisible: false, //修改密码弹窗是否显示
@@ -201,7 +332,7 @@ export default {
 
   },
   methods: {
-        //修改密码提交按钮
+    //修改密码提交按钮
     submitForm() {
       let name = sessionStorage.getItem('name');
       if (name) {
