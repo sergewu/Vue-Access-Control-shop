@@ -1,334 +1,368 @@
 <template>
-	<section>
-		<!--工具条-->
-		<el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
-			<el-form :inline="true" :model="filters">
-				<el-form-item>
-					<el-input v-model="filters.name" placeholder="持卡人姓名"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-input v-model="filters.card_no" placeholder="会员卡号"></el-input>
-				</el-form-item>
-				<el-form-item style="float:right">
-					<el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
-					<el-button type="primary" v-on:click="cogradientCard" size="medium" round>同步会员卡</el-button>
-				</el-form-item>
-			</el-form>
-		</el-row>
-		<!--列表-->
-		<el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" @sort-change="sortChange" style="width: 100%;">
-			<el-table-column prop="card_no" label="会员卡号" min-width="120">
-			</el-table-column>
-			<el-table-column prop="wx_name" label="微信昵称">
-			</el-table-column>
-			<el-table-column prop="name" label="持卡人">
-			</el-table-column>
-			<el-table-column prop="phone" label="手机号" min-width="120">
-			</el-table-column>
-			<el-table-column prop="creat_time" label="领卡时间" :formatter="creat_time" min-width="95">
-			</el-table-column>
-			<el-table-column prop="account_bouns" label="积分" sortable="custom" min-width="120" v-if="supplyBouns">
-			</el-table-column>
-			<el-table-column prop="actual_balance" label="余额（元）" sortable="custom" min-width="130" v-if="supplyBalance">
-			</el-table-column>
-			<el-table-column label="操作" min-width="220">
-				<template slot-scope="scope">
-					<el-button size="mini" type="info" @click="makeupEdit(scope.$index, scope.row)">线下消费补录</el-button>
-					<el-button size="mini" type="warning" @click="resetPassword(scope.$index, scope.row)" v-if="supplyBalance">会员卡支付密码重置</el-button>
-					<el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">消费记录</el-button>
-				</template>
-			</el-table-column>
-		</el-table>
-		<!--新增界面-->
-		<el-dialog title="线下消费补录" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
-			<el-form :model="addForm" label-width="100px" :rules="addFormRules" ref="addForm">
-				<el-form-item label="选择门店" prop="store">
-					<el-select v-model="addForm.store" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
+  <section>
+    <!--工具条-->
+    <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+      <el-form :inline="true" :model="filters">
+        <el-form-item>
+          <el-input v-model="filters.name" placeholder="持卡人姓名"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="filters.card_no" placeholder="会员卡号"></el-input>
+        </el-form-item>
+        <el-form-item style="float:right">
+          <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
+          <el-button type="primary" v-on:click="cogradientCard" size="medium" round>同步会员卡</el-button>
+        </el-form-item>
+      </el-form>
+    </el-row>
+    <!--列表-->
+    <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" @sort-change="sortChange"
+      style="width: 100%;">
+      <el-table-column prop="card_no" label="会员卡号" min-width="120">
+      </el-table-column>
+      <el-table-column prop="wx_name" label="微信昵称">
+      </el-table-column>
+      <el-table-column prop="name" label="持卡人">
+      </el-table-column>
+      <el-table-column prop="phone" label="手机号" min-width="120">
+      </el-table-column>
+      <el-table-column prop="creat_time" label="领卡时间" :formatter="creat_time" min-width="95">
+      </el-table-column>
+      <el-table-column prop="account_bouns" label="积分" sortable="custom" min-width="120" v-if="supplyBouns">
+      </el-table-column>
+      <el-table-column prop="actual_balance" label="余额（元）" sortable="custom" min-width="130" v-if="supplyBalance">
+      </el-table-column>
+      <el-table-column label="操作" min-width="220">
+        <template slot-scope="scope">
+          <el-button size="mini" type="info" @click="makeupEdit(scope.$index, scope.row)">线下消费补录</el-button>
+          <el-button size="mini" type="warning" @click="resetPassword(scope.$index, scope.row)" v-if="supplyBalance">会员卡支付密码重置</el-button>
+          <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">消费记录</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!--新增界面-->
+    <el-dialog title="线下消费补录" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
+      <el-form :model="addForm" label-width="100px" :rules="addFormRules" ref="addForm">
+        <el-form-item label="选择门店" prop="store">
+          <el-select v-model="addForm.store" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
+            :loading="loading" clearable @visible-change="clickShop">
             <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.value"></el-option>
           </el-select>
-				</el-form-item>
-				<el-form-item label="选择款台" prop="emp">
-					<el-select v-model="addForm.emp" placeholder="请选择款台" :multiple="false" filterable remote :remote-method="remoteEditEmp" :loading="loadingEmp" clearable @visible-change="clickEditEmp">
-						<el-option v-for="item in optionEditEmp" :key="item.eid" :value="item.eid" :label="item.value">
-						</el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="消费金额" prop="amount">
-					<el-input v-model="addForm.amount" auto-complete="off" style="max-width:217px;"></el-input>
-				</el-form-item>
-			</el-form>
-			<div slot="footer" class="dialog-footer">
-				<el-button @click.native="addFormVisible = false">取消</el-button>
-				<el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
-			</div>
-		</el-dialog>
-		<!--工具条-->
-		<el-col :span="24" class="toolbar">
-			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
-			</el-pagination>
-		</el-col>
-	</section>
+        </el-form-item>
+        <el-form-item label="选择款台" prop="emp">
+          <el-select v-model="addForm.emp" placeholder="请选择款台" :multiple="false" filterable remote :remote-method="remoteEditEmp" :loading="loadingEmp"
+            clearable @visible-change="clickEditEmp">
+            <el-option v-for="item in optionEditEmp" :key="item.eid" :value="item.eid" :label="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="消费金额" prop="amount">
+          <el-input v-model="addForm.amount" auto-complete="off" style="max-width:217px;"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click.native="addFormVisible = false">取消</el-button>
+        <el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
+      </div>
+    </el-dialog>
+    <!--工具条-->
+    <el-col :span="24" class="toolbar">
+      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+      </el-pagination>
+    </el-col>
+  </section>
 </template>
 
 <script>
-	import * as util from '../../../assets/util.js'
-	import Md5 from 'md5'
-	import { queryMemberList,resetMemPwd, sysMemberInsert, selectStoreList, selectEmpsBySid, lookupUser, inputMemTrans } from '../../../api/shop';
-	export default {
-		data() {
-			return {
-				filters: {
-					name: '',
-					card_no:''
-				},
-				prop:'',
-				order:'',
-				users: [],
-				total: 0,
-				page: 1,
-				listLoading:false,
-				supplyBalance:true,
-				supplyBouns:true,
-				addFormVisible: false,//新增界面是否显示
-				addForm:{
-					id:'',
-					store: '',
-					emp:'',
-					amount:''
-				},
-				addLoading: false,
-				addFormRules: {
-					store: [
-						{ required: true, type: 'number', message: '请选择门店', trigger: 'change' }
-					],
-					emp: [
-						{ required: true, type: 'number', message: '请选择款台', trigger: 'change' }
-					],
-					amount: [
-						{ required: true, message: '请输入金额', trigger: 'blur' }
-					]
-				},
-				//选择门店
-				options: [],
-				//选择款台
-				optionEditEmp: [],
-				loading:false,
-				loadingEmp:false
-			}
-		},
-		methods: {
-			addSubmit(){
-				this.$refs.addForm.validate((valid) => {
-					if (valid) {
-						this.$confirm('确认提交吗？', '提示', {}).then(() => {
-							this.addLoading = true;
-							let para = {
-								eid:this.addForm.emp.toString(),
-								sid:this.addForm.store.toString(),
-								amount:this.addForm.amount.toString(),
-								memId:this.addForm.id.toString()
-							}
-							inputMemTrans(para).then(res=>{
-								console.log(res);
-								
-								this.addLoading = false;
-								if (res.status==200) {
-									//
-									this.$message({
-										message: res.message,
-										type: 'success'
-									});
-									this.$refs['addForm'].resetFields();
-									this.addFormVisible = false;
-									this.getUsers();
-								} else {
-									this.$message({
-										message: res.message,
-										type: 'warning'
-									});
-								}
-							})
-						});
-					}
-				});
-			},
-			//款台远程搜索
-			clickEditEmp: function(val) {
-				if (val) {
-					let para = {
-						storeId: String(this.addForm.store),
-						ename: ''
-					}
-					selectEmpsBySid(para).then((res) => {
-						let {
-							status,
-							data
-						} = res
-						this.optionEditEmp = data.emplyeeList
-					})
-				}
-			},
-			remoteEditEmp(query) {
-				if (query !== '') {
-					this.loading = true;
-					setTimeout(() => {
-						this.loading = false;
-						selectEmpsBySid({
-							ename: String(query),
-							storeId: String(this.addForm.store)
-						}).then((res) => {
-							let {
-								status,
-								data
-							} = res
-							this.optionEditEmp = data.emplyeeList
-						})
-					}, 200);
-				} else {
-					this.optionEditEmp = [];
-				}
-			},
-			//门店远程搜索
-			clickShop:function (val) {
-				if(val){
-					selectStoreList().then((res) => {
-						let {
-							status,
-							data
-						} = res
-						this.options = data.storeList
-					})
-				}
-			},
-			remoteShop(query) {
-				if (query !== '') {
-					this.loading = true;
-					setTimeout(() => {
-						this.loading = false;
-						selectStoreList({
-							sname: query
-						}).then((res) => {
-							let {
-								status,
-								data
-							} = res
-							this.options = data.storeList
-						})
-					}, 200);
-				} else {
-					this.options = [];
-				}
-			},
-			//显示新增界面
-			makeupEdit: function (index,row) {				
-				this.addForm.id=row.id
-				this.addFormVisible = true;
-			},
-			//同步会员卡
-			cogradientCard(){
-				this.$prompt('请输入会员卡号', '提示', {
+  import * as util from '../../../assets/util.js'
+  import CryptoJS from "crypto-js";
+  import {
+    queryMemberList,
+    resetMemPwd,
+    sysMemberInsert,
+    selectStoreList,
+    selectEmpsBySid,
+    lookupUser,
+    inputMemTrans
+  } from '../../../api/shop';
+  export default {
+    data() {
+      return {
+        filters: {
+          name: '',
+          card_no: ''
+        },
+        prop: '',
+        order: '',
+        users: [],
+        total: 0,
+        page: 1,
+        listLoading: false,
+        supplyBalance: true,
+        supplyBouns: true,
+        addFormVisible: false, //新增界面是否显示
+        addForm: {
+          id: '',
+          store: '',
+          emp: '',
+          amount: ''
+        },
+        addLoading: false,
+        addFormRules: {
+          store: [{
+            required: true,
+            type: 'number',
+            message: '请选择门店',
+            trigger: 'change'
+          }],
+          emp: [{
+            required: true,
+            type: 'number',
+            message: '请选择款台',
+            trigger: 'change'
+          }],
+          amount: [{
+            required: true,
+            message: '请输入金额',
+            trigger: 'blur'
+          }]
+        },
+        //选择门店
+        options: [],
+        //选择款台
+        optionEditEmp: [],
+        loading: false,
+        loadingEmp: false
+      }
+    },
+    methods: {
+      addSubmit() {
+        this.$refs.addForm.validate((valid) => {
+          if (valid) {
+            this.$confirm('确认提交吗？', '提示', {}).then(() => {
+              this.addLoading = true;
+              let para = {
+                eid: this.addForm.emp.toString(),
+                sid: this.addForm.store.toString(),
+                amount: this.addForm.amount.toString(),
+                memId: this.addForm.id.toString()
+              }
+              inputMemTrans(para).then(res => {
+                console.log(res);
+
+                this.addLoading = false;
+                if (res.status == 200) {
+                  //
+                  this.$message({
+                    message: res.message,
+                    type: 'success'
+                  });
+                  this.$refs['addForm'].resetFields();
+                  this.addFormVisible = false;
+                  this.getUsers();
+                } else {
+                  this.$message({
+                    message: res.message,
+                    type: 'warning'
+                  });
+                }
+              })
+            });
+          }
+        });
+      },
+      //款台远程搜索
+      clickEditEmp: function (val) {
+        if (val) {
+          let para = {
+            storeId: String(this.addForm.store),
+            ename: ''
+          }
+          selectEmpsBySid(para).then((res) => {
+            let {
+              status,
+              data
+            } = res
+            this.optionEditEmp = data.emplyeeList
+          })
+        }
+      },
+      remoteEditEmp(query) {
+        if (query !== '') {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+            selectEmpsBySid({
+              ename: String(query),
+              storeId: String(this.addForm.store)
+            }).then((res) => {
+              let {
+                status,
+                data
+              } = res
+              this.optionEditEmp = data.emplyeeList
+            })
+          }, 200);
+        } else {
+          this.optionEditEmp = [];
+        }
+      },
+      //门店远程搜索
+      clickShop: function (val) {
+        if (val) {
+          selectStoreList().then((res) => {
+            let {
+              status,
+              data
+            } = res
+            this.options = data.storeList
+          })
+        }
+      },
+      remoteShop(query) {
+        if (query !== '') {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+            selectStoreList({
+              sname: query
+            }).then((res) => {
+              let {
+                status,
+                data
+              } = res
+              this.options = data.storeList
+            })
+          }, 200);
+        } else {
+          this.options = [];
+        }
+      },
+      //显示新增界面
+      makeupEdit: function (index, row) {
+        this.addForm.id = row.id
+        this.addFormVisible = true;
+      },
+      //同步会员卡
+      cogradientCard() {
+        this.$prompt('请输入会员卡号', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-        }).then(({ value }) => {
-					sysMemberInsert({"code":value}).then((res)=>{
-						let {status,message}=res;
-						if (status==200) {
-							this.$message({
-								type: 'success',
-								message: message
-							});
-						}else {
-							this.$message({
-								message: message,
-								type: 'warning'
-							});
-						}
-					})
+        }).then(({
+          value
+        }) => {
+          sysMemberInsert({
+            "code": value
+          }).then((res) => {
+            let {
+              status,
+              message
+            } = res;
+            if (status == 200) {
+              this.$message({
+                type: 'success',
+                message: message
+              });
+            } else {
+              this.$message({
+                message: message,
+                type: 'warning'
+              });
+            }
+          })
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '取消输入'
           });
         });
-			},
-			//排序
-			sortChange(sort){
-				console.log(sort);
-				this.prop=sort.prop;
-				this.order=sort.order;
-				this.getUsers();
-			},
-			//重置密码
-			resetPassword(index,row){
-				this.$prompt('请输入重置密码', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					inputPattern: /\S/,
-					inputErrorMessage: '密码格式不正确'
-				}).then(({ value }) => {
-					let para = {
-						password: Md5(value + row.phone + row.card_barcode),
-						id: row.id
-					};
-					resetMemPwd(para).then((res)=>{
-						let {status,message}=res;
-						if (status==200) {
-							this.$message({
-								message: message,
-								type: 'success'
-							});
-						}else {
-							this.$message.error(message);
-						}
-					})
-				}).catch(() => {
-					this.$message({
-						type: 'info',
-						message: '取消输入'
-					});
-				});
-			},
-			//时间转化
-			creat_time:function (row, column) {
-				return row.creat_time=util.formatDate.format(new Date(row.creat_time), 'yyyy-MM-dd');
-			},
-			handleCurrentChange(val) {
-				this.page = val;
-				this.getUsers();
-			},
-			//获取用户列表
-			getUsers() {
-				let para = {
-					prop:this.prop,
-					order:this.order,
-					pageNum: this.page,
-					name: this.filters.name,
-					card_no:this.filters.card_no
-				};
-				this.listLoading = true;
-				queryMemberList(para).then((res) => {
-					this.supplyBalance=res.data.supplyBalance;
-					this.supplyBouns=res.data.supplyBouns
-					this.total = res.data.total;
-					this.users = res.data.memberList;
-					this.listLoading = false;
-				});
-			},
-			//会员详情
-			handleEdit:function (index,row) {
-				var card_no=row.card_no;
-				sessionStorage.setItem('card_no', JSON.stringify(card_no));
-				this.$router.push('/tab6');
-			},
-			selsChange: function (sels) {
-				this.sels = sels;
-			},
-		},
-		mounted() {
-			this.getUsers();
-		}
-	}
+      },
+      //排序
+      sortChange(sort) {
+        console.log(sort);
+        this.prop = sort.prop;
+        this.order = sort.order;
+        this.getUsers();
+      },
+      //重置密码
+      resetPassword(index, row) {
+        this.$prompt('请输入重置密码', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /\S/,
+          inputErrorMessage: '密码格式不正确'
+        }).then(({
+          value
+        }) => {
+          let para = {
+            password: CryptoJS.MD5(value + row.phone + row.card_barcode).toString(CryptoJS.enc.Hex),
+            id: row.id
+          };
+          resetMemPwd(para).then((res) => {
+            let {
+              status,
+              message
+            } = res;
+            if (status == 200) {
+              this.$message({
+                message: message,
+                type: 'success'
+              });
+            } else {
+              this.$message.error(message);
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入'
+          });
+        });
+      },
+      //时间转化
+      creat_time: function (row, column) {
+        return row.creat_time = util.formatDate.format(new Date(row.creat_time), 'yyyy-MM-dd');
+      },
+      handleCurrentChange(val) {
+        this.page = val;
+        this.getUsers();
+      },
+      //获取用户列表
+      getUsers() {
+        let para = {
+          prop: this.prop,
+          order: this.order,
+          pageNum: this.page,
+          name: this.filters.name,
+          card_no: this.filters.card_no
+        };
+        this.listLoading = true;
+        queryMemberList(para).then((res) => {
+          this.supplyBalance = res.data.supplyBalance;
+          this.supplyBouns = res.data.supplyBouns
+          this.total = res.data.total;
+          this.users = res.data.memberList;
+          this.listLoading = false;
+        });
+      },
+      //会员详情
+      handleEdit: function (index, row) {
+        var card_no = row.card_no;
+        sessionStorage.setItem('card_no', JSON.stringify(card_no));
+        this.$router.push('/tab6');
+      },
+      selsChange: function (sels) {
+        this.sels = sels;
+      },
+    },
+    mounted() {
+      this.getUsers();
+    }
+  }
+
 </script>
 
 <style scoped>
+
+
 </style>

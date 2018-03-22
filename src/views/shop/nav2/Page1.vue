@@ -180,7 +180,7 @@
 <script>
 import * as util from '../../../assets/util.js'
 
-import Md5 from 'md5'
+import CryptoJS from "crypto-js";
 import {
   queryStoresShop,
   updateStore,
@@ -438,7 +438,7 @@ export default {
         value
       }) => {
         let para = {
-          password: Md5(value + row.saccount),
+          password: CryptoJS.MD5(value + row.saccount).toString(CryptoJS.enc.Hex),
           sid: row.id
         };
         updateStorePwd(para).then((res) => {

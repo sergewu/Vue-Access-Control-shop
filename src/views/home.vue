@@ -1,102 +1,110 @@
 <style scoped lang="scss">
-.el_menu_vertical{
-  margin-top: -35px;
-}
-.el_menu_vertical:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
-  margin-top: -35px;
-}
-.top_logo{
-  width: 180px;
-  float: left;
-}
-.top_logo img{
-  width: 30%;
-  margin-top: 17px;
-  float: left;
-}
-.top_logo span{
-  font-size: 18px;
-  font-weight: bolder;
-  color: #284890;
-  line-height: 60px;
-}
-.el_menu_horizontal{
-  border: none;
-  float: right;
-}
-.grid-content {
-  min-height: 36px;
-  background: #fff;
-  border: 1px solid #DCDFE6;
-  padding: 15px;
-  height: 613px;;
-  .grid_content_left_top{
-    border-bottom: 1px solid #DCDFE6;
-    height: 100px;
-    div{
-      height: 80px;
-      line-height: 80px;
-    }
-    i{
-      font-size: 36px;
-      color: #C0C4CC
-    }
-    img{
-      width: 80px;
-    }
-  }
-  .grid_content_left_main{
-    margin: 35px 0;
-    div{
-      height: 60px;
-      text-align: center;
-      span{
-        color: #909399;
-      }
-    }
-    .grid_line{
-      border-left: solid 1px #DCDFE6;
-      border-right: solid 1px #DCDFE6;
-    }
-  }
-  .grid_content_right_top{
-    p{
-      color: #909399;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-  .grid_content_right_bottom{
-    a{
-      color: #333;
-    }
-    margin-top: 55px;
-    h3{
-      border-bottom: 1px solid #DCDFE6;
-      padding-bottom: 15px;
-      i{
-        width: 10px;
-        height: 20px;
-        display: block;
-        background-color: #409EFF;
-        float: left;
-        margin: 2px 10px 0 0;
-      }
-    }
-    div{
-      line-height: 2.8;
-      font-size: 16px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      border-bottom: 1px #DCDFE6 dashed;
-    }
+  .el_menu_vertical {
+    margin-top: -35px;
   }
 
-}
+  .el_menu_vertical:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 400px;
+    margin-top: -35px;
+  }
+
+  .top_logo {
+    width: 180px;
+    float: left;
+  }
+
+  .top_logo img {
+    width: 30%;
+    margin-top: 17px;
+    float: left;
+  }
+
+  .top_logo span {
+    font-size: 18px;
+    font-weight: bolder;
+    color: #284890;
+    line-height: 60px;
+  }
+
+  .el_menu_horizontal {
+    border: none;
+    float: right;
+  }
+
+  .grid-content {
+    min-height: 36px;
+    background: #fff;
+    border: 1px solid #DCDFE6;
+    padding: 15px;
+    height: 613px;
+    ;
+    .grid_content_left_top {
+      border-bottom: 1px solid #DCDFE6;
+      height: 100px;
+      div {
+        height: 80px;
+        line-height: 80px;
+      }
+      i {
+        font-size: 36px;
+        color: #C0C4CC
+      }
+      img {
+        width: 80px;
+      }
+    }
+    .grid_content_left_main {
+      margin: 35px 0;
+      div {
+        height: 60px;
+        text-align: center;
+        span {
+          color: #909399;
+        }
+      }
+      .grid_line {
+        border-left: solid 1px #DCDFE6;
+        border-right: solid 1px #DCDFE6;
+      }
+    }
+    .grid_content_right_top {
+      p {
+        color: #909399;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    .grid_content_right_bottom {
+      a {
+        color: #333;
+      }
+      margin-top: 55px;
+      h3 {
+        border-bottom: 1px solid #DCDFE6;
+        padding-bottom: 15px;
+        i {
+          width: 10px;
+          height: 20px;
+          display: block;
+          background-color: #409EFF;
+          float: left;
+          margin: 2px 10px 0 0;
+        }
+      }
+      div {
+        line-height: 2.8;
+        font-size: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-bottom: 1px #DCDFE6 dashed;
+      }
+    }
+
+  }
+
 </style>
 <template>
   <div>
@@ -105,7 +113,7 @@
         <el-row>
           <el-col :span="6">
             <div class="top_logo">
-              <img src="../assets/images/logo4.png" /> 
+              <img src="../assets/images/logo4.png" />
               <span>万 鼎 科 技</span>
             </div>
           </el-col>
@@ -120,7 +128,7 @@
             </div>
           </el-col>
           <el-col :span="9" style="line-height: 60px;text-align: right;">
-            <span >{{sysUserName}} 您好！欢迎登录商户平台 </span>
+            <span>{{sysUserName}} 您好！欢迎登录商户平台 </span>
             <el-dropdown split-button size="small" type="danger" @click="logout">
               退出登录
               <el-dropdown-menu slot="dropdown">
@@ -137,10 +145,14 @@
               <div class="grid_content_left_top">
                 <el-row>
                   <el-col :span="20">
-                    <div><i class="iconfont icon-tianjia"></i></div>
+                    <div>
+                      <i class="iconfont icon-tianjia"></i>
+                    </div>
                   </el-col>
                   <el-col :span="4">
-                    <div><img src="http://fakeimg.pl/300/?text=erweima" alt=""></div>
+                    <div>
+                      <img src="http://fakeimg.pl/300/?text=erweima" alt="">
+                    </div>
                   </el-col>
                 </el-row>
               </div>
@@ -180,12 +192,13 @@
                 <p>企业类目：微信支付服务商</p>
               </div>
               <div class="grid_content_right_bottom">
-                <h3><i></i>平台公告</h3>
-                  <div v-for="o in 4" :key="o">
-                    <router-link :to="{ path: '/details', query: { plan: o }}" target="_blank">
-                      <span>{{'列表内容 ' + o }}</span>
-                    </router-link>
-                  </div>
+                <h3>
+                  <i></i>平台公告</h3>
+                <div v-for="o in 4" :key="o">
+                  <router-link :to="{ path: '/details', query: { plan: o }}" target="_blank">
+                    <span>{{'列表内容 ' + o }}</span>
+                  </router-link>
+                </div>
               </div>
             </div>
           </el-col>
@@ -195,234 +208,234 @@
     <!--修改密码-->
     <el-dialog :visible.sync="editFormVisible" :close-on-click-modal="false" width="400px">
       <span style="font-size:10px;color:#20a0ff;line-height: 1;width: 100%;">提示：密码修改成功后需重新登录</span>
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
-          <el-form-item label="旧密码" prop="usedPass">
-            <el-input type="password" v-model="ruleForm.usedPass"></el-input>
-          </el-form-item>
-          <el-form-item label="新密码" prop="pass">
-            <el-input type="password" v-model="ruleForm.pass"></el-input>
-          </el-form-item>
-          <el-form-item label="确认新密码" prop="checkPass">
-            <el-input type="password" v-model="ruleForm.checkPass"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button @click="editFormVisible=false">取消</el-button>
-            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-          </el-form-item>
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+        <el-form-item label="旧密码" prop="usedPass">
+          <el-input type="password" v-model="ruleForm.usedPass"></el-input>
+        </el-form-item>
+        <el-form-item label="新密码" prop="pass">
+          <el-input type="password" v-model="ruleForm.pass"></el-input>
+        </el-form-item>
+        <el-form-item label="确认新密码" prop="checkPass">
+          <el-input type="password" v-model="ruleForm.checkPass"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click="editFormVisible=false">取消</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+        </el-form-item>
       </el-form>
     </el-dialog>
   </div>
 </template>
 <script>
-import instance from "../api";
-import CryptoJS from "crypto-js";
-import { modifyPassword,batchRemoveUser} from '../api/shop';
-import { LineChart } from '../components'
-
-const lineChartData = {
-  newVisitis: {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
-  },
-  messages: {
-    expectedData: [200, 192, 120, 144, 160, 130, 140],
-    actualData: [180, 160, 151, 106, 145, 150, 130]
-  },
-  purchases: {
-    expectedData: [80, 100, 121, 104, 105, 90, 100],
-    actualData: [120, 90, 100, 138, 142, 130, 130]
-  },
-  shoppings: {
-    expectedData: [130, 140, 141, 142, 145, 150, 160],
-    actualData: [120, 82, 91, 154, 162, 140, 130]
-  }
-}
-
-export default {
-  components: {
+  import instance from "../api";
+  import CryptoJS from "crypto-js";
+  import {
+    modifyPassword,
+    batchRemoveUser
+  } from '../api/shop';
+  import {
     LineChart
-  },
-  data() {
-    //  修改密码
-    var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error('旧密码不能为空'));
-      } else {
-        callback()
-      }
-    };
-    var validatePass1 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'));
-      }else if (!/^[a-zA-Z0-9]{6,18}$/.test(value)) {
-        callback(new Error('请输入不含汉字和空格的6到18位密码'));
-      } else {
-        if (this.ruleForm.checkPass !== '') {
-          this.$refs.ruleForm.validateField('checkPass');
-        }
-        callback();
-      }
-    };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'));
-      } else if (value !== this.ruleForm.pass) {
-        callback(new Error('两次输入密码不一致!'));
-      } else {
-        callback();
-      }
-    };
-    return {
-      lineChartData: lineChartData.messages,
-      user: {},
-      sysUserName: '',
-      editFormVisible: false, //修改密码弹窗是否显示
-      editLoading: false,
-      logining:false,
-      //修改密码弹窗数据
-      ruleForm: {
-        pass: '',
-        checkPass: '',
-        usedPass: ''
-      },
-      rules: {
-        usedPass: [{
-          required: true,
-          validator: validatePass,
-          trigger: 'blur'
-        },
-        {
-					min: 6,
-					max: 18,
-					message: '密码为6到18位数字或字母',
-					trigger: 'blur'
-				}
-        ],
-        pass: [{
-            required: true,
-            validator: validatePass1,
-            trigger: 'blur'
-          },
-          {
-  					min: 6,
-  					max: 18,
-  					message: '密码为6到18位数字或字母',
-  					trigger: 'blur'
-  				}
-        ],
-        checkPass: [{
-            required: true,
-            validator: validatePass2,
-            trigger: 'blur'
-          },
-          {
-  					min: 6,
-  					max: 18,
-  					message: '密码为6到18位数字或字母',
-  					trigger: 'blur'
-  				}
-        ]
-      }
-    };
-  },
-  computed: {
-
-  },
-  watch: {
-
-  },
-  methods: {
-    //修改密码提交按钮
-    submitForm() {
-      let name = sessionStorage.getItem('name');
-      if (name) {
-        name = JSON.parse(name);
-        this.maccount = name || '';
-      }
-      var _this = this;
-      this.$refs.ruleForm.validate((valid) => {
-        if (valid) {
-          this.logining = false;
-          var oldPwd = CryptoJS.MD5(this.ruleForm.usedPass + this.maccount).toString(CryptoJS.enc.Hex);
-          var mpwd = CryptoJS.MD5(this.ruleForm.pass + this.maccount).toString(CryptoJS.enc.Hex);
-          var mpwd2 = CryptoJS.MD5(this.ruleForm.checkPass + this.maccount).toString(CryptoJS.enc.Hex);
-          var modifypass = {
-            oldPwd,
-            mpwd,
-            mpwd2
-          };
-          //console.log(modifypass);
-          modifyPassword(modifypass).then(res => {
-            let {
-              status,
-              message
-            } = res;
-            if (status == 200) {
-              this.$notify({
-			          title: '成功',
-			          message: message,
-			          type: 'success'
-			        });
-            _this.$emit("logout");
-            } else if (status == 301) {
-              this.$notify({
-			          title: '警告',
-			          message: message,
-			          type: 'warning'
-			        });
-              _this.$emit("logout");
-            }else {
-              this.$notify.error({
-			          title: '错误',
-			          message: message
-			        });
-            }
-          });
-        } else {
-          return false;
-        }
-      });
-    },
-    //修改密码弹框是否弹出
-    handleEdit: function(index, row) {
-      this.editFormVisible = true;
-      this.editForm = Object.assign({}, row);
-    },
-    //退出登录
-    logout: function() {
-      this.$confirm("确定退出?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "info"
-      }).then(() => {
-        this.$emit("logout");
-      }).catch(() => {});
-    },
-    //切换顶部导航
-    handleSelect(change){
-      if (change==='1') {
-        this.$router.push({ path: "/home" });
-      } else if(change==='2'){
-        this.$router.push({ path: "/index/table" });
-      }
-    },
-  },
-  created: function() {
-    let user = this.$parent.userData;
-    if (user) {
-      this.user = user;
-    } else {
-      this.$router.push({ path: "/login" });
-    }
-  },
-  mounted () {
-        //用户名
-    let user = sessionStorage.getItem('user');
-    if (user) {
-      user = JSON.parse(user);
-      this.sysUserName = user || '';
+  } from '../components'
+  const lineChartData = {
+    newVisitis: {
+      expectedData: [{
+        value: 99
+      }, 120, 161, 134, 105, 160, 165],
+      actualData: [120, 82, 91, 154, 162, 140, 145]
     }
   }
-};
-</script>
 
+  export default {
+    components: {
+      LineChart
+    },
+    data() {
+      //  修改密码
+      var validatePass = (rule, value, callback) => {
+        if (value === "") {
+          callback(new Error('旧密码不能为空'));
+        } else {
+          callback()
+        }
+      };
+      var validatePass1 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else if (!/^[a-zA-Z0-9]{6,18}$/.test(value)) {
+          callback(new Error('请输入不含汉字和空格的6到18位密码'));
+        } else {
+          if (this.ruleForm.checkPass !== '') {
+            this.$refs.ruleForm.validateField('checkPass');
+          }
+          callback();
+        }
+      };
+      var validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.ruleForm.pass) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
+      return {
+        lineChartData: lineChartData.newVisitis,
+        user: {},
+        sysUserName: '',
+        editFormVisible: false, //修改密码弹窗是否显示
+        editLoading: false,
+        logining: false,
+        //修改密码弹窗数据
+        ruleForm: {
+          pass: '',
+          checkPass: '',
+          usedPass: ''
+        },
+        rules: {
+          usedPass: [{
+              required: true,
+              validator: validatePass,
+              trigger: 'blur'
+            },
+            {
+              min: 6,
+              max: 18,
+              message: '密码为6到18位数字或字母',
+              trigger: 'blur'
+            }
+          ],
+          pass: [{
+              required: true,
+              validator: validatePass1,
+              trigger: 'blur'
+            },
+            {
+              min: 6,
+              max: 18,
+              message: '密码为6到18位数字或字母',
+              trigger: 'blur'
+            }
+          ],
+          checkPass: [{
+              required: true,
+              validator: validatePass2,
+              trigger: 'blur'
+            },
+            {
+              min: 6,
+              max: 18,
+              message: '密码为6到18位数字或字母',
+              trigger: 'blur'
+            }
+          ]
+        }
+      };
+    },
+    computed: {
+
+    },
+    watch: {
+
+    },
+    methods: {
+      //修改密码提交按钮
+      submitForm() {
+        let name = sessionStorage.getItem('name');
+        if (name) {
+          name = JSON.parse(name);
+          this.maccount = name || '';
+        }
+        var _this = this;
+        this.$refs.ruleForm.validate((valid) => {
+          if (valid) {
+            this.logining = false;
+            var oldPwd = CryptoJS.MD5(this.ruleForm.usedPass + this.maccount).toString(CryptoJS.enc.Hex);
+            var mpwd = CryptoJS.MD5(this.ruleForm.pass + this.maccount).toString(CryptoJS.enc.Hex);
+            var mpwd2 = CryptoJS.MD5(this.ruleForm.checkPass + this.maccount).toString(CryptoJS.enc.Hex);
+            var modifypass = {
+              oldPwd,
+              mpwd,
+              mpwd2
+            };
+            //console.log(modifypass);
+            modifyPassword(modifypass).then(res => {
+              let {
+                status,
+                message
+              } = res;
+              if (status == 200) {
+                this.$notify({
+                  title: '成功',
+                  message: message,
+                  type: 'success'
+                });
+                _this.$emit("logout");
+              } else if (status == 301) {
+                this.$notify({
+                  title: '警告',
+                  message: message,
+                  type: 'warning'
+                });
+                _this.$emit("logout");
+              } else {
+                this.$notify.error({
+                  title: '错误',
+                  message: message
+                });
+              }
+            });
+          } else {
+            return false;
+          }
+        });
+      },
+      //修改密码弹框是否弹出
+      handleEdit: function (index, row) {
+        this.editFormVisible = true;
+        this.editForm = Object.assign({}, row);
+      },
+      //退出登录
+      logout: function () {
+        this.$confirm("确定退出?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "info"
+        }).then(() => {
+          this.$emit("logout");
+        }).catch(() => {});
+      },
+      //切换顶部导航
+      handleSelect(change) {
+        if (change === '1') {
+          this.$router.push({
+            path: "/home"
+          });
+        } else if (change === '2') {
+          this.$router.push({
+            path: "/index/table"
+          });
+        }
+      },
+    },
+    created: function () {
+      let user = this.$parent.userData;
+      if (user) {
+        this.user = user;
+      } else {
+        this.$router.push({
+          path: "/login"
+        });
+      }
+    },
+    mounted() {
+      //用户名
+      let user = sessionStorage.getItem('user');
+      if (user) {
+        user = JSON.parse(user);
+        this.sysUserName = user || '';
+      }
+    }
+  };
+
+</script>
