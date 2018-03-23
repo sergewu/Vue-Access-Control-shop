@@ -111,10 +111,10 @@ export default {
           }
         },
         legend: {
-          data: ['交易笔数']
+          data: ['交易金额(元)']
         },
         series: [{
-          name: '交易笔数', itemStyle: {
+          name: '交易金额(元)', itemStyle: {
             normal: {
               color: '#409EFF',
               lineStyle: {

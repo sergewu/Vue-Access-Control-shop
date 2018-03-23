@@ -227,3 +227,7 @@ export const updateProduct = params => { return instance.post(`${preUrlPath}/pay
 export const getCouponByInPro = params => { return instance.post(`${preUrlPath}/pay1/wxcard/getCouponByInPro`,params).then(res => res.data); };
 //线下消费补录
 export const inputMemTrans = params => { return instance.post(`${preUrlPath}/pay1/person/inputMemTrans`,params).then(res => res.data); };
+
+
+//首页
+export const merDataSumShow = params => { return instance.post(`${preUrlPath}/pay/mer/merDataSumShow`,params).then(res => res.data); };

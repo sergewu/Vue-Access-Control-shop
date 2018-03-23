@@ -10,11 +10,15 @@ let baseRoute = [{
 },{
   path: '/home',
   name: '首页',
-  component: (resolve) => require(['../views/home.vue'], resolve)
+  component: (resolve) => require(['../views/index/home.vue'], resolve)
 },{
-  path: '/details',
+  path: '/noticeList',
+  name: '公告列表',
+  component: (resolve) => require(['../views/index/noticeList.vue'], resolve)
+},{
+  path: '/noticeDetails',
   name: '公告',
-  component: (resolve) => require(['../views/details.vue'], resolve)
+  component: (resolve) => require(['../views/index/noticeDetails.vue'], resolve)
 },{
   path: '/401',
   name: '无权访问',

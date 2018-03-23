@@ -4,7 +4,7 @@
       <el-row>
         <el-col :span="6">
           <div class="top_logo">
-            <img src="../assets/images/logo4.png" />
+            <img src="../../assets/images/logo4.png" />
             <span>万 鼎 科 技</span>
           </div>
         </el-col>

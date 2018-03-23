@@ -40,6 +40,7 @@
     height: 613px;
     ;
     .grid_content_left_top {
+      margin-bottom: 10px;
       border-bottom: 1px solid #DCDFE6;
       height: 100px;
       div {
@@ -65,7 +66,7 @@
       }
       .grid_line {
         border-left: solid 1px #DCDFE6;
-        border-right: solid 1px #DCDFE6;
+        // border-right: solid 1px #DCDFE6;
       }
     }
     .grid_content_right_top {
@@ -80,7 +81,7 @@
       a {
         color: #333;
       }
-      margin-top: 55px;
+      // margin-top: 55px;
       h3 {
         border-bottom: 1px solid #DCDFE6;
         padding-bottom: 15px;
@@ -101,8 +102,17 @@
         text-overflow: ellipsis;
         border-bottom: 1px #DCDFE6 dashed;
       }
+      .grid_content_right_bottom_gengduo{
+        border: none;
+        text-align: right;
+      }
     }
 
+  }
+  .element_footer{
+    font-size: 14px;
+    text-align: center;
+    line-height: 60px;
   }
 
 </style>
@@ -113,7 +123,7 @@
         <el-row>
           <el-col :span="6">
             <div class="top_logo">
-              <img src="../assets/images/logo4.png" />
+              <img src="../../assets/images/logo4.png" />
               <span>万 鼎 科 技</span>
             </div>
           </el-col>
@@ -150,32 +160,48 @@
                     </div>
                   </el-col>
                   <el-col :span="4">
-                    <div>
-                      <img src="http://fakeimg.pl/300/?text=erweima" alt="">
+                    <el-popover
+                      ref="popover"
+                      placement="bottom"
+                      width="200"
+                      trigger="hover">
+                      <div>
+                        <img src="../../assets/images/weixiner.jpg" alt="二维码" width="100%">
+                        <p style="text-align: center;">扫描二维码加入微信群<br>及时关注微信支付通知</p>
+                      </div>
+                    </el-popover>
+                    <div v-popover:popover>
+                      <img src="../../assets/images/weixiner.jpg" alt="二维码">
                     </div>
                   </el-col>
                 </el-row>
               </div>
+              <el-alert
+                title="本页面数据仅供经营状况参考，不代表账单信息，请勿用作对账"
+                type="warning"
+                :closable="false"
+                show-icon>
+              </el-alert>
               <div class="grid_content_left_main">
                 <el-row>
-                  <el-col :span="8">
+                  <el-col :span="12">
                     <div>
-                      <span>最近一周交易金额(元)</span>
-                      <h2>555,100.98</h2>
+                      <span>最近一周销售金额(元)</span>
+                      <h2>{{format_amount(lineChartSummaryData.sumAmt)}}</h2>
                     </div>
                   </el-col>
-                  <el-col :span="8">
+                  <el-col :span="12">
                     <div class="grid_line">
-                      <span>最近一周交易金额(元)</span>
-                      <h2>555,100.98</h2>
+                      <span>最近一周销售笔数(笔)</span>
+                      <h2>{{format_amount(lineChartSummaryData.sumTotal)}}</h2>
                     </div>
                   </el-col>
-                  <el-col :span="8">
+                  <!-- <el-col :span="8">
                     <div>
-                      <span>最近一周交易金额(元)</span>
+                      <span>人均金额(元)</span>
                       <h2>555,100.98</h2>
                     </div>
-                  </el-col>
+                  </el-col> -->
                 </el-row>
               </div>
               <div class="grid_content_left_bottom">
@@ -185,18 +211,23 @@
           </el-col>
           <el-col :span="6">
             <div class="grid-content">
-              <div class="grid_content_right_top">
+              <!-- <div class="grid_content_right_top">
                 <p>预留信息：</p>
                 <p>商户简称：西安万鼎网络科技有限公司</p>
                 <p>企业名称：西安万鼎网络科技有限公司</p>
                 <p>企业类目：微信支付服务商</p>
-              </div>
+              </div> -->
               <div class="grid_content_right_bottom">
                 <h3>
                   <i></i>平台公告</h3>
                 <div v-for="o in 4" :key="o">
-                  <router-link :to="{ path: '/details', query: { plan: o }}" target="_blank">
+                  <router-link :to="{ path: '/noticeDetails', query: { plan: o }}" target="_blank">
                     <span>{{'列表内容 ' + o }}</span>
+                  </router-link>
+                </div>
+                <div class="grid_content_right_bottom_gengduo">
+                  <router-link :to="{ path: '/noticeList', query: { plan: o }}" target="_blank">
+                  更多
                   </router-link>
                 </div>
               </div>
@@ -204,6 +235,7 @@
           </el-col>
         </el-row>
       </el-main>
+      <el-footer class="element_footer">版权所有：西安万鼎网络科技有限公司 | ICP备 陕17002918号</el-footer>
     </el-container>
     <!--修改密码-->
     <el-dialog :visible.sync="editFormVisible" :close-on-click-modal="false" width="400px">
@@ -227,23 +259,17 @@
   </div>
 </template>
 <script>
-  import instance from "../api";
+  import instance from "../../api";
   import CryptoJS from "crypto-js";
+  import * as util from '../../assets/util'
   import {
     modifyPassword,
-    batchRemoveUser
-  } from '../api/shop';
+    batchRemoveUser,
+    merDataSumShow
+  } from '../../api/shop';
   import {
     LineChart
-  } from '../components'
-  const lineChartData = {
-    newVisitis: {
-      expectedData: [{
-        value: 99
-      }, 120, 161, 134, 105, 160, 165],
-      actualData: [120, 82, 91, 154, 162, 140, 145]
-    }
-  }
+  } from '../../components'
 
   export default {
     components: {
@@ -280,7 +306,9 @@
         }
       };
       return {
-        lineChartData: lineChartData.newVisitis,
+        o:[],
+        lineChartData: {},
+        lineChartSummaryData: {},
         user: {},
         sysUserName: '',
         editFormVisible: false, //修改密码弹窗是否显示
@@ -339,6 +367,23 @@
 
     },
     methods: {
+      //格式化金额
+      format_amount(val){
+        return util.number_format( val, 2, ".", "," )
+      },
+      //获取首页折线图数据
+      lineCharIndex(){
+        let myDate = Date.now();
+        let para = {
+          startTime: util.dateFormat((myDate - 3600 * 1000 * 24 * 7), 'yyyy/MM/dd'),
+          endTime: util.dateFormat((myDate - 3600 * 1000 * 24 * 1), 'yyyy/MM/dd')
+        }
+        merDataSumShow(para).then(res=>{
+          this.lineChartSummaryData=res.data
+          let expectedData = res.data.amtList
+          this.lineChartData = {expectedData}          
+        })
+      },
       //修改密码提交按钮
       submitForm() {
         let name = sessionStorage.getItem('name');
@@ -435,6 +480,7 @@
         user = JSON.parse(user);
         this.sysUserName = user || '';
       }
+      this.lineCharIndex()
     }
   };
 

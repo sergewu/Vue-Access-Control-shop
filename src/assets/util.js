@@ -9,6 +9,38 @@ function padding(s, len) {
   for (var i = 0; i < len; i++) { s = '0' + s; }
   return s;
 };
+//金额格式化
+export const number_format = function(number, decimals, dec_point, thousands_sep) {
+  /*
+  * 参数说明：
+  * number：要格式化的数字
+  * decimals：保留几位小数
+  * dec_point：小数点符号
+  * thousands_sep：千分位符号
+  * */
+  number = (number + '').replace(/[^0-9+-Ee.]/g, '');
+  var n = !isFinite(+number) ? 0 : +number,
+      prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+      sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+      dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+      s = '',
+      toFixedFix = function (n, prec) {
+          var k = Math.pow(10, prec);
+          return '' + Math.ceil(n * k) / k;
+      };
+
+  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+  var re = /(-?\d+)(\d{3})/;
+  while (re.test(s[0])) {
+      s[0] = s[0].replace(re, "$1" + sep + "$2");
+  }
+
+  if ((s[1] || '').length < prec) {
+      s[1] = s[1] || '';
+      s[1] += new Array(prec - s[1].length + 1).join('0');
+  }
+  return s.join(dec);
+}
 
 //sessionStorage
 export const session = function(key, value){
@@ -96,7 +128,7 @@ export const buildMenu = function (array, ckey) {
 //日期格式化
 export const dateFormat = function (source, ignore_minute) {
   var myDate;
-  var separate = '-';
+  var separate = '/';
   var minute = '';
   if (source === void(0)) {
     source = new Date();
@@ -124,9 +156,7 @@ export const dateFormat = function (source, ignore_minute) {
   }
 };
 //ajax错误处理
-export const catchError = function(error) {    
-  console.log(error);
-  
+export const catchError = function(error) {      
   if (error.data) {
     switch (error.data.status) {
       case 400:
@@ -159,6 +189,7 @@ export const catchError = function(error) {
   }
   return Promise.reject(error);
 };
+//日期格式化
 export const formatDate = {
       format: function (date, pattern) {
           pattern = pattern || DEFAULT_PATTERN;
