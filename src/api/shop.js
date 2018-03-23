@@ -231,3 +231,7 @@ export const inputMemTrans = params => { return instance.post(`${preUrlPath}/pay
 
 //首页
 export const merDataSumShow = params => { return instance.post(`${preUrlPath}/pay/mer/merDataSumShow`,params).then(res => res.data); };
+//公告列表
+export const getNotices = params => { return instance.post(`${preUrlPath}/pay/sys/getNotices`,params).then(res => res.data); };
+//公告详情
+export const getNoticeById = params => { return instance.post(`${preUrlPath}/pay/sys/getNoticeById`,params).then(res => res.data); };

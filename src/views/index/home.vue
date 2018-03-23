@@ -220,13 +220,13 @@
               <div class="grid_content_right_bottom">
                 <h3>
                   <i></i>平台公告</h3>
-                <div v-for="o in 4" :key="o">
-                  <router-link :to="{ path: '/noticeDetails', query: { plan: o }}" target="_blank">
-                    <span>{{'列表内容 ' + o }}</span>
+                <div v-for="item in noticeList" :key="item.id">
+                  <router-link :to="{ path: '/noticeDetails', query: { id: item.id }}" target="_blank">
+                    <span>{{ item.title }}</span>
                   </router-link>
                 </div>
                 <div class="grid_content_right_bottom_gengduo">
-                  <router-link :to="{ path: '/noticeList', query: { plan: o }}" target="_blank">
+                  <router-link :to="{ path: '/noticeList' }" target="_blank">
                   更多
                   </router-link>
                 </div>
@@ -265,7 +265,8 @@
   import {
     modifyPassword,
     batchRemoveUser,
-    merDataSumShow
+    merDataSumShow,
+    getNotices
   } from '../../api/shop';
   import {
     LineChart
@@ -306,7 +307,7 @@
         }
       };
       return {
-        o:[],
+        noticeList:[],
         lineChartData: {},
         lineChartSummaryData: {},
         user: {},
@@ -367,6 +368,15 @@
 
     },
     methods: {
+      getUsers(){
+        let para = {
+          pageNum:'1',
+          numPerPage: '7'
+        }
+        getNotices(para).then(res=>{
+          this.noticeList = res.data.noticeList;
+        })
+      },
       //格式化金额
       format_amount(val){
         return util.number_format( val, 2, ".", "," )
@@ -481,6 +491,7 @@
         this.sysUserName = user || '';
       }
       this.lineCharIndex()
+      this.getUsers()
     }
   };
 

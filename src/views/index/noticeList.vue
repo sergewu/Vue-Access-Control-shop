@@ -13,40 +13,58 @@
     <el-main>
       <div class="detailsList_main">
         <div class="detailsList_main_top">平台公告</div>
-        <div v-for="o in 4" :key="o" class="detailsList_main_list">
-          <router-link :to="{ path: '/noticeDetails', query: { plan: o }}" target="_blank">
+        <div v-for="item in noticeList" :key="item.id" class="detailsList_main_list">
+          <router-link :to="{ path: '/noticeDetails', query: { id: item.id }}" target="_blank">
             <el-row>
               <el-col :span="20">
-                <p>{{'列表内容 ' + o }}</p>
+                <p>{{item.title}}</p>
               </el-col>
               <el-col :span="4">
-                <p class="detailsList_main_list_date">2018-8-19</p>
+                <p class="detailsList_main_list_date">{{format_date(item.gmt_create)}}</p>
               </el-col>
             </el-row>
           </router-link>
         </div>
-        <el-pagination layout="prev, pager, next" :total="total" :page-size="20" class="detailsList_pager" @current-change="handleCurrentChange"></el-pagination>
+        <el-pagination layout="prev, pager, next" :total="total" :page-size="pageSize" class="detailsList_pager" @current-change="handleCurrentChange"></el-pagination>
       </div>
     </el-main>
   </el-container>
 </template>
 <script>
+import { getNotices } from '../../api/shop'
+import * as util from '../../assets/util'
 export default {
   data(){
     return{
       page: 1,
-      total:0
+      total:0,
+      pageSize:10,
+      noticeList:[]
     }
   },
   methods: {
+    //格式化时间
+    format_date(val){
+      return util.dateFormat((val), 'yyyy/MM/dd')
+    },
+    //分页
     handleCurrentChange(val) {
       this.page = val;
       this.getUsers();
     },
     getUsers(){
-      console.log(this.page);
-      
+      let para = {
+        pageNum:this.page.toString(),
+        numPerPage: this.pageSize.toString()
+      }
+      getNotices(para).then(res=>{
+        this.noticeList = res.data.noticeList;
+        this.total = res.data.totalCount
+      })
     }
+  },
+  mounted(){
+    this.getUsers()
   }
 }
 </script>
