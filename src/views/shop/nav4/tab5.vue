@@ -72,10 +72,10 @@
 		</div>
 
 		<!--工具条-->
-		<el-col>
-			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+		<el-row>
+			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
 			</el-pagination>
-		</el-col>
+		</el-row>
 	</section>
 </template>
 

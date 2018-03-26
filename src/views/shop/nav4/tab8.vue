@@ -38,10 +38,10 @@
     </el-table-column>
   </el-table>
   <!--工具条-->
-  <el-col>
-    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+  <el-row>
+    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
     </el-pagination>
-  </el-col>
+  </el-row>
   <!--绑定会员-->
   <el-dialog title="会员卡充值" :visible.sync="dialogBindingVisible" width="600px">
     <el-form :model="form" ref="form" :rules="formRules" label-position="right" label-width="100px">
