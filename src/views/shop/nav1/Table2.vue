@@ -1,7 +1,7 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true" :model="whole">
       <el-tag type="primary" style="margin:10px 10px 20px 0;">交易总金额（元）：{{whole.sumAmt}}元</el-tag>
       <el-tag type="primary" style="">交易总笔数（笔）：{{whole.countRow}}笔</el-tag>
@@ -30,21 +30,23 @@
     </el-form>
   </el-row>
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange">
-    <el-table-column prop="storeName" label="门店名称" min-width="200">
-    </el-table-column>
-    <el-table-column prop="countRow" label="交易笔数" min-width="200">
-    </el-table-column>
-    <el-table-column prop="sumAmt" label="交易金额" min-width="200">
-    </el-table-column>
-    <el-table-column prop="sumFactorage" label="手续费" min-width="200">
-    </el-table-column>
-    <el-table-column prop="sumSur" label="结算金额" min-width="200">
-    </el-table-column>
-  </el-table>
+  <div v-loading="listLoading">
+    <el-table :data="users" border highlight-current-row>
+      <el-table-column prop="storeName" label="门店名称" min-width="200">
+      </el-table-column>
+      <el-table-column prop="countRow" label="交易笔数" min-width="200">
+      </el-table-column>
+      <el-table-column prop="sumAmt" label="交易金额" min-width="200">
+      </el-table-column>
+      <el-table-column prop="sumFactorage" label="手续费" min-width="200">
+      </el-table-column>
+      <el-table-column prop="sumSur" label="结算金额" min-width="200">
+      </el-table-column>
+    </el-table>
+  </div>
 
   <!--工具条-->
-  <el-col :span="24" class="toolbar">
+  <el-col>
     <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
     </el-pagination>
   </el-col>
@@ -251,9 +253,6 @@ export default {
     handleEdit: function(index, row) {
       this.editFormVisible = true;
       this.editForm = Object.assign({}, row);
-    },
-    selsChange: function(sels) {
-      this.sels = sels;
     },
     //重置按钮
     resetForm(formName) {

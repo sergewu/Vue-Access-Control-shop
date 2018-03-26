@@ -1,7 +1,7 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true" :model="filters">
       <el-form-item prop="time1">
         <el-date-picker v-model="filters.startTime" type="date" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false" :editable='false'>
@@ -27,21 +27,24 @@
   </el-row>
 
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
-    <el-table-column prop="sname" label="门店名称">
-    </el-table-column>
-    <el-table-column prop="pkg_name" label="套餐名称">
-    </el-table-column>
-    <el-table-column prop="total_amt" label="激活套餐金额" min-width="120">
-    </el-table-column>
-    <el-table-column prop="total_num" label="购买套餐累计个数">
-    </el-table-column>
-  </el-table>
+  <div v-loading="listLoading">
+    <el-table :data="users" border highlight-current-row style="width: 100%;">
+      <el-table-column prop="sname" label="门店名称">
+      </el-table-column>
+      <el-table-column prop="pkg_name" label="套餐名称">
+      </el-table-column>
+      <el-table-column prop="total_amt" label="激活套餐金额" min-width="120">
+      </el-table-column>
+      <el-table-column prop="total_num" label="购买套餐累计个数">
+      </el-table-column>
+    </el-table>
+  </div>
+
   <!--工具条-->
-  <el-col :span="24" class="toolbar">
+  <el-row>
     <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
     </el-pagination>
-  </el-col>
+  </el-row>
 </section>
 </template>
 

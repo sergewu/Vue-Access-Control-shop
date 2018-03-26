@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<!--工具条-->
-		<el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+		<el-row>
 			<el-form :inline="true">
 				<el-form-item>
 					<el-button type="primary" v-on:click="getUsers" size="medium" round><i class="fa fa-refresh fa-fw"></i>同步</el-button>
@@ -10,15 +10,17 @@
 		</el-row>
 
 		<!--列表-->
-		<el-table :data="users" highlight-current-row v-loading="listLoading" style="width: 100%;" border>
-			<el-table-column prop="mname" label="门店名称" min-width="100">
-			</el-table-column>
-			<el-table-column prop="address" label="门店地址" min-width="100">
-			</el-table-column>
-		</el-table>
+		<div>
+			<el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
+				<el-table-column prop="mname" label="门店名称" min-width="100">
+				</el-table-column>
+				<el-table-column prop="address" label="门店地址" min-width="100">
+				</el-table-column>
+			</el-table>
+		</div>
 
 		<!--工具条-->
-		<el-col :span="24" class="toolbar">
+		<el-col>
 			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
 			</el-pagination>
 		</el-col>

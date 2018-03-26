@@ -1,7 +1,7 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true" :model="filters">
       <el-form-item>
         <el-input v-model="filters.printname" placeholder="请输入终端名称"></el-input>
@@ -14,43 +14,39 @@
   </el-row>
 
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
-    <el-table-column prop="printname" label="打印机名称" min-width="120">
-    </el-table-column>
-    <el-table-column prop="machineCode" label="终端号" min-width="120">
-    </el-table-column>
-    <el-table-column prop="machineKey" label="终端密钥" min-width="120">
-    </el-table-column>
-    <el-table-column prop="phone" label="电话" min-width="120">
-    </el-table-column>
-    <el-table-column prop="pnum" label="打印份数" min-width="120">
-    </el-table-column>
-    <el-table-column label="状态" width="100">
-      <template slot-scope="scope">
-						<el-switch
-							name="value"
-							on-text="开启"
-	            off-text="关闭"
-							@change.native="test(scope.$index, scope.row)"
-							v-model="scope.row.isOpen">
-						</el-switch>
-					</template>
-    </el-table-column>
-    <el-table-column label="详情" width="90">
-      <template slot-scope="scope">
-					<el-button size="small" @click="handleDet(scope.$index, scope.row)">详情</el-button>
-				</template>
-    </el-table-column>
-    <el-table-column label="操作" width="90">
-      <template slot-scope="scope">
-					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-					<!-- <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button> -->
-				</template>
-    </el-table-column>
-  </el-table>
+  <div v-loading="listLoading">
+    <el-table :data="users" border highlight-current-row style="width: 100%;">
+      <el-table-column prop="printname" label="打印机名称" min-width="120">
+      </el-table-column>
+      <el-table-column prop="machineCode" label="终端号" min-width="120">
+      </el-table-column>
+      <el-table-column prop="machineKey" label="终端密钥" min-width="120">
+      </el-table-column>
+      <el-table-column prop="phone" label="电话" min-width="120">
+      </el-table-column>
+      <el-table-column prop="pnum" label="打印份数">
+      </el-table-column>
+      <el-table-column label="状态">
+        <template slot-scope="scope">
+              <el-switch
+                name="value"
+                @change="test(scope.$index, scope.row)"
+                v-model="scope.row.isOpen">
+              </el-switch>
+            </template>
+      </el-table-column>
+      <el-table-column label="操作" width="160">
+        <template slot-scope="scope">
+          <el-button type="warning" size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+          <el-button type="info" size="mini" @click="handleDet(scope.$index, scope.row)">详情</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+
 
   <!--工具条-->
-  <el-col :span="24" class="toolbar">
+  <el-col>
     <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
     </el-pagination>
   </el-col>
@@ -571,9 +567,6 @@ export default {
           });
         }
       });
-    },
-    selsChange: function(sels) {
-      this.sels = sels;
     },
   },
   mounted() {

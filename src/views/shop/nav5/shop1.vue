@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<!--工具条-->
-		<el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+		<el-row>
 			<el-form :inline="true" :model="filters">
 				<el-form-item>
 					<el-input v-model="filters.name" placeholder="商户名称"></el-input>
@@ -19,47 +19,46 @@
           </template>
         </el-form-item>
 				<el-form-item style="float:right">
+          <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
 					<el-button type="primary" @click="handleAdd" size="medium" round>新增商品</el-button>
-				</el-form-item>
-				<el-form-item style="float:right">
-					<el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
 				</el-form-item>
 			</el-form>
 		</el-row>
 
 		<!--列表-->
-		<el-table border :data="users" highlight-current-row v-loading="listLoading" style="width: 100%;">
-			<el-table-column prop="name" label="商户名称">
-			</el-table-column>
-			<el-table-column prop="oprice" label="商品原价">
-			</el-table-column>
-			<el-table-column prop="nprice" label="商品现价">
-			</el-table-column>
-      <el-table-column prop="stock" label="库存">
-      </el-table-column>
-      <el-table-column prop="stock" label="状态" width="85">
-        <template slot-scope="scope">
-            <el-switch
-              name="value"
-              on-text="上架"
-              off-text="下架"
-              @change.native="test(scope.$index, scope.row)"
-              v-model="scope.row.status">
-            </el-switch>
+    <div v-loading="listLoading">
+      <el-table border :data="users" highlight-current-row style="width: 100%;">
+        <el-table-column prop="name" label="商户名称">
+        </el-table-column>
+        <el-table-column prop="oprice" label="商品原价">
+        </el-table-column>
+        <el-table-column prop="nprice" label="商品现价">
+        </el-table-column>
+        <el-table-column prop="stock" label="库存">
+        </el-table-column>
+        <el-table-column prop="stock" label="状态" width="85">
+          <template slot-scope="scope">
+              <el-switch
+                name="value"
+                @change="test(scope.$index, scope.row)"
+                v-model="scope.row.status">
+              </el-switch>
+            </template>
+        </el-table-column>
+        <el-table-column label="操作" width="85">
+          <template slot-scope="scope">
+            <el-button type="warning" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           </template>
-      </el-table-column>
-			<el-table-column label="操作" width="85">
-				<template slot-scope="scope">
-					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-				</template>
-			</el-table-column>
-		</el-table>
+        </el-table-column>
+      </el-table>
+    </div>
+
 
 		<!--工具条-->
-		<el-col :span="24" class="toolbar">
+		<el-row>
 			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
 			</el-pagination>
-		</el-col>
+		</el-row>
 
 		<!--编辑界面-->
 		<el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">

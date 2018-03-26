@@ -1,7 +1,7 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true">
       <el-form-item>
         <el-button type="primary" @click="handleAdd">添加设置</el-button>
@@ -10,30 +10,30 @@
   </el-row>
 
   <!--列表-->
-  <el-table border :data="users" highlight-current-row v-loading="listLoading" style="width: 100%;">
-    <el-table-column prop="min_price" label="充值下限(元)">
-    </el-table-column>
-    <el-table-column prop="max_price" label="充值上限(元)">
-    </el-table-column>
-    <el-table-column prop="donate_price" label="赠送金额(元)">
-    </el-table-column>
-    <el-table-column prop="is_open" label="是否启用">
-      <template slot-scope="scope">
-						<el-switch
-							name="value"
-							on-text="开启"
-							off-text="关闭"
-							@change.native="test(scope.$index, scope.row)"
-							v-model="scope.row.is_open">
-						</el-switch>
-					</template>
-    </el-table-column>
-    <el-table-column label="操作" width="80">
-      <template slot-scope="scope">
-					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-				</template>
-    </el-table-column>
-  </el-table>
+  <div v-loading="listLoading">
+    <el-table border :data="users" highlight-current-row style="width: 100%;">
+      <el-table-column prop="min_price" label="充值下限(元)">
+      </el-table-column>
+      <el-table-column prop="max_price" label="充值上限(元)">
+      </el-table-column>
+      <el-table-column prop="donate_price" label="赠送金额(元)">
+      </el-table-column>
+      <el-table-column prop="is_open" label="是否启用">
+        <template slot-scope="scope">
+              <el-switch
+                name="value"
+                @change="test(scope.$index, scope.row)"
+                v-model="scope.row.is_open">
+              </el-switch>
+            </template>
+      </el-table-column>
+      <el-table-column label="操作" width="80">
+        <template slot-scope="scope">
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          </template>
+      </el-table-column>
+    </el-table>
+  </div>
 
   <!--编辑界面-->
   <el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">

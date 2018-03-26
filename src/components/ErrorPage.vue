@@ -1,7 +1,6 @@
 <template>
   <div class="errPage-container">
     <el-button type="primary"  @click="back" icon='el-icon-back' class="pan-back-btn" round>返回</el-button>
-    <!-- <el-button @click="back" icon='arrow-left' class="pan-back-btn">返回</el-button> -->
     <el-row>
       <el-col :span="12">
         <h1 class="text-jumbo text-ginormous">Oops!</h1>
@@ -11,9 +10,6 @@
         <img :src="errGif" width="313" height="428" alt="Girl has dropped her ice cream.">
       </el-col>
     </el-row>
-    <el-dialog title="随便看" :visible.sync="dialogVisible">
-      <img class="pan-img" :src="ewizardClap">
-    </el-dialog>
   </div>
 </template>
 
@@ -39,6 +35,11 @@ export default {
   .errPage-container {
     width: 800px;
     margin: 100px auto;
+    background: #fff;
+    padding: 35px;
+    border-radius: 25px;
+    box-shadow: 10px 10px 5px #888888;
+    border: 1px solid #DCDFE6;
     .pan-gif {
       margin: 0 auto;
       display: block;

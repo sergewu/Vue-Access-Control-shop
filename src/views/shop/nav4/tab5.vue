@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<!--工具条-->
-		<el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+		<el-row>
 			<el-form :inline="true" :model="filters" ref="filters">
 				<el-form-item prop="title">
 					<el-input v-model="filters.title" placeholder="请输入卡券名称"></el-input>
@@ -16,7 +16,7 @@
 			</el-form>
 		</el-row>
     <el-dialog title="卡券核销" :visible.sync="dialogVisible" :close-on-click-modal="false">
-      <el-input v-model="cardinput" placeholder="请输入卡券号"><el-button slot="append" icon="search" @click="searchClick"></el-button></el-input>
+      <el-input v-model="cardinput" placeholder="请输入卡券号" class="nav4_tab5_input"><el-button slot="append" icon="el-icon-search" @click="searchClick"></el-button></el-input>
       <el-row class="cardinput" :gutter="50" v-if="displayCard">
         <el-col :span="8"><img src="http://s.404.cn/tpl/static/card/images/new/demo_card.png" alt="示例" width="100%"></el-col>
         <el-col :span="16">
@@ -56,20 +56,23 @@
 			</div>
     </el-dialog>
 		<!--列表-->
-		<el-table :data="users" highlight-current-row v-loading="listLoading" style="width: 100%;" border>
-			<el-table-column prop="code" label="卡券号">
-			</el-table-column>
-			<el-table-column prop="title" label="卡券名称">
-			</el-table-column>
-			<el-table-column prop="store_name" label="门店">
-			</el-table-column>
-			<el-table-column prop="consume_source" label="核销方式" :formatter="consume_source">
-			</el-table-column>
-			<el-table-column prop="update_time" label="时间" :formatter="update_time">
-			</el-table-column>
-		</el-table>
+		<div v-loading="listLoading">
+			<el-table :data="users" highlight-current-row style="width: 100%;" border>
+				<el-table-column prop="code" label="卡券号">
+				</el-table-column>
+				<el-table-column prop="title" label="卡券名称">
+				</el-table-column>
+				<el-table-column prop="store_name" label="门店">
+				</el-table-column>
+				<el-table-column prop="consume_source" label="核销方式" :formatter="consume_source">
+				</el-table-column>
+				<el-table-column prop="update_time" label="时间" :formatter="update_time">
+				</el-table-column>
+			</el-table>
+		</div>
+
 		<!--工具条-->
-		<el-col :span="24" class="toolbar">
+		<el-col>
 			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
 			</el-pagination>
 		</el-col>

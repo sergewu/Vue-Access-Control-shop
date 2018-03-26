@@ -1,7 +1,7 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true" :model="filters">
       <el-form-item prop="time1">
         <el-date-picker v-model="filters.startTime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false" :editable='false'>
@@ -49,37 +49,40 @@
   </el-row>
 
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
-    <el-table-column prop="nick_name" label="购买人">
-    </el-table-column>
-    <el-table-column prop="pkg_name" label="套餐名称">
-    </el-table-column>
-    <el-table-column prop="commission" label="提成金额" :formatter="commission">
-    </el-table-column>
-    <el-table-column prop="gmt_create" label="交易时间" :formatter="gmt_create" min-width="170">
-    </el-table-column>
-    <el-table-column prop="pkgStatus" label="套餐激活状态" :formatter="pkgStatus" width="120">
-    </el-table-column>
-    <el-table-column prop="receive_card_status" label="领卡状态" width="110">
-      <template slot-scope="scope">
-        <el-button type="primary" size="small" @click="cardClick(scope.$index, scope.row)" :disabled="scope.row.receive_card_status == 'Y'">
-          {{ scope.row.receive_card_status == 'Y' ? '领卡成功' : '领卡' }}
-        </el-button>
-      </template>
-    </el-table-column>
-    <el-table-column label="红包状态" width="110">
-      <template slot-scope="scope">
-        <el-button type="primary" size="small" @click="sendRedClick(scope.$index, scope.row)" :disabled="scope.row.send_red_status!=='N'">
-          {{ scope.row.send_red_status == 'Y' ? '发送成功' : scope.row.send_red_status == 'N' ? '发送失败' : '不发红包' }}
-        </el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div v-loading="listLoading">
+    <el-table :data="users" border highlight-current-row style="width: 100%;">
+      <el-table-column prop="nick_name" label="购买人">
+      </el-table-column>
+      <el-table-column prop="pkg_name" label="套餐名称">
+      </el-table-column>
+      <el-table-column prop="commission" label="提成金额" :formatter="commission">
+      </el-table-column>
+      <el-table-column prop="gmt_create" label="交易时间" :formatter="gmt_create" min-width="170">
+      </el-table-column>
+      <el-table-column prop="pkgStatus" label="套餐激活状态" :formatter="pkgStatus" width="120">
+      </el-table-column>
+      <el-table-column prop="receive_card_status" label="领卡状态" width="110">
+        <template slot-scope="scope">
+          <el-button :type="scope.row.receive_card_status == 'Y' ? 'info' : 'success'" size="mini" @click="cardClick(scope.$index, scope.row)" :disabled="scope.row.receive_card_status == 'Y'">
+            {{ scope.row.receive_card_status == 'Y' ? '领卡成功' : '现在领卡' }}
+          </el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="红包状态" width="110">
+        <template slot-scope="scope">
+          <el-button :type="scope.row.send_red_status !=='N' ? 'info' : 'success'" size="mini" @click="sendRedClick(scope.$index, scope.row)" :disabled="scope.row.send_red_status!=='N'">
+            {{ scope.row.send_red_status == 'Y' ? '发送成功' : scope.row.send_red_status == 'N' ? '发送失败' : '不发红包' }}
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+
   <!--工具条-->
-  <el-col :span="24" class="toolbar">
+  <el-row>
     <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
     </el-pagination>
-  </el-col>
+  </el-row>
   <!-- 二维码 -->
   <el-dialog :visible.sync="receiveCard" :close-on-click-modal="true" width="600px">
     <el-form :model="receive" label-width="" ref="editCode" style="width:auto">
@@ -218,8 +221,6 @@ export default {
       para.end_time = (!para.end_time || para.end_time == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.end_time), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
 
       window.location.href=process.env.API_ROOT+"/pay/weixin/activity/downPkgPurchaseExcel?pkg_id="+para.pkg_id+'&start_time='+para.start_time+'&end_time='+para.end_time+'&send_red_status='+para.send_red_status+'&receive_card_status='+para.receive_card_status;
-      let url = process.env.API_ROOT+"/pay/weixin/activity/downPkgPurchaseExcel?pkg_id="+para.pkg_id+'&start_time='+para.start_time+'&end_time='+para.end_time+'&send_red_status='+para.send_red_status+'&receive_card_status='+para.receive_card_status;
-      console.log(url);
     },
     //获取套餐列表
     getProductList(){
@@ -246,9 +247,6 @@ export default {
         this.users = res.data.purchaseList;
         this.listLoading = false;
       });
-    },
-    selsChange: function(sels) {
-      this.sels = sels;
     },
   },
   mounted() {

@@ -1,16 +1,8 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true" :model="filters">
-      <!-- <el-form-item prop="time1">
-        <el-date-picker v-model="filters.startTime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false" :editable='false'>
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item prop="time2">
-        <el-date-picker v-model="filters.endTime" type="datetime" placeholder="选择结束日期" :picker-options="pickerOptions2" :clearable="false" :editable='false'>
-        </el-date-picker>
-      </el-form-item> -->
       <el-form-item prop="name">
         <el-input v-model="filters.name" placeholder="请输入姓名"></el-input>
       </el-form-item>
@@ -28,38 +20,41 @@
   </el-row>
 
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
-    <el-table-column prop="inviter_name" label="邀请人">
-    </el-table-column>
-    <el-table-column prop="phone" label="电话">
-    </el-table-column>
-    <el-table-column prop="inviter_code" label="邀请码" width="95">
-    </el-table-column>
-    <el-table-column prop="card_num" label="会员卡号">
-    </el-table-column>
-    <el-table-column prop="commission" label="提成金额" width="95" :formatter="commission">
-    </el-table-column>
-    <el-table-column prop="dividend" label="分红金额">
-      <template slot-scope="scope">
-        <span>{{scope.row.dividend}}</span>
-        <el-button type="warning" size="small" @click="dividendClick(scope.$index, scope.row)">修改</el-button>
-      </template>
-    </el-table-column>
-    <el-table-column prop="sum_invitee" label="邀请成功" width="100">
-    </el-table-column>
-    <el-table-column prop="intentSum" label="意向客户" width="100">
-    </el-table-column>
-    <el-table-column prop="store_name" label="操作" width="100">
-      <template slot-scope="scope">
-          <el-button type="info" size="small" @click="seeClick(scope.$index, scope.row)">邀请详情</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div v-loading="listLoading">
+    <el-table :data="users" border highlight-current-row style="width: 100%;">
+      <el-table-column prop="inviter_name" label="邀请人">
+      </el-table-column>
+      <el-table-column prop="phone" label="电话">
+      </el-table-column>
+      <el-table-column prop="inviter_code" label="邀请码" width="95">
+      </el-table-column>
+      <el-table-column prop="card_num" label="会员卡号">
+      </el-table-column>
+      <el-table-column prop="commission" label="提成金额" width="95" :formatter="commission">
+      </el-table-column>
+      <el-table-column prop="dividend" label="分红金额">
+        <template slot-scope="scope">
+          <span>{{scope.row.dividend}}</span>
+          <el-button type="warning" size="small" @click="dividendClick(scope.$index, scope.row)">修改</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column prop="sum_invitee" label="邀请成功" width="100">
+      </el-table-column>
+      <el-table-column prop="intentSum" label="意向客户" width="100">
+      </el-table-column>
+      <el-table-column prop="store_name" label="操作" width="100">
+        <template slot-scope="scope">
+            <el-button type="info" size="small" @click="seeClick(scope.$index, scope.row)">邀请详情</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+
   <!--工具条-->
-  <el-col :span="24" class="toolbar">
+  <el-row>
     <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
     </el-pagination>
-  </el-col>
+  </el-row>
 <el-dialog title="已邀请人" :visible.sync="dialogTableVisible" :close-on-click-modal="false">
   <el-form :inline="true" :model="dialog">
     <el-form-item prop="status">
@@ -83,10 +78,10 @@
     <el-table-column property="name" label="姓名"></el-table-column>
     <el-table-column property="pkg_name" label="套餐" v-if="dialog.status=='2'"></el-table-column>
   </el-table>
-  <el-col :span="24" class="toolbar">
+  <el-row>
     <el-pagination layout="prev, pager, next" @current-change="dialogHandleCurrentChange" :page-size="20" :total="dialogTotal" style="float:right;">
     </el-pagination>
-  </el-col>
+  </el-row>
 </el-dialog>
 </section>
 </template>
@@ -104,23 +99,8 @@ import {
 } from '../../../api/shop';
 export default {
   data() {
-    var myDate = new Date();
     return {
-      //时间控制
-      pickerOptions1: {
-        disabledDate(time) {
-          return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 90;
-        }
-      },
-      pickerOptions2: {
-        disabledDate(time) {
-          return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 90;
-        }
-      },
       filters: {
-        // pkg_id: '',
-        // startTime: [new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate())],
-        // endTime: [new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate(), 23, 59, 59)]
         name:'',
         phone:'',
         cardnum:''
@@ -252,9 +232,6 @@ export default {
         this.users = res.data.pkgInviterList;
         this.listLoading = false;
       });
-    },
-    selsChange: function(sels) {
-      this.sels = sels;
     },
   },
   mounted() {

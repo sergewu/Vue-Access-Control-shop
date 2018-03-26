@@ -1,7 +1,7 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true" :model="filters">
       <el-form-item>
         <el-select v-model="filters.state1" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
@@ -47,24 +47,24 @@
     </el-table-column>
     <el-table-column prop="sname" label="商户名称" min-width="120">
     </el-table-column>
-    <el-table-column prop="pay_type" label="付款方式" min-width="120">
+    <el-table-column prop="pay_type" label="付款方式">
     </el-table-column>
-    <el-table-column prop="amount" label="交易金额" min-width="120">
+    <el-table-column prop="amount" label="交易金额">
     </el-table-column>
-    <el-table-column prop="discount" label="优惠金额" min-width="120">
+    <el-table-column prop="discount" label="优惠金额">
     </el-table-column>
-    <el-table-column prop="refund_amt" label="退款金额" min-width="120">
+    <el-table-column prop="refund_amt" label="退款金额">
     </el-table-column>
-    <el-table-column prop="rate" label="费率‰" min-width="120">
+    <el-table-column prop="rate" label="费率‰">
     </el-table-column>
     <el-table-column prop="factorage" label="交易手续费" min-width="120">
     </el-table-column>
-    <el-table-column prop="surplus" label="划账金额" min-width="120">
+    <el-table-column prop="surplus" label="划账金额">
     </el-table-column>
   </el-table>
 
   <!--工具条-->
-  <el-col :span="24" class="toolbar">
+  <el-col>
     <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
     </el-pagination>
   </el-col>

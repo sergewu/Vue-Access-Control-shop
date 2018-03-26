@@ -143,6 +143,11 @@ export default {
       }]));
     },
     signin: function(callback) {
+      const loading = this.$loading({
+        lock: true,
+        text: '请稍候,正在加载',
+        background: '#fff'
+      });
       let vm = this;
       //检查登录状态
       // let localUser = util.session('token');
@@ -157,6 +162,7 @@ export default {
 
         }
       }).then((res) => {
+        loading.close();
         let userInfo = res.data;
         //取得资源权限对象
         // let resourcePermission = vm.getPermission(userInfo);

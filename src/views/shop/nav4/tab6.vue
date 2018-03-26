@@ -1,7 +1,7 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true" :model="filters">
       <el-form-item prop="time1">
         <el-date-picker v-model="filters.startTime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false" :editable='false'>
@@ -45,7 +45,8 @@
   </el-row>
 
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
+  <div v-loading="listLoading">
+  <el-table :data="users" border highlight-current-row style="width: 100%;">
     <el-table-column prop="account_name" label="会员姓名">
     </el-table-column>
     <el-table-column prop="account_num" label="会员卡号" min-width="120">
@@ -75,6 +76,13 @@
 				</template>
     </el-table-column>
   </el-table>
+  </div>
+
+  <!--工具条-->
+  <el-col>
+    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+    </el-pagination>
+  </el-col>
   <!--编辑界面-->
   <el-dialog title="退款" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="editForm" label-position="right" label-width="90px" :rules="editFormRules" ref="editForm">
@@ -88,11 +96,7 @@
       <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
     </div>
   </el-dialog>
-  <!--工具条-->
-  <el-col :span="24" class="toolbar">
-    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
-    </el-pagination>
-  </el-col>
+
 </section>
 </template>
 
@@ -283,9 +287,6 @@ export default {
         this.users = res.data.accTransList;
         this.listLoading = false;
       });
-    },
-    selsChange: function(sels) {
-      this.sels = sels;
     },
   },
   mounted() {

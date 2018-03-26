@@ -1,37 +1,40 @@
 <template>
-<section>
-  <!--工具条-->
-  <el-row>
-    <el-col :span="24" class="toolbar">
-      <el-form :inline="true" :model="whole">
-        <el-tag type="primary" style="margin:10px 10px 20px 0;">交易总金额（元）：{{whole.sumAmt}}元</el-tag>
-        <el-tag type="primary" style="margin:10px 10px 20px 0;">交易总笔数（笔）：{{whole.countRow}}笔</el-tag>
-        <el-tag type="primary" style="margin:10px 10px 20px 0;">会员卡消费总金额（元）：{{whole.memAmt}}元</el-tag>
-        <el-tag type="primary" style="">会员卡消费总笔数（笔）：{{whole.memCount}}笔</el-tag>
-      </el-form>
-    </el-col>
-  </el-row>
-  <el-form :inline="true" :model="filters" ref="filters">
+  <section>
+    <!--工具条-->
     <el-row>
-      <el-col :span="20" style="padding: 0 0 0 10px">
-        <el-form-item>
-          <el-date-picker v-model="filters.startTime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false" :editable='false'>
-          </el-date-picker> 至
-          <el-date-picker v-model="filters.endTime" type="datetime" placeholder="选择结束日期" :picker-options="pickerOptions2" :clearable="false" :editable='false'>
-          </el-date-picker>
-        </el-form-item>
-        <el-tag type="gray">可查询最近三个月的信息</el-tag>
-      </el-col>
-      <el-col :span="4">
-        <el-form-item style="float:right">
-          <el-button type="text" @click="downExcel()"><i class="el-icon-date"></i>导出Excel</el-button>
-        </el-form-item>
+      <el-col>
+        <el-form :inline="true" :model="whole">
+          <el-tag type="primary" style="margin:10px 10px 20px 0;">交易总金额（元）：{{whole.sumAmt}}元</el-tag>
+          <el-tag type="primary" style="margin:10px 10px 20px 0;">交易总笔数（笔）：{{whole.countRow}}笔</el-tag>
+          <el-tag type="primary" style="margin:10px 10px 20px 0;">会员卡消费总金额（元）：{{whole.memAmt}}元</el-tag>
+          <el-tag type="primary" style="">会员卡消费总笔数（笔）：{{whole.memCount}}笔</el-tag>
+        </el-form>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="20" style="padding: 0 0 0 10px;">
+    <el-form :inline="true" :model="filters" ref="filters">
+      <el-row>
+        <el-col :span="20">
+          <el-form-item>
+            <el-date-picker v-model="filters.startTime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false"
+              :editable='false'>
+            </el-date-picker> 至
+            <el-date-picker v-model="filters.endTime" type="datetime" placeholder="选择结束日期" :picker-options="pickerOptions2" :clearable="false"
+              :editable='false'>
+            </el-date-picker>
+          </el-form-item>
+          <el-tag type="gray">可查询最近三个月的信息</el-tag>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item style="float:right">
+            <el-button type="text" @click="downExcel()">
+            <i class="el-icon-date"></i>导出Excel</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
         <el-form-item prop="parag">
-          <el-select v-model="filters.parag" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
+          <el-select v-model="filters.parag" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
+            :loading="loading" clearable @visible-change="clickShop">
             <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.value">
             </el-option>
           </el-select>
@@ -44,408 +47,415 @@
             </el-option>
           </el-select>
         </el-form-item>
-      </el-col>
-      <el-col :span="4">
         <el-form-item style="float: right;">
           <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
           <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
         </el-form-item>
-      </el-col>
-    </el-row>
-  </el-form>
-  <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange">
-    <el-table-column prop="payTime" label="付款时间" min-width="145">
-    </el-table-column>
-    <el-table-column prop="orderId" label="订单号" min-width="195">
-    </el-table-column>
-    <el-table-column prop="goodsPrice" label="交易金额" width="120">
-    </el-table-column>
-    <el-table-column prop="discount" label="优惠金额" width="120">
-    </el-table-column>
-    <el-table-column prop="status" label="交易状态" width="150" :formatter="formatPay2">
-    </el-table-column>
-    <el-table-column prop="storeName" label="收款门店" width="120">
-    </el-table-column>
-    <el-table-column label="操作" width="180">
-      <template slot-scope="scope">
-					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">交易详情</el-button>
-          <el-button type="danger" size="small" @click="handleRefund(scope.$index, scope.row)">退款</el-button>
-				</template>
-    </el-table-column>
-  </el-table>
-  <!--工具条-->
-  <el-col :span="24" class="toolbar">
-    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
-    </el-pagination>
-  </el-col>
-
-  <!--详情界面-->
-  <el-dialog title="交易详情" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
-    <el-form :model="editForm" label-width="160px" ref="editForm" label-position="left">
-      <el-form-item label="订单号：">
-        <span>{{editForm.orderId}}</span>
-      </el-form-item>
-      <el-form-item label="第三方订单号：">
-        <span>{{editForm.transactionId}}</span>
-      </el-form-item>
-      <el-form-item label="交易金额（元）：">
-        <span>{{editForm.goodsPrice}}</span>
-      </el-form-item>
-      <el-form-item label="付款时间：">
-        <span>{{editForm.payTime}}</span>
-      </el-form-item>
-      <el-form-item label="交易状态：">
-        <span>{{editForm.status}}</span>
-      </el-form-item>
-      <el-form-item label="退款金额（元）：">
-        <span>{{editForm.refundAmount}}</span>
-      </el-form-item>
-      <el-form-item label="收款门店：">
-        <span>{{editForm.storeName}}</span>
-      </el-form-item>
-      <el-form-item label="款台：">
-        <span>{{editForm.username}}</span>
-      </el-form-item>
-      <el-form-item label="支付方式：">
-        <span>{{formatPay1(editForm.payWay)}}</span>
-      </el-form-item>
-      <el-form-item label="备注：">
-        <span>{{editForm.goodsDesc}}</span>
-      </el-form-item>
-      <el-button type="primary" @click="Print" style="margin-left:45%;">补发打印</el-button>
+      </el-row>
     </el-form>
-  </el-dialog>
-  <!--退款界面-->
-  <el-dialog title="退款" :visible.sync="refundFormVisible" :close-on-click-modal="false" width="600px">
-    <el-form :model="refundForm" :rules="refundFormRules" ref="refundForm">
-      <el-form-item label="订单号：">
-        <span>{{refundForm.orderId}}</span>
-      </el-form-item>
-      <el-form-item label="第三方订单号：">
-        <span>{{refundForm.transactionId}}</span>
-      </el-form-item>
-      <el-form-item label="退款金额" prop="amount">
-        <el-input v-model="refundForm.amount" auto-complete="off" placeholder="请输入退款金额"></el-input>
-      </el-form-item>
-      <el-form-item label="备注" prop="address">
-        <el-input v-model="refundForm.desc" auto-complete="off"></el-input>
-      </el-form-item>
-    </el-form>
-    <div slot="footer" class="dialog-footer">
-      <el-button @click.native="refundFormVisible = false">取消</el-button>
-      <el-button type="primary" @click.native="refundSubmit" :loading="refundLoading">提交</el-button>
+    <!--列表-->
+    <div v-loading="listLoading">
+      <el-table :data="users" border highlight-current-row>
+        <el-table-column prop="payTime" label="付款时间" min-width="145">
+        </el-table-column>
+        <el-table-column prop="orderId" label="订单号" min-width="195">
+        </el-table-column>
+        <el-table-column prop="goodsPrice" label="交易金额" width="120">
+        </el-table-column>
+        <el-table-column prop="discount" label="优惠金额" width="120">
+        </el-table-column>
+        <el-table-column prop="status" label="交易状态" width="150" :formatter="formatPay2">
+        </el-table-column>
+        <el-table-column prop="storeName" label="收款门店" width="120">
+        </el-table-column>
+        <el-table-column label="操作" width="180">
+          <template slot-scope="scope">
+            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">交易详情</el-button>
+            <el-button type="danger" size="small" @click="handleRefund(scope.$index, scope.row)">退款</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
-  </el-dialog>
-</section>
+    <!--工具条-->
+    <el-col>
+      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+      </el-pagination>
+    </el-col>
+
+    <!--详情界面-->
+    <el-dialog title="交易详情" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
+      <el-form :model="editForm" label-width="160px" ref="editForm" label-position="left">
+        <el-form-item label="订单号：">
+          <span>{{editForm.orderId}}</span>
+        </el-form-item>
+        <el-form-item label="第三方订单号：">
+          <span>{{editForm.transactionId}}</span>
+        </el-form-item>
+        <el-form-item label="交易金额（元）：">
+          <span>{{editForm.goodsPrice}}</span>
+        </el-form-item>
+        <el-form-item label="付款时间：">
+          <span>{{editForm.payTime}}</span>
+        </el-form-item>
+        <el-form-item label="交易状态：">
+          <span>{{editForm.status}}</span>
+        </el-form-item>
+        <el-form-item label="退款金额（元）：">
+          <span>{{editForm.refundAmount}}</span>
+        </el-form-item>
+        <el-form-item label="收款门店：">
+          <span>{{editForm.storeName}}</span>
+        </el-form-item>
+        <el-form-item label="款台：">
+          <span>{{editForm.username}}</span>
+        </el-form-item>
+        <el-form-item label="支付方式：">
+          <span>{{formatPay1(editForm.payWay)}}</span>
+        </el-form-item>
+        <el-form-item label="备注：">
+          <span>{{editForm.goodsDesc}}</span>
+        </el-form-item>
+        <el-button type="primary" @click="Print" style="margin-left:45%;">补发打印</el-button>
+      </el-form>
+    </el-dialog>
+    <!--退款界面-->
+    <el-dialog title="退款" :visible.sync="refundFormVisible" :close-on-click-modal="false" width="600px">
+      <el-form :model="refundForm" :rules="refundFormRules" ref="refundForm">
+        <el-form-item label="订单号：">
+          <span>{{refundForm.orderId}}</span>
+        </el-form-item>
+        <el-form-item label="第三方订单号：">
+          <span>{{refundForm.transactionId}}</span>
+        </el-form-item>
+        <el-form-item label="退款金额" prop="amount">
+          <el-input v-model="refundForm.amount" auto-complete="off" placeholder="请输入退款金额"></el-input>
+        </el-form-item>
+        <el-form-item label="备注" prop="address">
+          <el-input v-model="refundForm.desc" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click.native="refundFormVisible = false">取消</el-button>
+        <el-button type="primary" @click.native="refundSubmit" :loading="refundLoading">提交</el-button>
+      </div>
+    </el-dialog>
+  </section>
 </template>
 
 <script>
-import * as util from '../../../assets/util.js'
-import {
-  getUserListPage,
-  lookupUser,
-  downOrderExcel,
-  merRefund,
-  supplyPrint,
-  selectStoreList
-} from '../../../api/shop';
+  import * as util from '../../../assets/util.js'
+  import {
+    getUserListPage,
+    lookupUser,
+    downOrderExcel,
+    merRefund,
+    supplyPrint,
+    selectStoreList
+  } from '../../../api/shop';
 
-export default {
-  data() {
-    var myDate = new Date();
-    var amount = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入退款金额'));
-      } else if (!/^(([1-9][0-9]*)|([0]\.[1-9]{1})|([0]\.[1-9][0-9]{1})|([0]\.[0-9][1-9]{1})|([1-9][0-9]*\.\d{0,2}))$/.test(value)) {
-        callback(new Error('请输入正确的退款金额'));
-      }else {
-        callback();
-      }
-    };
-    return {
-      //支付方式
-      optionsScene: [{
-        valueScene: 'WX',
-        labelScene: '微信'
-      }, {
-        valueScene: 'ALI',
-        labelScene: '支付宝'
-      }, {
-        valueScene: 'DEBIT',
-        labelScene: '借记卡'
-      }, {
-        valueScene: 'CREDIT',
-        labelScene: '贷记卡'
-      }],
-      //支付状态
-      optionsState: [{
-        valueState: '1',
-        labelState: '已支付'
-      }, {
-        valueState: '3',
-        labelState: '已支付（有退款）'
-      }, {
-        valueState: '5',
-        labelState: '未知'
-      }],
-      //选择款台
-      options: [],
-      //时间控制
-      pickerOptions1: {
-        disabledDate(time) {
-          return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 90;
+  export default {
+    data() {
+      var myDate = new Date();
+      var amount = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入退款金额'));
+        } else if (!
+          /^(([1-9][0-9]*)|([0]\.[1-9]{1})|([0]\.[1-9][0-9]{1})|([0]\.[0-9][1-9]{1})|([1-9][0-9]*\.\d{0,2}))$/.test(
+            value)) {
+          callback(new Error('请输入正确的退款金额'));
+        } else {
+          callback();
         }
-      },
-      pickerOptions2: {
-        disabledDate(time) {
-          return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 90;
-        }
-      },
-      loading: false,
-      //商户名
-      filters: {
-        startTime: new Date(myDate.getFullYear(),myDate.getMonth(),myDate.getDate()),
-        endTime: new Date(myDate.getFullYear(),myDate.getMonth(),myDate.getDate(), 23 ,59 ,59),
-        play: '',
-        state: '',
-        parag: ''
-      },
-      whole: {
-        sumAmt: "",
-        countRow: ""
-      },
-      total: 0,
-      page: 1,
-      users: [],
-      listLoading: false,
-      sels: [], //列表选中列
-
-      editFormVisible: false, //编辑界面是否显示
-      editLoading: false,
-      //编辑界面数据
-      editForm: {
-        orderId: '',
-        transactionId: '',
-        goodsPrice: '',
-        payTime: '',
-        status: '',
-        storeName: '',
-        refundAmount: '',
-        payWay: ''
-      },
-      refundFormVisible: false, //退款界面是否显示
-      refundLoading: false,
-      refundForm: {
-
-      },
-      refundFormRules: {
-        amount: [{
-          required: true,
-          validator: amount,
-          trigger: 'blur'
+      };
+      return {
+        //支付方式
+        optionsScene: [{
+          valueScene: 'WX',
+          labelScene: '微信'
+        }, {
+          valueScene: 'ALI',
+          labelScene: '支付宝'
+        }, {
+          valueScene: 'DEBIT',
+          labelScene: '借记卡'
+        }, {
+          valueScene: 'CREDIT',
+          labelScene: '贷记卡'
+        }],
+        //支付状态
+        optionsState: [{
+          valueState: '1',
+          labelState: '已支付'
+        }, {
+          valueState: '3',
+          labelState: '已支付（有退款）'
+        }, {
+          valueState: '5',
+          labelState: '未知'
+        }],
+        //选择款台
+        options: [],
+        //时间控制
+        pickerOptions1: {
+          disabledDate(time) {
+            return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 90;
+          }
         },
-        {
-          max: 10,
-          message: '请输入正确的退款金额',
-          trigger: 'blur'
-        }
-      ]
-      }
-    }
-  },
-  methods: {
-    formatPay2: function(row, column) {
-      return row.status == 1 ? '已支付' : row.status == 3 ? '已支付（有退款）' : '未知';
-    },
-    formatPay1: function(row) {
-      return row == 'WX' ? '微信' : row == 'ALI' ? '支付宝' : row == 'DEBIT' ? '借记卡' : row == 'CREDIT' ? '贷记卡' : '未知';
-    },
-    //门店远程搜索
-    clickShop:function () {
-      selectStoreList().then((res) => {
-        let {
-          status,
-          data
-        } = res
-        this.options = data.storeList
-      })
-    },
-    remoteShop(query) {
-      if (query !== '') {
-        this.loading = true;
-        setTimeout(() => {
-          this.loading = false;
-          selectStoreList({
-            sname: query
-          }).then((res) => {
-            let {
-              status,
-              data
-            } = res
-            this.options = data.storeList
-          })
-        }, 200);
-      } else {
-        this.options = [];
-      }
-    },
-    //补发打印
-    Print:function () {
-      let para={
-        orderId:this.editForm.orderId
-      }
-      supplyPrint(para).then((res)=>{
-        let {status,message}=res;
-        if (status==200) {
-          this.$notify({
-            title: '成功',
-            message: message,
-            type: 'success'
-          });
-        }else {
-          this.$notify.error({
-            title: '错误',
-            message: message
-          });
-        }
-      })
-    },
-    //导出Excel
-    downExcel: function(folder, fileName) {
-      let para = {
-        storeId: this.filters.parag,
-        endTime: this.filters.endTime,
-        startTime: this.filters.startTime,
-        payWay: this.filters.play,
-        status: this.filters.state,
-      };
-      para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd hh:mm:ss')));//开始时间
-      para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd hh:mm:ss')));//开始时间
-      downOrderExcel(para).then((res) => {
-        var url = res.request.responseURL;
-        window.location.href = url;
-      })
+        pickerOptions2: {
+          disabledDate(time) {
+            return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 90;
+          }
+        },
+        loading: false,
+        //商户名
+        filters: {
+          startTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()),
+          endTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate(), 23, 59, 59),
+          play: '',
+          state: '',
+          parag: ''
+        },
+        whole: {
+          sumAmt: "",
+          countRow: ""
+        },
+        total: 0,
+        page: 1,
+        users: [],
+        listLoading: false,
+        sels: [], //列表选中列
 
-    },
-    handleCurrentChange(val) {
-      this.page = val;
-      this.getUsers();
-    },
-    //获取用户列表
-    getUsers() {
-      this.listLoading = true;
-      let para = {
-        pageNum: this.page,
-        payWay: this.filters.play,
-        status: this.filters.state,
-        storeId: String(this.filters.parag),
-        startTime: this.filters.startTime,
-        endTime: this.filters.endTime
-      };
-      para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.startTime), 'yyyy/MM/dd hh:mm:ss')));//开始时间
-      para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.endTime), 'yyyy/MM/dd hh:mm:ss')));//开始时间
-      getUserListPage(para).then((res) => {
-        var _this = this;
-        let {
-          data,
-          message,
-          status
-        } = res;
-        if (status == 200) {
-          this.total = res.data.totalCount;
-          this.whole.countRow = res.data.countRow;
-          this.whole.sumAmt = res.data.sumAmt;
-          this.whole.memAmt = res.data.memAmt;
-          this.whole.memCount = res.data.memCount;
-          this.users = res.data.summaryCopyList;
-        }
-        this.listLoading = false;
-      });
-    },
-    //显示退款
-    handleRefund: function(index, row) {
-      this.refundFormVisible = true
-      this.refundForm = Object.assign({}, row);
-    },
-    //确定退款
-    refundSubmit() {
-      this.$refs.refundForm.validate((valid) => {
-        if (valid) {
-          this.$confirm('是否确定退款？', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            let para = {
-              authCode: this.refundForm.orderId,
-              amount: this.refundForm.amount,
-              desc: this.refundForm.desc
+        editFormVisible: false, //编辑界面是否显示
+        editLoading: false,
+        //编辑界面数据
+        editForm: {
+          orderId: '',
+          transactionId: '',
+          goodsPrice: '',
+          payTime: '',
+          status: '',
+          storeName: '',
+          refundAmount: '',
+          payWay: ''
+        },
+        refundFormVisible: false, //退款界面是否显示
+        refundLoading: false,
+        refundForm: {
+
+        },
+        refundFormRules: {
+          amount: [{
+              required: true,
+              validator: amount,
+              trigger: 'blur'
+            },
+            {
+              max: 10,
+              message: '请输入正确的退款金额',
+              trigger: 'blur'
             }
-            merRefund(para).then((res) => {
+          ]
+        }
+      }
+    },
+    methods: {
+      formatPay2: function (row, column) {
+        return row.status == 1 ? '已支付' : row.status == 3 ? '已支付（有退款）' : '未知';
+      },
+      formatPay1: function (row) {
+        return row == 'WX' ? '微信' : row == 'ALI' ? '支付宝' : row == 'DEBIT' ? '借记卡' : row == 'CREDIT' ? '贷记卡' : '未知';
+      },
+      //门店远程搜索
+      clickShop: function () {
+        selectStoreList().then((res) => {
+          let {
+            status,
+            data
+          } = res
+          this.options = data.storeList
+        })
+      },
+      remoteShop(query) {
+        if (query !== '') {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+            selectStoreList({
+              sname: query
+            }).then((res) => {
               let {
                 status,
-                message
-              } = res;
-              if (status == 200) {
-                this.getUsers();
-                this.$message({
-                  type: 'success',
-                  message: message
-                });
-              } else {
-                this.$message.error(message);
-              }
+                data
+              } = res
+              this.options = data.storeList
             })
-            this.refundFormVisible = false;
-          }).catch(() => {
-            this.refundFormVisible = false;
-            this.$message({
-              type: 'info',
-              message: '已取消退款'
+          }, 200);
+        } else {
+          this.options = [];
+        }
+      },
+      //补发打印
+      Print: function () {
+        let para = {
+          orderId: this.editForm.orderId
+        }
+        supplyPrint(para).then((res) => {
+          let {
+            status,
+            message
+          } = res;
+          if (status == 200) {
+            this.$notify({
+              title: '成功',
+              message: message,
+              type: 'success'
             });
-          });
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: message
+            });
+          }
+        })
+      },
+      //导出Excel
+      downExcel: function (folder, fileName) {
+        let para = {
+          storeId: this.filters.parag,
+          endTime: this.filters.endTime,
+          startTime: this.filters.startTime,
+          payWay: this.filters.play,
+          status: this.filters.state,
+        };
+        para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(
+          new Date(para.startTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
+        para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(
+          para.endTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
+        downOrderExcel(para).then((res) => {
+          var url = res.request.responseURL;
+          window.location.href = url;
+        })
+
+      },
+      handleCurrentChange(val) {
+        this.page = val;
+        this.getUsers();
+      },
+      //获取用户列表
+      getUsers() {
+        this.listLoading = true;
+        let para = {
+          pageNum: this.page,
+          payWay: this.filters.play,
+          status: this.filters.state,
+          storeId: String(this.filters.parag),
+          startTime: this.filters.startTime,
+          endTime: this.filters.endTime
+        };
+        para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(
+          para.startTime), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
+        para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(
+          para.endTime), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
+        getUserListPage(para).then((res) => {
+          var _this = this;
+          let {
+            data,
+            message,
+            status
+          } = res;
+          if (status == 200) {
+            this.total = res.data.totalCount;
+            this.whole.countRow = res.data.countRow;
+            this.whole.sumAmt = res.data.sumAmt;
+            this.whole.memAmt = res.data.memAmt;
+            this.whole.memCount = res.data.memCount;
+            this.users = res.data.summaryCopyList;
+          }
+          this.listLoading = false;
+        });
+      },
+      //显示退款
+      handleRefund: function (index, row) {
+        this.refundFormVisible = true
+        this.refundForm = Object.assign({}, row);
+      },
+      //确定退款
+      refundSubmit() {
+        this.$refs.refundForm.validate((valid) => {
+          if (valid) {
+            this.$confirm('是否确定退款？', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              let para = {
+                authCode: this.refundForm.orderId,
+                amount: this.refundForm.amount,
+                desc: this.refundForm.desc
+              }
+              merRefund(para).then((res) => {
+                let {
+                  status,
+                  message
+                } = res;
+                if (status == 200) {
+                  this.getUsers();
+                  this.$message({
+                    type: 'success',
+                    message: message
+                  });
+                } else {
+                  this.$message.error(message);
+                }
+              })
+              this.refundFormVisible = false;
+            }).catch(() => {
+              this.refundFormVisible = false;
+              this.$message({
+                type: 'info',
+                message: '已取消退款'
+              });
+            });
+          }
+        });
+      },
+      //显示编辑界面
+      handleEdit: function (index, row) {
+        this.editFormVisible = true;
+        this.editForm = Object.assign({}, row);
+        var pay = this.editForm.payWay;
+        var state = this.editForm.status;
+        if (state == 1) {
+          this.editForm.status = "已支付"
+        } else if (state == 3) {
+          this.editForm.status = "已支付（有退款）"
+        } else {
+          this.editForm.status = "未知"
+        }
+      },
+      //查询重置
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      },
+    },
+    mounted() {
+      this.getUsers();
+      lookupUser().then((res) => {
+        var _this = this;
+        let {
+          status,
+          message
+        } = res;
+        if (status == 200) {
+          this.options = res.data.storeList;
         }
       });
-    },
-    //显示编辑界面
-    handleEdit: function(index, row) {
-      this.editFormVisible = true;
-      this.editForm = Object.assign({}, row);
-      var pay = this.editForm.payWay;
-      var state = this.editForm.status;
-      if (state == 1) {
-        this.editForm.status = "已支付"
-      } else if (state == 3) {
-        this.editForm.status = "已支付（有退款）"
-      } else {
-        this.editForm.status = "未知"
-      }
-    },
-    selsChange: function(sels) {
-      this.sels = sels;
-    },
-    //查询重置
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-  },
-  mounted() {
-    this.getUsers();
-    lookupUser().then((res) => {
-      var _this = this;
-      let {
-        status,
-        message
-      } = res;
-      if (status == 200) {
-        this.options = res.data.storeList;
-      }
-    });
+    }
   }
-}
+
 </script>
 
 <style scoped>
+
 
 </style>

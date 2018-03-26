@@ -462,6 +462,14 @@
       },
       //切换顶部导航
       handleSelect(change) {
+        const loading = this.$loading({
+          lock: true,
+          text: '请稍候,正在加载',
+          background: '#fff'
+        });
+        setTimeout(() => {
+          loading.close();
+        }, 500);
         if (change === '1') {
           this.$router.push({
             path: "/home"

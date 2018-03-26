@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<!--工具条-->
-		<el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+		<el-row>
 			<el-form :inline="true" :model="filters">
 				<el-form-item>
 					<el-input v-model="filters.name" placeholder="商户名称"></el-input>
@@ -20,40 +20,40 @@
         </el-form-item>
 				<el-form-item style="float:right">
 					<el-button type="primary" @click="handleAdd" size="medium" round>新增卡券</el-button>
-				</el-form-item>
-				<el-form-item style="float:right">
 					<el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
 				</el-form-item>
 			</el-form>
 		</el-row>
 
 		<!--列表-->
-		<el-table border :data="users" highlight-current-row v-loading="listLoading" style="width: 100%;">
-			<el-table-column prop="card_type" label="卡券类型" :formatter="card_type">
-			</el-table-column>
-			<el-table-column prop="title" label="卡券名称" min-width="120">
-			</el-table-column>
-			<el-table-column prop="quantity" label="库存">
-			</el-table-column>
-			<el-table-column prop="get_limit" label="限领次数">
-			</el-table-column>
-      <el-table-column prop="status" label="状态" min-width="90" :formatter="status">
-      </el-table-column>
-			<el-table-column label="操作" min-width="270">
-				<template slot-scope="scope">
-						<el-button type="primary" size="mini" @click="editCard(scope.$index, scope.row)">修改</el-button>
-						<el-button type="primary" size="mini" v-if="scope.row.status!=2" @click="uploadWinxin(scope.$index, scope.row)">上传<i class="el-icon-upload el-icon--right"></i></el-button>
-						<el-button type="primary" size="mini" v-else :disabled="true">已上传</el-button>
-						<el-button type="info" size="mini" @click="deliveryCode(scope.$index, scope.row)">投放二维码</el-button>
-				</template>
-			</el-table-column>
-		</el-table>
+		<div v-loading="listLoading">
+			<el-table border :data="users" highlight-current-row style="width: 100%;">
+				<el-table-column prop="card_type" label="卡券类型" :formatter="card_type">
+				</el-table-column>
+				<el-table-column prop="title" label="卡券名称" min-width="120">
+				</el-table-column>
+				<el-table-column prop="quantity" label="库存">
+				</el-table-column>
+				<el-table-column prop="get_limit" label="限领次数">
+				</el-table-column>
+				<el-table-column prop="status" label="状态" min-width="90" :formatter="status">
+				</el-table-column>
+				<el-table-column label="操作" width="270">
+					<template slot-scope="scope">
+							<el-button type="warning" size="mini" @click="editCard(scope.$index, scope.row)">修改</el-button>
+							<el-button type="success" size="mini" v-if="scope.row.status!=2" @click="uploadWinxin(scope.$index, scope.row)">上传<i class="el-icon-upload el-icon--right"></i></el-button>
+							<el-button type="info" size="mini" v-else :disabled="true">已上传</el-button>
+							<el-button type="success" size="mini" @click="deliveryCode(scope.$index, scope.row)">投放二维码</el-button>
+					</template>
+				</el-table-column>
+			</el-table>
+		</div>
 
 		<!--工具条-->
-		<el-col :span="24" class="toolbar">
+		<el-row>
 			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
 			</el-pagination>
-		</el-col>
+		</el-row>
 
 		<!--新增界面-->
 		<el-dialog title="投放设置" :visible.sync="codeFormVisible" :close-on-click-modal="false" @close="closeDialog" width="600px">

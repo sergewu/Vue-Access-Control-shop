@@ -1,7 +1,7 @@
 <template>
   <section>
     <!--工具条-->
-    <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+    <el-row>
       <el-form :inline="true" :model="filters">
         <el-form-item>
           <el-input v-model="filters.name" placeholder="持卡人姓名"></el-input>
@@ -16,30 +16,38 @@
       </el-form>
     </el-row>
     <!--列表-->
-    <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" @sort-change="sortChange"
-      style="width: 100%;">
-      <el-table-column prop="card_no" label="会员卡号" min-width="120">
-      </el-table-column>
-      <el-table-column prop="wx_name" label="微信昵称">
-      </el-table-column>
-      <el-table-column prop="name" label="持卡人">
-      </el-table-column>
-      <el-table-column prop="phone" label="手机号" min-width="120">
-      </el-table-column>
-      <el-table-column prop="creat_time" label="领卡时间" :formatter="creat_time" min-width="95">
-      </el-table-column>
-      <el-table-column prop="account_bouns" label="积分" sortable="custom" min-width="120" v-if="supplyBouns">
-      </el-table-column>
-      <el-table-column prop="actual_balance" label="余额（元）" sortable="custom" min-width="130" v-if="supplyBalance">
-      </el-table-column>
-      <el-table-column label="操作" min-width="220">
-        <template slot-scope="scope">
-          <el-button size="mini" type="info" @click="makeupEdit(scope.$index, scope.row)">线下消费补录</el-button>
-          <el-button size="mini" type="warning" @click="resetPassword(scope.$index, scope.row)" v-if="supplyBalance">会员卡支付密码重置</el-button>
-          <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">消费记录</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <div v-loading="listLoading">
+      <el-table :data="users" border highlight-current-row @sort-change="sortChange"
+        style="width: 100%;">
+        <el-table-column prop="card_no" label="会员卡号" min-width="120">
+        </el-table-column>
+        <el-table-column prop="wx_name" label="微信昵称">
+        </el-table-column>
+        <el-table-column prop="name" label="持卡人">
+        </el-table-column>
+        <el-table-column prop="phone" label="手机号" min-width="120">
+        </el-table-column>
+        <el-table-column prop="creat_time" label="领卡时间" :formatter="creat_time" min-width="95">
+        </el-table-column>
+        <el-table-column prop="account_bouns" label="积分" sortable="custom" min-width="120" v-if="supplyBouns">
+        </el-table-column>
+        <el-table-column prop="actual_balance" label="余额（元）" sortable="custom" min-width="130" v-if="supplyBalance">
+        </el-table-column>
+        <el-table-column label="操作" width="380">
+          <template slot-scope="scope">
+            <el-button size="mini" type="info" @click="makeupEdit(scope.$index, scope.row)">线下消费补录</el-button>
+            <el-button size="mini" type="warning" @click="resetPassword(scope.$index, scope.row)" v-if="supplyBalance">会员卡支付密码重置</el-button>
+            <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">消费记录</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
+    <!--工具条-->
+    <el-row>
+      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+      </el-pagination>
+    </el-row>
     <!--新增界面-->
     <el-dialog title="线下消费补录" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
       <el-form :model="addForm" label-width="100px" :rules="addFormRules" ref="addForm">
@@ -65,11 +73,6 @@
         <el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
       </div>
     </el-dialog>
-    <!--工具条-->
-    <el-col :span="24" class="toolbar">
-      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
-      </el-pagination>
-    </el-col>
   </section>
 </template>
 
@@ -279,7 +282,6 @@
       },
       //排序
       sortChange(sort) {
-        console.log(sort);
         this.prop = sort.prop;
         this.order = sort.order;
         this.getUsers();
@@ -349,10 +351,7 @@
       handleEdit: function (index, row) {
         var card_no = row.card_no;
         sessionStorage.setItem('card_no', JSON.stringify(card_no));
-        this.$router.push('/tab6');
-      },
-      selsChange: function (sels) {
-        this.sels = sels;
+        this.$router.push('/index/tab6');
       },
     },
     mounted() {

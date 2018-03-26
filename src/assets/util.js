@@ -186,6 +186,13 @@ export const catchError = function(error) {
           type: 'error'
         });
     }
+  }else{
+    Vue.prototype.$message({
+      message: '请检查网络连接，或稍后再试',
+      type: 'error',
+      showClose: true,
+      duration:10000
+    });
   }
   return Promise.reject(error);
 };

@@ -1,7 +1,7 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true" :model="filters">
       <el-form-item>
         <el-input v-model="filters.username" placeholder="请输入款台名称"></el-input>
@@ -17,52 +17,44 @@
   </el-row>
 
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
-    <el-table-column prop="username" label="款台名称" min-width="120">
-    </el-table-column>
-    <el-table-column prop="account" label="登录帐号" min-width="120">
-    </el-table-column>
-    <el-table-column label="款台状态" min-width="120">
-      <template slot-scope="scope">
-          <el-switch
-            name="value"
-            on-text="开启"
-            off-text="关闭"
-            @change.native="test(scope.$index, scope.row)"
-            v-model="scope.row.status">
-          </el-switch>
+  <div v-loading="listLoading">
+    <el-table :data="users" border highlight-current-row style="width: 100%;">
+      <el-table-column prop="username" label="款台名称" min-width="120">
+      </el-table-column>
+      <el-table-column prop="account" label="登录帐号" min-width="120">
+      </el-table-column>
+      <el-table-column label="款台状态">
+        <template slot-scope="scope">
+            <el-switch
+              name="value"
+              @change="test(scope.$index, scope.row)"
+              v-model="scope.row.status">
+            </el-switch>
+          </template>
+      </el-table-column>
+      <el-table-column label="二维码" width="100">
+        <template slot-scope="scope">
+            <el-button type="success" size="mini" @click="handleCode(scope.$index, scope.row)">二维码</el-button>
+          </template>
+      </el-table-column>
+      <el-table-column label="会员支付二维码" width="140" v-if="showVipCode">
+        <template slot-scope="scope">
+            <el-button type="success" size="mini" @click="handleVipCode(scope.$index, scope.row)">会员支付二维码</el-button>
+          </template>
+      </el-table-column>
+      <el-table-column label="操作" width="250">
+        <template slot-scope="scope">
+          <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
+          <el-button type="warning" size="mini" @click="handleModify(scope.$index, scope.row)">修改</el-button>
+          <el-button type="info" size="mini" @click="handleEdit(scope.$index, scope.row)">详情</el-button>
         </template>
-    </el-table-column>
-    <el-table-column label="二维码" width="100">
-      <template slot-scope="scope">
-          <el-button size="small" @click="handleCode(scope.$index, scope.row)">二维码</el-button>
-        </template>
-    </el-table-column>
-    <el-table-column label="会员支付二维码" width="140" v-if="showVipCode">
-      <template slot-scope="scope">
-          <el-button size="small" @click="handleVipCode(scope.$index, scope.row)">会员支付二维码</el-button>
-        </template>
-    </el-table-column>
-    <el-table-column label="密码重置" width="100">
-      <template slot-scope="scope">
-          <el-button size="small" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
-        </template>
-    </el-table-column>
-    <el-table-column label="详情" width="90">
-      <template slot-scope="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">详情</el-button>
-        </template>
-    </el-table-column>
-    <el-table-column label="操作" width="90">
-      <template slot-scope="scope">
-          <el-button size="small" @click="handleModify(scope.$index, scope.row)">修改</el-button>
-          <!-- <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button> -->
-        </template>
-    </el-table-column>
-  </el-table>
+      </el-table-column>
+    </el-table>
+  </div>
+
 
   <!--工具条-->
-  <el-col :span="24" class="toolbar">
+  <el-col>
     <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
     </el-pagination>
   </el-col>
@@ -124,9 +116,6 @@
       <el-form-item label="款台帐号：">
         <span>{{editForm.account}}</span>
       </el-form-item>
-      <!-- <el-form-item label="支付宝操作员编号：">
-          <span>{{editForm.ali_operation_id}}</span>
-        </el-form-item> -->
       <el-form-item label="手机号：">
         <span>{{editForm.phone}}</span>
       </el-form-item>
@@ -660,9 +649,6 @@ export default {
           });
         }
       });
-    },
-    selsChange: function(sels) {
-      this.sels = sels;
     },
   },
   mounted() {

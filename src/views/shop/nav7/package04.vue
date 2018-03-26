@@ -1,7 +1,7 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true" :model="filters">
       <el-form-item prop="name">
         <el-input v-model="filters.name" placeholder="请输入套餐名称"></el-input>
@@ -14,36 +14,37 @@
   </el-row>
 
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
-    <el-table-column prop="pkg_name" label="套餐名称">
-    </el-table-column>
-    <el-table-column prop="price" label="套餐现价">
-    </el-table-column>
-    <el-table-column prop="oprice" label="套餐原价">
-    </el-table-column>
-    <el-table-column prop="level" label="等级标识" min-width="120">
-    </el-table-column>
-    <el-table-column prop="gmt_create" label="创建时间" :formatter="gmt_create">
-    </el-table-column>
-    <el-table-column prop="stock" label="库存">
-    </el-table-column>
-    <el-table-column label="套餐状态" width="100">
-      <template slot-scope="scope">
-          <el-switch
-            name="value"
-            on-text="开启"
-            off-text="关闭"
-            @change.native="pkgStatus(scope.$index, scope.row)"
-            v-model="scope.row.status">
-          </el-switch>
+  <div v-loading="listLoading">
+    <el-table :data="users" border highlight-current-row style="width: 100%;">
+      <el-table-column prop="pkg_name" label="套餐名称">
+      </el-table-column>
+      <el-table-column prop="price" label="套餐现价">
+      </el-table-column>
+      <el-table-column prop="oprice" label="套餐原价">
+      </el-table-column>
+      <el-table-column prop="level" label="等级标识" min-width="120">
+      </el-table-column>
+      <el-table-column prop="gmt_create" label="创建时间" :formatter="gmt_create">
+      </el-table-column>
+      <el-table-column prop="stock" label="库存">
+      </el-table-column>
+      <el-table-column label="套餐状态" width="100">
+        <template slot-scope="scope">
+            <el-switch
+              name="value"
+              @change="pkgStatus(scope.$index, scope.row)"
+              v-model="scope.row.status">
+            </el-switch>
+          </template>
+      </el-table-column>
+      <el-table-column label="操作" width="80">
+        <template slot-scope="scope">
+            <el-button type="warning" size="mini" @click="modifyClick(scope.$index, scope.row)">修改</el-button>
         </template>
-    </el-table-column>
-    <el-table-column label="操作" width="80">
-      <template slot-scope="scope">
-          <el-button type="warning" size="small" @click="modifyClick(scope.$index, scope.row)">修改</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+      </el-table-column>
+    </el-table>
+  </div>
+
   <!-- 修改套餐 -->
   <el-dialog title="修改套餐" :visible.sync="modifyVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="modifyForm" :rules="modify" ref="modifyForm" label-width="90px">
@@ -309,10 +310,10 @@
     </el-form>
   </el-dialog>
   <!--工具条-->
-  <el-col :span="24" class="toolbar">
+  <el-row>
     <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
     </el-pagination>
-  </el-col>
+  </el-row>
 </section>
 </template>
 

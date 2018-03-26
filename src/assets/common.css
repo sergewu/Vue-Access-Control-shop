@@ -32,6 +32,9 @@ a{
 .el-input__inner{
     max-width: 340px;;
 }
+.nav4_tab5_input .el-input__inner{
+	max-width: 100%;
+}
 .iconfont{
     font-family:"iconfont" !important;
     font-size:16px;font-style:normal;

@@ -1,7 +1,7 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true" :model="filters" ref="filters">
       <el-form-item>
         <el-input auto-complete="off" v-model="filters.phone" placeholder="请输入手机号"></el-input>
@@ -22,21 +22,26 @@
   <el-table :data="users" highlight-current-row v-loading="listLoading" style="width: 100%;" border>
     <el-table-column prop="name" label="姓名">
     </el-table-column>
-    <el-table-column prop="phone" label="手机号">
+    <el-table-column prop="phone" label="手机号" min-width="120">
     </el-table-column>
-    <el-table-column prop="card_num" label="会员卡号">
+    <el-table-column prop="card_num" label="会员卡号" min-width="120">
     </el-table-column>
-    <el-table-column prop="car_num" label="车牌号">
+    <el-table-column prop="car_num" label="车牌号" min-width="120">
     </el-table-column>
-    <el-table-column prop="actual_balance" label="账户余额￥">
+    <el-table-column prop="actual_balance" label="账户余额￥" min-width="120">
     </el-table-column>
-    <el-table-column label="操作" width="185">
+    <el-table-column label="操作" width="190">
       <template slot-scope="scope">
-        	<el-button type="success" size="small" @click="clickRecharge(scope.$index, scope.row)">充值</el-button>
-					<el-button type="danger" size="small" @click="clickRelieve(scope.$index, scope.row)">解除绑定<i class="el-icon-edit el-icon--right"></i></el-button>
+        	<el-button type="success" size="mini" @click="clickRecharge(scope.$index, scope.row)">充值</el-button>
+					<el-button type="danger" size="mini" @click="clickRelieve(scope.$index, scope.row)">解除绑定<i class="el-icon-edit el-icon--right"></i></el-button>
 				</template>
     </el-table-column>
   </el-table>
+  <!--工具条-->
+  <el-col>
+    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+    </el-pagination>
+  </el-col>
   <!--绑定会员-->
   <el-dialog title="会员卡充值" :visible.sync="dialogBindingVisible" width="600px">
     <el-form :model="form" ref="form" :rules="formRules" label-position="right" label-width="100px">
@@ -55,11 +60,6 @@
       <el-button type="primary" @click="submitRecharge">确 定</el-button>
     </div>
   </el-dialog>
-  <!--工具条-->
-  <el-col :span="24" class="toolbar">
-    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
-    </el-pagination>
-  </el-col>
 </section>
 </template>
 
