@@ -69,8 +69,10 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="分红率(%)" prop="abonus">
-            <el-input v-model.number="modifyForm.abonus"></el-input>
+          <el-form-item label="分红率" prop="abonus">
+            <el-tooltip class="item" effect="dark" content="填(0.1)表示分红率百分之十" placement="top">
+              <el-input v-model.number="modifyForm.abonus"></el-input>
+            </el-tooltip>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -188,7 +190,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="套餐等级" prop="Grade">
-              <el-select v-model="establishForm.Grade" placeholder="请选择" :clearable='true'>
+              <el-select v-model="establishForm.Grade" placeholder="请选择套餐等级" :clearable='true'>
                 <el-option
                   v-for="item in gradeOptions"
                   :key="item.id"
@@ -201,8 +203,10 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="分红率(%)" prop="abonus">
-            <el-input v-model.number="establishForm.abonus"></el-input>
+          <el-form-item label="分红率" prop="abonus">
+            <el-tooltip class="item" effect="dark" content="填(0.1)表示分红率百分之十" placement="top">
+              <el-input v-model.number="establishForm.abonus"></el-input>
+            </el-tooltip>
           </el-form-item>
         </el-col>
         <el-col :span="12">
