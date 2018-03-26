@@ -264,7 +264,7 @@ export default {
   },
   methods: {
     isTab(){
-      instance.post(`/pay1/syscore/checkPermission`, {
+      instance.post(`/pay/syscore/checkPermission`, {
         code:this.$route.meta.code
       }).then((res) => {        
         if (res.data.status===200) {

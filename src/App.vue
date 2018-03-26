@@ -11,6 +11,9 @@ import Vue from 'vue';
 import instance from './api';
 import userPath from './router/fullpath';
 import * as util from './assets/util.js';
+import {
+  batchRemoveUser
+} from './api/shop';
 
 //请求拦截句柄
 let myInterceptor;
@@ -149,7 +152,7 @@ export default {
       //设置请求头统一携带token
       // instance.defaults.headers.common['Authorization'] = 'Bearer ' + localUser.token;
       //获取用户信息及权限数据
-      instance.get(`/pay1/syscore/menu`, {
+      instance.get(`/pay/syscore/menu`, {
         params: {
 
         }
@@ -209,6 +212,7 @@ export default {
       this.$router.replace({path: '/login'});
       //清除动态标签
       this.$store.dispatch('delAllViews')
+      batchRemoveUser()
     }
   },
   created: function(newPath) {
