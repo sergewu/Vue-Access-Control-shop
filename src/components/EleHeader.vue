@@ -190,7 +190,7 @@
               mpwd,
               mpwd2
             };
-            modifyPassword(modifypass).then(res => {
+            modifyPassword(modifypass).then(res => {  
               let {
                 status,
                 message
