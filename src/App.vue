@@ -139,7 +139,7 @@ export default {
       //注入路由
       vm.$router.addRoutes(originPath.concat([{
         path: '*',
-        redirect: '/login'
+        redirect: '/404'
       }]));
     },
     signin: function(callback) {

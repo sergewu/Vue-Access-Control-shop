@@ -136,7 +136,7 @@
             var user = res.data.userName;
             sessionStorage.setItem('user', JSON.stringify(user));
             sessionStorage.setItem('name', JSON.stringify(name));
-            vm.$emit('login', '/home');
+            vm.$emit('login', '/index/table');
           } else {
             this.clickCode()
           }
