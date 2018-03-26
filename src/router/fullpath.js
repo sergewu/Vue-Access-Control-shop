@@ -1,9 +1,9 @@
 import shoppath from './shoppath'
 const path = [{
     path: '/',
-    name: '首页',
+    name: '',
     meta: {
-      title: '首页', noCache: true  
+      title: '', noCache: true  
     },
     component: (resolve) => require(['../views/index.vue'], resolve),
     children: shoppath
