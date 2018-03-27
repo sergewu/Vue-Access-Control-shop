@@ -110,10 +110,7 @@
       },
       cachedViews() {
         return this.$store.state.tagsView.cachedViews
-      },
-      // accessPerMission() {
-      //   return this.$store.state.perMission.accessPerMission
-      // }
+      }
     },
     watch: {
       $route() {

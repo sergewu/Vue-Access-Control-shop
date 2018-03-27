@@ -82,6 +82,10 @@
 <script>
   import CryptoJS from "crypto-js";
   import errGif from '../assets/images/401.gif'
+  import {
+  batchRemoveUser,
+  modifyPassword
+} from '../api/shop';
   export default {
     data() {
       //  修改密码
@@ -196,24 +200,16 @@
                 message
               } = res;
               if (status == 200) {
-                this.$notify({
-                  title: '成功',
+                this.$message({
                   message: message,
                   type: 'success'
                 });
-                _this.$emit("logout");
-              } else if (status == 301) {
-                this.$notify({
-                  title: '警告',
-                  message: message,
-                  type: 'warning'
-                });
-                _this.$emit("logout");
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: message
-                });
+                //清除菜单权限
+                this.$root.hashMenus = {};
+                //回到登录页
+                this.$router.replace({path: '/login'});
+                //清除动态标签
+                this.$store.dispatch('delAllViews')
               }
             });
           } else {
@@ -228,12 +224,19 @@
           cancelButtonText: "取消",
           type: "info"
         }).then(() => {
-          this.$emit("logout");
-        }).catch(() => {});
+          //清除菜单权限
+          this.$root.hashMenus = {};
+          //回到登录页
+          this.$router.replace({path: '/login'});
+          //清除动态标签
+          this.$store.dispatch('delAllViews')
+          batchRemoveUser()
+        }).catch(() => {
+          this.$message('退出失败');
+        });
       },
       //切换顶部导航
       handleSelect(change) {
-        this.activeIndex = change
         const loading = this.$loading({
           lock: true,
           text: '请稍候,正在加载',
