@@ -122,7 +122,6 @@
         editFormVisible: false, //修改密码弹窗是否显示
         editLoading: false,
         logining: false,
-        activeIndex: "",
         //修改密码弹窗数据
         ruleForm: {
           pass: '',
@@ -167,6 +166,11 @@
             }
           ]
         }
+      }
+    },
+    computed: {
+      activeIndex() {
+        return this.$store.state.perMission.activeIndex
       }
     },
     methods: {
@@ -246,10 +250,12 @@
           loading.close();
         }, 500);
         if (change === '1') {
+          this.$store.dispatch('top_nav', '1')
           this.$router.push({
             path: "/home"
           });
         } else if (change === '2') {
+          this.$store.dispatch('top_nav', '2')
           this.$router.push({
             path: "/index/table"
           });

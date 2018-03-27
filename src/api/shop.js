@@ -240,3 +240,9 @@ export const merDataSumShow = params => { return instance.post(`${preUrlPath}/pa
 export const getNotices = params => { return instance.post(`${preUrlPath}/pay/sys/getNotices`,params).then(res => res.data); };
 //公告详情
 export const getNoticeById = params => { return instance.post(`${preUrlPath}/pay/sys/getNoticeById`,params).then(res => res.data); };
+//人工补录
+export const queryInviter = params => { return instance.post(`${preUrlPath}/pay/activity/queryInviter`,params).then(res => res.data); };
+//人工补录
+export const queryMember = params => { return instance.post(`${preUrlPath}/pay/comm/queryMember`,params).then(res => res.data); };
+//人工补录
+export const makeUpPurchase = params => { return instance.post(`${preUrlPath}/pay/activity/makeUpPurchase`,params).then(res => res.data); };

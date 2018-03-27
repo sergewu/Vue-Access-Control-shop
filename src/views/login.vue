@@ -136,6 +136,7 @@
             var user = res.data.userName;
             sessionStorage.setItem('user', JSON.stringify(user));
             sessionStorage.setItem('name', JSON.stringify(name));
+            this.$store.dispatch('top_nav', '2')
             vm.$emit('login', '/index/table');
           } else {
             this.clickCode()

@@ -1,9 +1,16 @@
 const perMission = {
   state: {
-    accessPerMission: true,
+    activeIndex: ''
   },
   mutations: {
-  	increment: state => state.accessPerMission=false,
+    TOP_NAV: (state, view) => {
+      state.activeIndex=view
+    },
+  },
+  actions: {
+    top_nav({ commit }, view) {
+      commit('TOP_NAV', view)
+    }
   }
 }
 export default perMission
