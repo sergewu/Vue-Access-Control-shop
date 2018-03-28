@@ -1,7 +1,7 @@
 import Abstract from '../views/common/abstract.vue';
 
 export default [{
-    path: '/index',
+    path: '/index1',
     name: '数据统计',
     meta: {
       icon: 'icon-shujutongji'
@@ -23,14 +23,14 @@ export default [{
       component: (resolve) => require(['../views/shop/nav1/Table2.vue'], resolve)
     },{
       path: 'table3',
-      name: '门店汇总内测',
+      name: '门店汇总查询',
       meta: {
-        title: '门店汇总内测', icon: 'table', noCache: true, code:''
+        title: '门店汇总查询', icon: 'table', noCache: true, code:''
       },
       component: (resolve) => require(['../views/shop/nav1/Table3.vue'], resolve)
     }]
   },{
-    path: '/index',
+    path: '/index2',
     name: '商家设置',
     meta: {
       icon: 'icon-shangjia'
@@ -52,7 +52,7 @@ export default [{
       component: (resolve) => require(['../views/shop/nav2/Page2.vue'], resolve)
     }]
   },{
-    path: '/index',
+    path: '/index2',
     name: '配置设置',
     meta: {
       icon: 'icon-peizhi'
@@ -74,7 +74,7 @@ export default [{
       component: (resolve) => require(['../views/shop/nav3/configure2.vue'], resolve)
     }]
   },{
-    path: '/index',
+    path: '/index3',
     name: '会员管理',
     meta: {
       icon: 'icon-qiaquan'
@@ -194,7 +194,7 @@ export default [{
       component: (resolve) => require(['../views/shop/nav4/tab8.vue'], resolve)
     }]
   },{
-    path: '/index',
+    path: '/index3',
     name: '会员套餐',
     meta: {
       icon: 'icon-huiyuan'
@@ -230,7 +230,7 @@ export default [{
       component: (resolve) => require(['../views/shop/nav7/package04.vue'], resolve)
     }]
   },{
-    path: '/index',
+    path: '/index3',
     name: '积分商城',
     meta: {
       icon: 'icon-jifen'
@@ -255,7 +255,7 @@ export default [{
     path: '/bill1',
     name: '总交易账单',
     meta: {
-      title: '总交易账单', icon: 'icon-icon--', noCache: true, code:'20180308145050_98'
+      title: '总交易账单', icon: 'icon-icon--', noCache: true, code:''
     },
     component: (resolve) => require(['../views/shop/nav6/bill1.vue'], resolve)
   }]

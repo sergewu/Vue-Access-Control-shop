@@ -159,32 +159,29 @@ export const dateFormat = function (source, ignore_minute) {
 export const catchError = function(error) {      
   if (error.data) {
     switch (error.data.status) {
-      case 400:
+      case 300:
         Vue.prototype.$message({
-          message: error.data.message || '请求参数异常',
+          message: error.data.message || '操作失败！',
           type: 'error'
         });
         break;
-      case 401:
+      case 301:
         Vue.prototype.$message({
-          message: error.data.message || '密码错误或账号不存在！',
+          message: error.data.message || '登录超时！',
           type: 'warning',
           onClose: function(){
             location.reload();
           }
         });
         break;
-      case 403:
+      case 302:
         Vue.prototype.$message({
-          message: error.data.message || '无访问权限，请联系企业管理员',
+          message: error.data.message || '尚未登陆！',
           type: 'warning'
         });
         break;
       default:
-        Vue.prototype.$message({
-          message: error.data.message || '服务端异常，请联系技术支持',
-          type: 'error'
-        });
+        return Promise.reject(error)
     }
   }else{
     Vue.prototype.$message({

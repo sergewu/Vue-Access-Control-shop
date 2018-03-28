@@ -159,7 +159,7 @@ export default {
       //获取用户信息及权限数据
       instance.get(`/pay/syscore/menu`, {
         params: {
-
+          flag:sessionStorage.getItem('menu')||'false'
         }
       }).then((res) => {
         loading.close();
@@ -213,11 +213,12 @@ export default {
       instance.interceptors.request.eject(myInterceptor);
       //清除菜单权限
       this.$root.hashMenus = {};
-      //回到登录页
-      this.$router.replace({path: '/login'});
       //清除动态标签
       this.$store.dispatch('delAllViews')
-      batchRemoveUser()
+      batchRemoveUser().then(res=>{
+        //回到登录页
+        this.$router.push({path: '/login'});
+      })
     }
   },
   created: function(newPath) {

@@ -635,7 +635,7 @@ export default {
                   type: 'success'
                 });
                 _this.$router.push({
-                  path: '/tab7'
+                  path: '/index3/tab7'
                 })
               } else {
                 this.$notify.error({

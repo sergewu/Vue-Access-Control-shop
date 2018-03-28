@@ -28,6 +28,13 @@ const path = [{
     icon: 'icon-shujutongji'
   },
   component:  (resolve) => require(['../views/index/noticeDetails.vue'], resolve)
+},{
+  path: '/notonline',
+  name: '敬请期待',
+  meta: {
+    icon: 'icon-shujutongji'
+  },
+  component: (resolve) => require(['../views/index/notonline.vue'], resolve)
 }]
 
 export default path;

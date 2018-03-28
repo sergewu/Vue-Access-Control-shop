@@ -70,7 +70,7 @@
     },
     methods: {
       returnClick(){
-        this.$router.push({path: '/tab3'})
+        this.$router.push({path: '/index3/tab3'})
       },
       onSubmit() {
         this.$refs.form.validate((valid) => {
@@ -91,7 +91,7 @@
                     message: message,
                     type: 'success'
                   });
-                  _this.$router.push({path: '/tab3'})
+                  _this.$router.push({path: '/index3/tab3'})
                 }
               })
             });

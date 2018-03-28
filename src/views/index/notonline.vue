@@ -1,68 +1,10 @@
-<style scoped lang="scss">
-  .navmenu {
-    background-color: #DCDFE6
-  }
-
-  .navmenu_vertical {
-    height: 100%;
-    background-color: #DCDFE6;
-    float: left;
-  }
-
-  .el_menu_vertical {
-    margin-top: -36px;
-  }
-
-  .el_menu_vertical:not(.el-menu--collapse) {
-    width: 200px;
-    min-height: 400px;
-    margin-top: -36px;
-  }
-
-  .route_icon {
-    color: #fff;
-  }
-
-  .el_menu_horizontal {
-    border: none;
-    float: right;
-  }
-
-  .top_logo {
-    width: 180px;
-    float: left;
-  }
-
-  .top_logo img {
-    width: 30%;
-    margin-top: 17px;
-    float: left;
-  }
-
-  .top_logo span {
-    font-size: 18px;
-    font-weight: bolder;
-    color: #284890;
-    line-height: 60px;
-  }
-
-  .menu_icon {
-    line-height: 32px;
-  }
-
-  .menu_icon span i {
-    font-size: 24px;
-  }
-
-</style>
 <template>
-  <div>
-    <el-container style="height:100%">
+  <el-container style="height:100%">
       <el-header style="background: #fff;">
         <el-row>
           <el-col :span="5">
             <div class="top_logo">
-              <img src="../assets/images/logo4.png" />
+              <img src="../../assets/images/logo4.png" />
               <span>万 鼎 科 技</span>
             </div>
             <el-button type="text" @click="isCollapse=!isCollapse" class="menu_icon">
@@ -110,57 +52,26 @@
             </el-form-item>
           </el-form>
         </el-dialog>
-      </el-header>
-      <TagsView v-bind:style="{ marginLeft: isCollapseSty }"></TagsView>
-      <el-container style="border: 1px solid #eee;">
-        <el-menu :default-active="activeMenu" class="el_menu_vertical" unique-opened :collapse="isCollapse" router background-color="#414F61"
-          text-color="#fff" active-text-color="#409EFF">
-          <template v-for="(route, index) in menus">
-            <template v-if="route.children">
-              <el-submenu :key="index" :index="route.name">
-                <template slot="title">
-                  <i class="iconfont route_icon" v-bind:class="[route.meta.icon]"></i>
-                  <span slot="title">{{route.meta.name || route.name}}</span>
-                </template>
-                <el-menu-item v-for="(cRoute, cIndex) in route.children" :key="cIndex" :index="cRoute.name" :route="cRoute" v-if="!cRoute.meta.hidden">
-                  {{cRoute.meta.name || cRoute.name}}
-                </el-menu-item>
-              </el-submenu>
-            </template>
-            <template v-else>
-              <el-menu-item :key="index" :route="route" :index="route.name">
-                <i class="iconfont route_icon" v-bind:class="[route.meta.icon]"></i>
-                <span slot="title">{{route.meta.name || route.name}}</span>
-              </el-menu-item>
-            </template>
-          </template>
-        </el-menu>
-        <el-main>
-          <template>
-            <transition name="fade" mode="out-in">
-              <keep-alive :include="cachedViews">
-                <ErrorPage v-if="accessPerMission"></ErrorPage>
-                <router-view v-else id="main"></router-view>
-              </keep-alive>
-            </transition>
-          </template>
-        </el-main>
-      </el-container>
-    </el-container>
-  </div>
+    <el-main>
+      <div class="notonline_main">
+        <h1>敬请期待</h1>
+      </div>
+    </el-main>
+    </el-header>
+  </el-container>
 </template>
 <script>
   import {
     TagsView,
     EleHeader,
     ErrorPage
-  } from '../components'
-  import instance from "../api";
+  } from '../../components'
+  import instance from "../../api";
   import CryptoJS from "crypto-js";
   import {
     modifyPassword,
     batchRemoveUser
-  } from '../api/shop';
+  } from '../../api/shop';
   //  修改密码
   var validatePass = (rule, value, callback) => {
     if (value === "") {
@@ -415,5 +326,30 @@
       }
     }
   };
-
 </script>
+<style scoped lang="scss">
+  .top_logo {
+    width: 180px;
+    float: left;
+  }
+
+  .top_logo img {
+    width: 30%;
+    margin-top: 17px;
+    float: left;
+  }
+
+  .top_logo span {
+    font-size: 18px;
+    font-weight: bolder;
+    color: #284890;
+    line-height: 60px;
+  }
+
+  .notonline_main {
+    text-align: center
+  }
+  .menu_icon span i {
+    font-size: 24px;
+  }
+</style>

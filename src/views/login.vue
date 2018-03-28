@@ -98,7 +98,10 @@
     },
     //首次加载验证码
     mounted() {
-      this.user.code = login.getCode.r;
+      let para = {
+        timestamp: (new Date()).valueOf()
+      }
+      this.user.code = login.getCode.r + "?" + "timestamp=" + para.timestamp;
     },
     methods: {
       //回车登录
@@ -137,7 +140,8 @@
             sessionStorage.setItem('user', JSON.stringify(user));
             sessionStorage.setItem('name', JSON.stringify(name));
             this.$store.dispatch('top_nav', '2')
-            vm.$emit('login', '/index/table');
+            sessionStorage.setItem('menu', JSON.stringify(1));
+            vm.$emit('login', '/index1/table');
           } else {
             this.clickCode()
           }

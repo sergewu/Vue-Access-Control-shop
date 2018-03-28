@@ -351,7 +351,7 @@
       handleEdit: function (index, row) {
         var card_no = row.card_no;
         sessionStorage.setItem('card_no', JSON.stringify(card_no));
-        this.$router.push('/index/tab6');
+        this.$router.push('/index3/tab6');
       },
     },
     mounted() {

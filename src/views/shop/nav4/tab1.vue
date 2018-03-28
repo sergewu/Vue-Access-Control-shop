@@ -406,7 +406,7 @@
 				var id=row.id;
 				sessionStorage.setItem('id', JSON.stringify(id));
 				this.$router.push({
-					path: '/index/tab1-modify',
+					path: '/index3/tab1-modify',
 				});
 			},
 			//充值设置
@@ -414,7 +414,7 @@
 				var wxcard_id=row.wxcard_id;
 				sessionStorage.setItem('wxcard_id', JSON.stringify(wxcard_id));
 				this.$router.push({
-					path: '/index/tab11',
+					path: '/index3/tab11',
 				});
 			},
 			//修改库存
@@ -478,7 +478,7 @@
 			//新增
 			handleAdd:function () {
 				var _this = this;
-				_this.$router.push('/index/tab1s');
+				_this.$router.push('/index3/tab1s');
 			},
 			//上传微信
 			uploadWinxin:function (index,row) {

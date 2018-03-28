@@ -230,7 +230,7 @@
 				var id=row.id;
 				sessionStorage.setItem('id', JSON.stringify(id));
 				this.$router.push({
-					path: '/index/tab7-modify',
+					path: '/index3/tab7-modify',
 				});
 			},
 			//卡券状态转换
@@ -300,7 +300,7 @@
 				let card_type=this.addForm.card_type;
 				sessionStorage.setItem('card_type', JSON.stringify(card_type));
 				this.$router.push({
-					path: '/index/tab7s'
+					path: '/index3/tab7s'
 				});
 			},
 		},

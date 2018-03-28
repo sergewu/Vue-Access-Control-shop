@@ -340,7 +340,8 @@
         repairForm: {
           id:'',
           phone:'',
-          card_no:''
+          card_no:'',
+          value:''
         },
         uploadUrl: process.env.API_ROOT + '/pay/weixin/activity/insertPkgProductPic',
         gradeOptions: [],
@@ -553,18 +554,21 @@
     methods: {
       repairsumbil(){
         let para = {
-          productId:this.repairForm.id.toString(),
-          memId:this.vipMember.id.toString(),
-          inviterId:this.repairForm.value.toString()
+          productId:String(this.repairForm.id),
+          memId:String(this.vipMember.id),
+          inviterId:String(this.repairForm.value)
         }
         makeUpPurchase(para).then(res=>{
-          this.vipMember = {}
+
+          if(res.status===200){
+                      this.vipMember = {}
           this.repairForm.card_no = ''
           this.repairDialogVisible = false
-          this.$message({
+                      this.$message({
             message: res.message,
             type: 'success'
           });
+          }
         })
       },
       //门店远程搜索
@@ -604,7 +608,11 @@
               card_no:this.repairForm.card_no
             }
             queryMember(para).then(res=>{
-              this.vipMember = res.data.member
+              if(res.data.member){
+                this.vipMember = res.data.member
+              }else{
+                this.vipMember = {}
+              }
             })
           } else {
             return false;

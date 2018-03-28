@@ -302,7 +302,7 @@ export default {
       var cid=String(row.id);
       sessionStorage.setItem('cid', JSON.stringify(cid));
       var _this = this;
-      _this.$router.push('/index/tab8');
+      _this.$router.push('/index3/tab8');
     },
     //查看交易明细
     clickDetailed(index,row){
@@ -370,7 +370,7 @@ export default {
     //新增公司账户
     handleAdd: function() {
       var _this = this;
-      _this.$router.push('/index/tab3s');
+      _this.$router.push('/index3/tab3s');
     }
   },
   mounted() {
