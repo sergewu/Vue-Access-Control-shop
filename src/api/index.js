@@ -3,7 +3,7 @@ import * as util from '../assets/util.js';
 
 const instance = axios.create({
   baseURL: process.env.API_ROOT,
-  timeout: 50000
+  timeout: 40000
 });
 
 instance.defaults.headers.post['Content-Type'] = 'application/json';

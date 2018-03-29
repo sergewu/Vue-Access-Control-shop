@@ -246,3 +246,5 @@ export const queryInviter = params => { return instance.post(`${preUrlPath}/pay/
 export const queryMember = params => { return instance.post(`${preUrlPath}/pay/comm/queryMember`,params).then(res => res.data); };
 //人工补录
 export const makeUpPurchase = params => { return instance.post(`${preUrlPath}/pay/activity/makeUpPurchase`,params).then(res => res.data); };
+//商户交易日汇总
+export const queryMerDaySum = params => { return instance.post(`${preUrlPath}/pay/mer/queryMerDaySum`,params).then(res => res.data); };

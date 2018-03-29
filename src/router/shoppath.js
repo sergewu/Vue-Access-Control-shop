@@ -28,6 +28,13 @@ export default [{
         title: '门店汇总查询', icon: 'table', noCache: true, code:''
       },
       component: (resolve) => require(['../views/shop/nav1/Table3.vue'], resolve)
+    },{
+      path: 'table4',
+      name: '日汇总查询',
+      meta: {
+        title: '日汇总查询', icon: 'table', noCache: true, code:''
+      },
+      component: (resolve) => require(['../views/shop/nav1/Table4.vue'], resolve)
     }]
   },{
     path: '/index2',
