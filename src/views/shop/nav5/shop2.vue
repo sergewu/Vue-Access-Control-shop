@@ -41,7 +41,7 @@
 
 		<!--工具条-->
 		<el-row>
-			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+			<el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
 			</el-pagination>
 		</el-row>
 	</section>
@@ -81,21 +81,23 @@
 			},
 			handleCurrentChange(val) {
 				this.page = val;
-				this.getUsers();
+				this.getList();
+			},
+			getUsers(){
+				this.page = 1
+				this.getList()
 			},
 			//获取用户列表
-			getUsers() {
+			getList() {
 				let para = {
 					pagNum: this.page,
 					status: this.filters.status
 				};
 				this.listLoading = true;
-				//
 				queryShopOrderList(para).then((res) => {
 					this.total = res.data.total;
 					this.users = res.data.shopOrderList;
 					this.listLoading = false;
-					//
 				});
 			},
 		},

@@ -34,38 +34,40 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item style="float:right">
-        <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
+        <el-button type="primary" @click="getUsers(true)" size="medium" round>查询</el-button>
         <el-button type="text" @click="submitForm('ruleForm')">账单下载</el-button>
       </el-form-item>
     </el-form>
   </el-row>
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
-    <el-table-column prop="settled_Time" label="统计日期" min-width="120">
-    </el-table-column>
-    <el-table-column prop="saccount" label="商户编号" min-width="120">
-    </el-table-column>
-    <el-table-column prop="sname" label="商户名称" min-width="120">
-    </el-table-column>
-    <el-table-column prop="pay_type" label="付款方式">
-    </el-table-column>
-    <el-table-column prop="amount" label="交易金额">
-    </el-table-column>
-    <el-table-column prop="discount" label="优惠金额">
-    </el-table-column>
-    <el-table-column prop="refund_amt" label="退款金额">
-    </el-table-column>
-    <el-table-column prop="rate" label="费率‰">
-    </el-table-column>
-    <el-table-column prop="factorage" label="交易手续费" min-width="120">
-    </el-table-column>
-    <el-table-column prop="surplus" label="划账金额">
-    </el-table-column>
-  </el-table>
+  <div v-loading="listLoading">
+    <el-table :data="users" border highlight-current-row style="width: 100%;">
+      <el-table-column prop="settled_Time" label="统计日期" min-width="120">
+      </el-table-column>
+      <el-table-column prop="saccount" label="商户编号" min-width="120">
+      </el-table-column>
+      <el-table-column prop="sname" label="商户名称" min-width="120">
+      </el-table-column>
+      <el-table-column prop="pay_type" label="付款方式">
+      </el-table-column>
+      <el-table-column prop="amount" label="交易金额">
+      </el-table-column>
+      <el-table-column prop="discount" label="优惠金额">
+      </el-table-column>
+      <el-table-column prop="refund_amt" label="退款金额">
+      </el-table-column>
+      <el-table-column prop="rate" label="费率‰">
+      </el-table-column>
+      <el-table-column prop="factorage" label="交易手续费" min-width="120">
+      </el-table-column>
+      <el-table-column prop="surplus" label="划账金额">
+      </el-table-column>
+    </el-table>
+  </div>
 
   <!--工具条-->
   <el-row>
-    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+    <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
     </el-pagination>
   </el-row>
 
@@ -146,7 +148,7 @@ export default {
       loading: false,
       users: [],
       page: 1,
-      total: 0,
+      total: null,
       listLoading: false,
       sels: [], //列表选中列
 
@@ -207,16 +209,15 @@ export default {
         // para.payWay = para.payWay == 0 ? 'WX' : 'ALI';
         para.startTime = (!para.startTime || para.startTime == '') ? '' : util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd');
         para.endTime = (!para.endTime || para.endTime == '') ? '' : util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd');
-        downStrSumExcel(para).then((res)=>{
-          window.location.href=process.env.API_ROOT+"/pay/mer/downStrSumExcel"+"?"+"payType="+para.payType+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime+"&"+"sid="+para.sid;
-        })
+
+        window.location.href=process.env.API_ROOT+"/pay/mer/downStrSumExcel"+"?"+"payType="+para.payType+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime+"&"+"sid="+para.sid;
     },
     handleCurrentChange(val) {
       this.page = val;
-      this.getUsers();
+      this.getList()
+      
     },
-    //获取用户列表
-    getUsers() {
+    getList(){
       let para = {
         pageNum: this.page,
         sid: String(this.filters.state1),
@@ -227,7 +228,6 @@ export default {
       para.startTime = (!para.startTime || para.startTime == '') ? '' : util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd');
       para.endTime = (!para.endTime || para.endTime == '') ? '' : util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd');
       this.listLoading = true;
-      //console.log(para);
       queryStrStatement(para).then((res) => {
         let {
           status,
@@ -239,8 +239,11 @@ export default {
           this.listLoading = false;
         }
       });
-
-      //console.log()
+    },
+    //获取用户列表
+    getUsers() {
+      this.page = 1
+      this.getList()
     },
     //显示编辑界面
     handleEdit: function(index, row) {

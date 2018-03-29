@@ -358,10 +358,14 @@ export default {
 
     handleCurrentChange(val) {
       this.page = val;
-      this.getUsers();
+      this.getList();
+    },
+    getUsers(){
+      this.page = 1
+      this.getList()
     },
     //获取用户列表
-    getUsers() {
+    getList() {
       let para = {
         pageNum: this.page,
         printname: this.filters.printname

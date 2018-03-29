@@ -45,7 +45,7 @@
 
     <!-- 人工补录 -->
     <el-dialog title="人工补录" :visible.sync="repairDialogVisible" :close-on-click-modal="false" width="800px">
-      <el-form ref="repairForm" :model="repairForm" :rules="repairRulesForm" label-width="80px" >
+      <el-form ref="repairForm" :model="repairForm" :rules="repairRulesForm" label-width="100px" >
         <el-row>
           <el-col :span="8">
             <el-form-item label="会员卡号" prop="card_no">
@@ -53,12 +53,28 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="手机号">
-              <el-input v-model="repairForm.phone"></el-input>
+            <el-form-item>
+              <el-button type="success" round @click="repairQuery('repairForm')">立即查询</el-button>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
+
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="邀请人">
+            <div class="grid-content">会员姓名：<span>{{vipMember.name}}</span></div>
+          </el-col>
+          <el-col :span="8">
+            <div class="grid-content">会员卡号：<span>{{vipMember.card_no}}</span></div>
+          </el-col>
+          <el-col :span="8">
+            <div class="grid-content">手机号：<span>{{vipMember.phone}}</span></div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="选择邀请人">
               <template>
                   <el-select v-model="repairForm.value" placeholder="请选择邀请人" :multiple="false" filterable remote :remote-method="remoteRepair" :loading="repairLoading" clearable @visible-change="clickrepair">
                     <el-option v-for="item in repairOptions" :key="item.id" :value="item.id" :label="item.inviter_name">
@@ -68,23 +84,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-form-item>
-            <el-button type="success" round @click="repairQuery('repairForm')">立即查询</el-button>
-          </el-form-item>
-        </el-row>
       </el-form>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <div class="grid-content">会员姓名：<span>{{vipMember.name}}</span></div>
-        </el-col>
-        <el-col :span="8">
-          <div class="grid-content">会员卡号：<span>{{vipMember.card_no}}</span></div>
-        </el-col>
-        <el-col :span="8">
-          <div class="grid-content">手机号：<span>{{vipMember.phone}}</span></div>
-        </el-col>
-      </el-row>
       <span slot="footer" class="dialog-footer">
         <el-button @click="repairDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="repairsumbil">确 定</el-button>
@@ -306,7 +306,7 @@
     </el-dialog>
     <!--工具条-->
     <el-row>
-      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background
+      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background
         style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
     </el-row>
@@ -339,7 +339,6 @@
         repairDialogVisible: false, //人工补录
         repairForm: {
           id:'',
-          phone:'',
           card_no:'',
           value:''
         },
@@ -553,21 +552,23 @@
     },
     methods: {
       repairsumbil(){
+        if(!this.vipMember.id){
+          return this.$message({message: "请先输入卡号查询会员信息",type: 'warning'});
+        }
         let para = {
           productId:String(this.repairForm.id),
           memId:String(this.vipMember.id),
           inviterId:String(this.repairForm.value)
         }
         makeUpPurchase(para).then(res=>{
-
           if(res.status===200){
-                      this.vipMember = {}
-          this.repairForm.card_no = ''
-          this.repairDialogVisible = false
-                      this.$message({
-            message: res.message,
-            type: 'success'
-          });
+            this.vipMember = {}
+            this.repairForm.card_no = ''
+            this.repairDialogVisible = false
+            this.$message({
+              message: res.message,
+              type: 'success'
+            });
           }
         })
       },
@@ -883,10 +884,14 @@
       },
       handleCurrentChange(val) {
         this.page = val;
-        this.getUsers();
+        this.getList();
+      },
+      getUsers(){
+        this.page = 1
+        this.getList()
       },
       //获取用户列表
-      getUsers() {
+      getList() {
         let para = {
           name: this.filters.name,
           pagNum: String(this.page),
@@ -935,6 +940,7 @@
     font-size: 18px;
     border-top: 1px solid #DCDFE6;
     margin-top: 15px;
+    margin-bottom: 15px;
     line-height: 2.5;
     color: #909399;
   }

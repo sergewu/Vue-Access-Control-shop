@@ -85,9 +85,7 @@
           para.payWay = para.payWay == 0 ? 'WX' : 'ALI';
           para.startTime = (!para.startTime || para.startTime == '') ? '' : util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd');
           para.endTime = (!para.endTime || para.endTime == '') ? '' : util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd');
-          downOrderExcelNew(para).then((res)=>{
-            window.location.href=process.env.API_ROOT+"/pay/mer/downOrderExcelNew"+"?"+"order_type="+para.order_type+"&"+"payWay="+para.payWay+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime+"&"+"storeId="+para.storeId;
-          })
+          window.location.href=process.env.API_ROOT+"/pay/mer/downOrderExcelNew"+"?"+"order_type="+para.order_type+"&"+"payWay="+para.payWay+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime+"&"+"storeId="+para.storeId;
         });
       },
     }

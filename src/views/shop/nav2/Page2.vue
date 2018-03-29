@@ -55,7 +55,7 @@
 
   <!--工具条-->
   <el-row>
-    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+    <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
     </el-pagination>
   </el-row>
   <!--修改界面-->
@@ -417,10 +417,14 @@ export default {
     //状态显示转换
     handleCurrentChange(val) {
       this.page = val;
-      this.getUsers();
+      this.getList();
+    },
+    getUsers(){
+      this.page = 1
+      this.getList()
     },
     //获取用户列表
-    getUsers() {
+    getList() {
       let para = {
         pageNum: this.page,
         username: this.filters.username,

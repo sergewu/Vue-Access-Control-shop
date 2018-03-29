@@ -73,7 +73,7 @@
 
 		<!--工具条-->
 		<el-row>
-			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+			<el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
 			</el-pagination>
 		</el-row>
 	</section>
@@ -180,12 +180,15 @@
 			//分页
 			handleCurrentChange(val) {
 				this.page = val;
-				this.getUsers();
+				this.getList();
+			},
+			getUsers(){
+				this.page = 1
+				this.getList()
 			},
 			//查询会员卡列表
-			getUsers() {
+			getList() {
 				this.listLoading = true;
-				//
 				let para={
 					pagNum: this.page,
 					title:this.filters.title,
@@ -195,7 +198,6 @@
 					this.total = res.data.total;
 					this.users = res.data.CouponList;
 					this.listLoading = false;
-					//
 				});
 			},
 			//上传微信

@@ -101,13 +101,13 @@
       <el-table-column property="comments" label="交易描述"></el-table-column>
     </el-table>
     <el-row class="toolbar">
-      <el-pagination layout="prev, pager, next" @current-change="detailedCurrentChange" :page-size="20" :total="detailedTotal" background style="text-align:center;background:#fff;padding:15px;">
+      <el-pagination layout="prev, pager, next" :current-page="detailedPage" @current-change="detailedCurrentChange" :page-size="20" :total="detailedTotal" background style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
     </el-row>
   </el-dialog>
   <!--工具条-->
   <el-row class="toolbar">
-    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+    <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
     </el-pagination>
   </el-row>
 </section>
@@ -308,25 +308,30 @@ export default {
     clickDetailed(index,row){
       this.dialogDetailedVisible=true;
       this.detailed.cid=row.id;
-      let para={
-        pagNum:String(this.detailedPage),
-        cid:String(row.id),
-        cardNum:this.detailed.cardNum,
-        trans_type:this.detailed.trans_type,
-        startTime:this.detailed.startTime,
-        endTime:this.detailed.endTime
-      }
-      para.startTime = (!para.startTime || para.startTime == '') ? '' : util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd');//开始时间
-      para.endTime = (!para.endTime || para.endTime == '') ? '' : util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd');//结束时间
-      companyTrans(para).then((res)=>{
-        let {status,message}=res;
-        if (status==200) {
-          this.detailedData=res.data.bindTransList;
-          this.detailedTotal=res.data.total;
-        }
-      })
+      this.clickScreen()
+      // let para={
+      //   pagNum:String(this.detailedPage),
+      //   cid:String(row.id),
+      //   cardNum:this.detailed.cardNum,
+      //   trans_type:this.detailed.trans_type,
+      //   startTime:this.detailed.startTime,
+      //   endTime:this.detailed.endTime
+      // }
+      // para.startTime = (!para.startTime || para.startTime == '') ? '' : util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd');//开始时间
+      // para.endTime = (!para.endTime || para.endTime == '') ? '' : util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd');//结束时间
+      // companyTrans(para).then((res)=>{
+      //   let {status,message}=res;
+      //   if (status==200) {
+      //     this.detailedData=res.data.bindTransList;
+      //     this.detailedTotal=res.data.total;
+      //   }
+      // })
     },
     clickScreen(){
+      this.detailedPage = 1
+      this.clickScreenList()
+    },
+    clickScreenList(){
       let para={
         pagNum:String(this.detailedPage),
         cid:String(this.detailed.cid),
@@ -345,13 +350,19 @@ export default {
 		//分页
     handleCurrentChange(val) {
       this.page = val;
+      this.getList()
     },
     //交易明细分页
     detailedCurrentChange(val){
       this.detailedPage=val;
+      this.clickScreenList()
+    },
+    getUsers(){
+      this.page = 1
+      this.getList()
     },
 		//查询会员卡列表
-		getUsers(){
+		getList(){
       this.listLoading=true;
       let para={
         pagNum: String(this.page),

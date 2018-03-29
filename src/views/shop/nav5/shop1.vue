@@ -56,7 +56,7 @@
 
 		<!--工具条-->
 		<el-row>
-			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+			<el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
 			</el-pagination>
 		</el-row>
 
@@ -339,7 +339,7 @@
       },
 			handleCurrentChange(val) {
 				this.page = val;
-				this.getUsers();
+				this.getList();
 			},
       //修改商品状态
       test: function(index, row) {
@@ -378,8 +378,12 @@
         });
 
       },
+      getUsers(){
+        this.page = 1
+        this.getList()
+      },
 			//获取用户列表
-			getUsers() {
+			getList() {
 				let para = {
 					pagNum: this.page,
 					name: this.filters.name,

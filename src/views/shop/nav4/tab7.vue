@@ -51,7 +51,7 @@
 
 		<!--工具条-->
 		<el-row>
-			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+			<el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
 			</el-pagination>
 		</el-row>
 
@@ -187,11 +187,9 @@
 					storeId:String(this.codeForm.store),
 					scene:this.codeForm.scene
 				}
-				getUrlCode(para).then((res)=>{
 					this.codeLoading=false;
 					this.editVipCode.vipCode = process.env.API_ROOT+"/pay/person/getUrlCode"+"?"+"cardid="+para.cardid+"&"+"storeId="+para.storeId+"&"+"scene="+para.scene;
 					this.codeMode=true;
-				})
 			},
 			//门店远程搜索
 			clickStore:function () {
@@ -265,10 +263,14 @@
 			},
 			handleCurrentChange(val) {
 				this.page = val;
-				this.getUsers();
+				this.getList();
+			},
+			getUsers(){
+				this.page = 1
+				this.getList()
 			},
 			//获取用户列表
-			getUsers() {
+			getList() {
 				let para = {
 					pagNum: this.page,
 					name: this.filters.name,
@@ -280,15 +282,6 @@
 					this.total = res.data.total;
 					this.users = res.data.CouponList;
 					this.listLoading = false;
-          // var sta;
-          // for (var i = 0; i < this.users.length; i++) {
-          //   sta = this.users[i];
-          //   if (sta.status == "Y") {
-          //     sta.status = true
-          //   } else {
-          //     sta.status = false
-          //   }
-          // }
 				});
 			},
 			// //显示新增界面

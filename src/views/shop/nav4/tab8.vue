@@ -39,7 +39,7 @@
   </el-table>
   <!--工具条-->
   <el-row>
-    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+    <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
     </el-pagination>
   </el-row>
   <!--绑定会员-->
@@ -173,9 +173,14 @@ export default {
 		//分页
     handleCurrentChange(val) {
       this.page = val;
+      this.getList()
+    },
+    getUsers(){
+      this.page = 1
+      this.getList()
     },
 		//查询会员卡列表
-		getUsers(){
+		getList(){
       this.listLoading=true;
       let para={
         cid:JSON.parse(sessionStorage.getItem('cid')),

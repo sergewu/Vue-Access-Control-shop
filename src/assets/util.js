@@ -167,7 +167,7 @@ export const catchError = function(error) {
         break;
       case 301:
         Vue.prototype.$message({
-          message: error.data.message || '登录超时！',
+          message: error.data.message || '登录超时！请重新登录',
           type: 'warning',
           onClose: function(){
             location.reload();
@@ -176,12 +176,18 @@ export const catchError = function(error) {
         break;
       case 302:
         Vue.prototype.$message({
-          message: error.data.message || '尚未登陆！',
-          type: 'warning'
+          message: error.data.message || '尚未登陆！请重新登录',
+          type: 'warning',
+          onClose: function(){
+            location.reload();
+          }
         });
         break;
       default:
-        return Promise.reject(error)
+        Vue.prototype.$message({
+          message: error.data.message || '服务器错误，请稍候再试',
+          type: 'error'
+        });
     }
   }else{
     Vue.prototype.$message({

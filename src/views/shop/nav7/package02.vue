@@ -52,7 +52,7 @@
 
   <!--工具条-->
   <el-row>
-    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+    <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
     </el-pagination>
   </el-row>
 <el-dialog title="已邀请人" :visible.sync="dialogTableVisible" :close-on-click-modal="false">
@@ -203,7 +203,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.page = val;
-      this.getUsers();
+      this.getList();
     },
     dialogHandleCurrentChange(val){
       this.dialogpage=val
@@ -218,8 +218,12 @@ export default {
 
       window.location.href=process.env.API_ROOT+"/pay/weixin/activity/downPkgInviterExcel?name="+para.name+'&phone='+para.phone+'&card_num='+para.card_num;
     },
+    getUsers(){
+      this.page = 1
+      this.getList()
+    },
     //获取用户列表
-    getUsers() {
+    getList() {
       let para = {
         pagNum: String(this.page),
         name:this.filters.name,

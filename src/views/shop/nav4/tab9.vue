@@ -85,9 +85,7 @@
           }
           para.startTime = (!para.startTime || para.startTime == '') ? '' : util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd');
           para.endTime = (!para.endTime || para.endTime == '') ? '' : util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd');
-          downTransExcel(para).then((res)=>{
-            window.location.href=process.env.API_ROOT+"/pay/wxmember/downTransExcel"+"?"+"accountType="+para.accountType+"&"+"reasonId="+para.reasonId+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime;
-          })
+          window.location.href=process.env.API_ROOT+"/pay/wxmember/downTransExcel"+"?"+"accountType="+para.accountType+"&"+"reasonId="+para.reasonId+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime;
         });
       },
     }

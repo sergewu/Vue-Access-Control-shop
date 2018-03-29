@@ -38,7 +38,7 @@
 
     <!--工具条-->
     <el-row>
-      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
     </el-row>
   </section>
@@ -81,10 +81,14 @@
       },
       handleCurrentChange(val) {
         this.page = val;
-        this.getUsers();
+        this.getList();
+      },
+      getUsers(){
+        this.page = 1
+        this.getList()
       },
       //获取用户列表
-      getUsers() {
+      getList() {
         let para = {
           pageNum: String(this.page),
           startTime: this.filters.startTime,
@@ -95,14 +99,12 @@
         para.endTime = (!para.endTime || para.endTime == '') ? '' : String(util.formatDate.format(new Date(para.endTime),
           'yyyy-MM-dd')); //开始时间
         this.listLoading = true;
-        //
         queryBalance(para).then((res) => {
           this.total = res.data.totalCount;
           this.users = res.data.balanceList;
           this.whole.countRow = res.data.countRow;
           this.whole.countAmt = res.data.countAmt;
           this.listLoading = false;
-          //
         });
       },
       selsChange: function (sels) {

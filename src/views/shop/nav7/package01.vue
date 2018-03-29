@@ -80,7 +80,7 @@
 
   <!--工具条-->
   <el-row>
-    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+    <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
     </el-pagination>
   </el-row>
   <!-- 二维码 -->
@@ -206,7 +206,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.page = val;
-      this.getUsers();
+      this.getList();
     },
     //导出Excel
     downExcel(){
@@ -228,8 +228,12 @@ export default {
         this.pkg_idOptions=res.data
       })
     },
+    getUsers(){
+      this.page = 1 
+      this.getList()
+    },
     //获取用户列表
-    getUsers() {
+    getList() {
       let para = {
         pagNum: String(this.page),
         pkg_id: String(this.filters.pkg_id),

@@ -10,7 +10,7 @@
           <el-input v-model="filters.card_no" placeholder="会员卡号"></el-input>
         </el-form-item>
         <el-form-item style="float:right">
-          <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
+          <el-button type="primary" @click="getUsers" size="medium" round>查询</el-button>
           <el-button type="primary" v-on:click="cogradientCard" size="medium" round>同步会员卡</el-button>
         </el-form-item>
       </el-form>
@@ -45,7 +45,7 @@
 
     <!--工具条-->
     <el-row>
-      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
     </el-row>
     <!--新增界面-->
@@ -151,8 +151,6 @@
                 memId: this.addForm.id.toString()
               }
               inputMemTrans(para).then(res => {
-                console.log(res);
-
                 this.addLoading = false;
                 if (res.status == 200) {
                   //
@@ -327,10 +325,14 @@
       },
       handleCurrentChange(val) {
         this.page = val;
-        this.getUsers();
+        this.getList();
+      },
+      getUsers(){
+        this.page = 1
+        this.getList()
       },
       //获取用户列表
-      getUsers() {
+      getList() {
         let para = {
           prop: this.prop,
           order: this.order,

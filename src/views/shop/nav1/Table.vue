@@ -78,7 +78,7 @@
     </div>
     <!--工具条-->
     <el-col>
-      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
     </el-col>
 
@@ -319,7 +319,7 @@
         })
       },
       //导出Excel
-      downExcel: function (folder, fileName) {
+      downExcel () {
         let para = {
           storeId: this.filters.parag,
           endTime: this.filters.endTime,
@@ -327,22 +327,18 @@
           payWay: this.filters.play,
           status: this.filters.state,
         };
-        para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(
-          new Date(para.startTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
-        para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(
-          para.endTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
-        downOrderExcel(para).then((res) => {
-          var url = res.request.responseURL;
-          window.location.href = url;
-        })
+        para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
+        para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
+
+        window.location.href = `${process.env.API_ROOT}/pay/mer/downOrderExcel?storeId=${para.storeId}&endTime=${para.endTime}&startTime=${para.startTime}&payWay=${para.payWay}&status=${para.status}`;
 
       },
       handleCurrentChange(val) {
         this.page = val;
-        this.getUsers();
+        this.getList()
       },
       //获取用户列表
-      getUsers() {
+      getList() {
         this.listLoading = true;
         let para = {
           pageNum: this.page,
@@ -373,6 +369,10 @@
           }
           this.listLoading = false;
         });
+      },
+      getUsers(){
+        this.page = 1
+        this.getList()
       },
       //显示退款
       handleRefund: function (index, row) {
