@@ -46,25 +46,29 @@
 
 <script>
   import * as util from '../../../assets/util.js'
-	import { downOrderExcelNew } from '../../../api/shop';
+	import { downOrderExcelNew, checkdownOrderExcelNew } from '../../../api/shop';
   export default {
     data() {
+      var myDate = new Date();
       return {
         //时间控制
         pickerOptions1: {
           disabledDate(time) {
-            return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 90;
+            return time.getTime() > Date.now() ;
           }
         },
         pickerOptions2: {
-          disabledDate(time) {
-            return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 90;
+          disabledDate: (time) => {
+            let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.ruleForm.startTime), 'yyyy-MM-dd')));
+            if (time.getTime() > startTimeOne + 3600 * 1000 * 24 * 90 || time.getTime() < startTimeOne - 3600 * 1000 * 24 * 1 ) {
+              return true;
+            }
           }
         },
         ruleForm: {
           accountType:0,
           recsonId:0,
-          startTime:Date(),
+          startTime:new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()-1),
           endTime:Date()
         },
         rules: {
@@ -74,22 +78,24 @@
     },
     methods: {
       submitForm(formName) {
-        // this.$refs[formName].validate((valid) => {
-        //   let para={
-        //     order_type:String(this.ruleForm.accountType),
-        //     payWay:String(this.ruleForm.recsonId),
-        //     startTime:this.ruleForm.startTime,
-        //     endTime:this.ruleForm.endTime,
-        //     storeId:""
-        //   }
-        //   para.payWay = para.payWay == 0 ? 'WX' : 'ALI';
-        //   para.startTime = (!para.startTime || para.startTime == '') ? '' : util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd');
-        //   para.endTime = (!para.endTime || para.endTime == '') ? '' : util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd');
-        //   window.location.href=process.env.API_ROOT+"/pay/mer/downOrderExcelNew"+"?"+"order_type="+para.order_type+"&"+"payWay="+para.payWay+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime+"&"+"storeId="+para.storeId;
-        // });
-        this.$message({
-          message: '由于月初报表下载量过大，我们做了流量控制，请于明日之后下载！',
-          type: 'warning'
+        this.$refs[formName].validate((valid) => {
+          let para={
+            mid:sessionStorage.getItem('mid'),
+            order_type:String(this.ruleForm.accountType),
+            payWay:String(this.ruleForm.recsonId),
+            startTime:this.ruleForm.startTime,
+            endTime:this.ruleForm.endTime,
+            storeId:""
+          }
+          para.payWay = para.payWay == 0 ? 'WX' : 'ALI';
+          para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd')));
+          para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd')));
+          checkdownOrderExcelNew(para).then(res=>{
+            if (res.data.status === 200) {
+              window.location.href = res.data.data
+            }
+          })
+         // window.location.href=process.env.API_ROOT+"/pay/mer/downOrderExcelNew"+"?"+"order_type="+para.order_type+"&"+"payWay="+para.payWay+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime+"&"+"storeId="+para.storeId;
         });
       },
     }

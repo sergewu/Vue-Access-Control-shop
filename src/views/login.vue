@@ -137,8 +137,10 @@
           if (res.status === 200) {
             var name = this.user.account;
             var user = res.data.userName;
+            var mid = res.data.userLogin.mid;
             sessionStorage.setItem('user', JSON.stringify(user));
             sessionStorage.setItem('name', JSON.stringify(name));
+            sessionStorage.setItem('mid', JSON.stringify(mid));
             this.$store.dispatch('top_nav', '2')
             sessionStorage.setItem('menu', JSON.stringify(1));
             vm.$emit('login', '/index1/table');

@@ -81,7 +81,7 @@ export default {
       pickerOptions2: {
         disabledDate: (time) => {
           let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.filters.startTime), 'yyyy-MM-dd')));
-          if (time.getTime() > startTimeOne + 3600 * 1000 * 24 * 30 || time.getTime() < startTimeOne - 3600 * 1000 * 24 * 1 ) {
+          if (time.getTime() > startTimeOne + 3600 * 1000 * 24 * 90 || time.getTime() < startTimeOne - 3600 * 1000 * 24 * 1 ) {
             return true;
           }
         }

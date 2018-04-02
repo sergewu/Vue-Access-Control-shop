@@ -13,7 +13,7 @@
     </el-row>
     <el-form :inline="true" :model="filters" ref="filters">
       <el-row>
-        <el-col :span="24">
+        <el-col :span="20">
           <el-form-item>
             <el-date-picker v-model="filters.startTime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false"
               :editable='false'>
@@ -22,7 +22,13 @@
               :editable='false'>
             </el-date-picker>
           </el-form-item>
-          <el-tag type="danger">可查询最近一天的信息</el-tag>
+          <el-tag type="danger">最多可查询三个月的信息</el-tag>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item style="float:right">
+            <el-button type="text" @click="downExcel()">
+            <i class="el-icon-date"></i>导出Excel</el-button>
+          </el-form-item>
         </el-col>
       </el-row>
       <el-row>
@@ -139,7 +145,7 @@
 <script>
   import * as util from '../../../assets/util.js'
   import {
-    getUserListPage,
+    downloadQueryOrderShop,
     lookupUser,
     downOrderExcel,
     merRefund,
@@ -193,13 +199,13 @@
         //时间控制
         pickerOptions1: {
           disabledDate(time) {
-            return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 2;
+            return time.getTime() > Date.now() ;
           }
         },
         pickerOptions2: {
           disabledDate: (time) => {
-            let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.filters.startTime), 'yyyy-MM-dd hh:mm:ss')));
-            if (time.getTime() > startTimeOne + 3600 * 1000 * 24 * 1 || time.getTime() < startTimeOne - 3600 * 1000 * 24 * 1) {
+            let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.filters.startTime), 'yyyy-MM-dd')));
+            if (time.getTime() > startTimeOne + 3600 * 1000 * 24 * 90 || time.getTime() < startTimeOne - 3600 * 1000 * 24 * 1 ) {
               return true;
             }
           }
@@ -316,6 +322,27 @@
           }
         })
       },
+      //导出Excel
+      downExcel () {
+        let para = {
+          mid:sessionStorage.getItem('mid'),
+          storeId: this.filters.parag,
+          endTime: this.filters.endTime,
+          startTime: this.filters.startTime,
+          payWay: this.filters.play,
+          status: this.filters.state,
+        };
+        para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
+        para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
+
+        checkdownOrderExcelNew(para).then(res=>{
+          if (res.data.status === 200) {
+            window.location.href = res.data.data
+          }
+        })
+       // window.location.href = `http://download.weupay.com/download/mer/checkdownOrderExcelNew?storeId=${para.storeId}&endTime=${para.endTime}&startTime=${para.startTime}&payWay=${para.payWay}&status=${para.status}`;
+
+      },
       handleCurrentChange(val) {
         this.page = val;
         this.getList()
@@ -324,6 +351,7 @@
       getList() {
         this.listLoading = true;
         let para = {
+          mid:sessionStorage.getItem('mid'),
           pageNum: this.page,
           payWay: this.filters.play,
           status: this.filters.state,
@@ -335,7 +363,7 @@
           para.startTime), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
         para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(
           para.endTime), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
-        getUserListPage(para).then((res) => {
+        downloadQueryOrderShop(para).then((res) => {
           var _this = this;
           let {
             data,

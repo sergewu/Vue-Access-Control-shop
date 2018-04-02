@@ -115,18 +115,14 @@ export default {
     },
     //导出Excel
     downExcel(){
-      // let para={
-      //   startTime:this.filters.startTime,
-      //   endTime:this.filters.endTime
-      // }
-      // para.startTime = (!para.startTime || para.startTime == '') ? '' : String(util.formatDate.format(new Date(para.startTime), 'yyyy/MM/dd')); //开始时间
-      // para.endTime = (!para.endTime || para.endTime == '') ? '' : String(util.formatDate.format(new Date(para.endTime), 'yyyy/MM/dd')); //开始时间
+      let para={
+        startTime:this.filters.startTime,
+        endTime:this.filters.endTime
+      }
+      para.startTime = (!para.startTime || para.startTime == '') ? '' : String(util.formatDate.format(new Date(para.startTime), 'yyyy/MM/dd')); //开始时间
+      para.endTime = (!para.endTime || para.endTime == '') ? '' : String(util.formatDate.format(new Date(para.endTime), 'yyyy/MM/dd')); //开始时间
 
-      // window.location.href=process.env.API_ROOT+"/pay/weixin/activity/downSumDetailExcelByMid"+"?"+"start_time="+para.startTime+"&"+"end_time="+para.endTime;
-      this.$message({
-        message: '由于月初报表下载量过大，我们做了流量控制，请于明日之后下载！',
-        type: 'warning'
-      });
+      window.location.href=process.env.API_ROOT+"/pay/weixin/activity/downSumDetailExcelByMid"+"?"+"start_time="+para.startTime+"&"+"end_time="+para.endTime;
     },
     //订单状态
     receive_card_status: function(row, column) {

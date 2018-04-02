@@ -132,53 +132,49 @@ export default {
     },
     //导出Excel
     downExcel: function(folder, fileName) {
-      // if (this.filters.time1 !== "") {
-      //   var d = new Date(this.filters.time1);
-      //   var a1 = d.getFullYear();
-      //   var a2 = (d.getMonth() + 1);
-      //   var a3 = d.getDate();
-      //   if (a2 < 10 && a3 < 10) {
-      //     a2 = "0" + a2;
-      //     a3 = "0" + a3;
-      //   } else if (a2 < 10) {
-      //     a2 = "0" + a2;
-      //   } else if (a3 < 10) {
-      //     a3 = "0" + a3;
-      //   }
-      //   var starttime = a1 + "-" + a2 + "-" + a3;
-      // } else {
-      //   this.filters.time1 = "";
-      // }
-      // if (this.filters.time2 !== "") {
-      //   var e = new Date(this.filters.time2);
-      //   var b1 = e.getFullYear();
-      //   var b2 = (e.getMonth() + 1);
-      //   var b3 = e.getDate();
-      //   if (b2 < 10 && b3 < 10) {
-      //     b2 = "0" + b2;
-      //     b3 = "0" + b3;
-      //   } else if (b2 < 10) {
-      //     b2 = "0" + b2;
-      //   } else if (b3 < 10) {
-      //     b3 = "0" + b3;
-      //   }
-      //   var endtime = b1 + "-" + b2 + "-" + b3;
-      // } else {
-      //   this.filters.time2 = ""
-      // };
-      // let para = {
-      //   storeId: this.filters.parag,
-      //   endTime: endtime,
-      //   startTime: starttime
-      // };
-      // downOrderSumExcel(para).then((res) => {
-      //   var url = res.request.responseURL;
-      //   window.location.href = url;
-      // })
-      this.$message({
-        message: '由于月初报表下载量过大，我们做了流量控制，请于明日之后下载！',
-        type: 'warning'
-      });
+      if (this.filters.time1 !== "") {
+        var d = new Date(this.filters.time1);
+        var a1 = d.getFullYear();
+        var a2 = (d.getMonth() + 1);
+        var a3 = d.getDate();
+        if (a2 < 10 && a3 < 10) {
+          a2 = "0" + a2;
+          a3 = "0" + a3;
+        } else if (a2 < 10) {
+          a2 = "0" + a2;
+        } else if (a3 < 10) {
+          a3 = "0" + a3;
+        }
+        var starttime = a1 + "-" + a2 + "-" + a3;
+      } else {
+        this.filters.time1 = "";
+      }
+      if (this.filters.time2 !== "") {
+        var e = new Date(this.filters.time2);
+        var b1 = e.getFullYear();
+        var b2 = (e.getMonth() + 1);
+        var b3 = e.getDate();
+        if (b2 < 10 && b3 < 10) {
+          b2 = "0" + b2;
+          b3 = "0" + b3;
+        } else if (b2 < 10) {
+          b2 = "0" + b2;
+        } else if (b3 < 10) {
+          b3 = "0" + b3;
+        }
+        var endtime = b1 + "-" + b2 + "-" + b3;
+      } else {
+        this.filters.time2 = ""
+      };
+      let para = {
+        storeId: this.filters.parag,
+        endTime: endtime,
+        startTime: starttime
+      };
+      downOrderSumExcel(para).then((res) => {
+        var url = res.request.responseURL;
+        window.location.href = url;
+      })
     },
     //获取用户列表
     getUsers() {

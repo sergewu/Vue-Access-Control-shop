@@ -15,6 +15,13 @@ export default [{
       },
       component: (resolve) => require(['../views/shop/nav1/Table.vue'], resolve)
     },{
+      path: 'table5',
+      name: '历史收款记录',
+      meta: {
+        title: '历史收款记录', icon: 'table', noCache: true, code:''
+      },
+      component: (resolve) => require(['../views/shop/nav1/Table5.vue'], resolve)
+    },{
       path: 'table2',
       name: '门店汇总查询',
       meta: {
