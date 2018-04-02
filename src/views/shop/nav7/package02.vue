@@ -210,13 +210,17 @@ export default {
     },
     //导出Excel
     downExcel(){
-      let para={
-        name:this.filters.name,
-        phone:this.filters.phone,
-        card_num:this.filters.cardnum
-      }
+      // let para={
+      //   name:this.filters.name,
+      //   phone:this.filters.phone,
+      //   card_num:this.filters.cardnum
+      // }
 
-      window.location.href=process.env.API_ROOT+"/pay/weixin/activity/downPkgInviterExcel?name="+para.name+'&phone='+para.phone+'&card_num='+para.card_num;
+      // window.location.href=process.env.API_ROOT+"/pay/weixin/activity/downPkgInviterExcel?name="+para.name+'&phone='+para.phone+'&card_num='+para.card_num;
+      this.$message({
+        message: '由于月初报表下载量过大，我们做了流量控制，请于明日之后下载！',
+        type: 'warning'
+      });
     },
     getUsers(){
       this.page = 1

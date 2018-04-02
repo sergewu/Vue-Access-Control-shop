@@ -320,17 +320,21 @@
       },
       //导出Excel
       downExcel () {
-        let para = {
-          storeId: this.filters.parag,
-          endTime: this.filters.endTime,
-          startTime: this.filters.startTime,
-          payWay: this.filters.play,
-          status: this.filters.state,
-        };
-        para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
-        para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
+        // let para = {
+        //   storeId: this.filters.parag,
+        //   endTime: this.filters.endTime,
+        //   startTime: this.filters.startTime,
+        //   payWay: this.filters.play,
+        //   status: this.filters.state,
+        // };
+        // para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
+        // para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
 
-        window.location.href = `${process.env.API_ROOT}/pay/mer/downOrderExcel?storeId=${para.storeId}&endTime=${para.endTime}&startTime=${para.startTime}&payWay=${para.payWay}&status=${para.status}`;
+        // window.location.href = `${process.env.API_ROOT}/pay/mer/downOrderExcel?storeId=${para.storeId}&endTime=${para.endTime}&startTime=${para.startTime}&payWay=${para.payWay}&status=${para.status}`;
+        this.$message({
+          message: '由于月初报表下载量过大，我们做了流量控制，请于明日之后下载！',
+          type: 'warning'
+        });
 
       },
       handleCurrentChange(val) {

@@ -210,17 +210,21 @@ export default {
     },
     //导出Excel
     downExcel(){
-      let para={
-        pkg_id: String(this.filters.pkg_id),
-        start_time: this.filters.startTime,
-        end_time: this.filters.endTime,
-        send_red_status:this.filters.redpackets,
-        receive_card_status:this.filters.cardstatus,
-      }
-      para.start_time = (!para.start_time || para.start_time == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.start_time), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
-      para.end_time = (!para.end_time || para.end_time == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.end_time), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
+      // let para={
+      //   pkg_id: String(this.filters.pkg_id),
+      //   start_time: this.filters.startTime,
+      //   end_time: this.filters.endTime,
+      //   send_red_status:this.filters.redpackets,
+      //   receive_card_status:this.filters.cardstatus,
+      // }
+      // para.start_time = (!para.start_time || para.start_time == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.start_time), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
+      // para.end_time = (!para.end_time || para.end_time == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.end_time), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
 
-      window.location.href=process.env.API_ROOT+"/pay/weixin/activity/downPkgPurchaseExcel?pkg_id="+para.pkg_id+'&start_time='+para.start_time+'&end_time='+para.end_time+'&send_red_status='+para.send_red_status+'&receive_card_status='+para.receive_card_status;
+      // window.location.href=process.env.API_ROOT+"/pay/weixin/activity/downPkgPurchaseExcel?pkg_id="+para.pkg_id+'&start_time='+para.start_time+'&end_time='+para.end_time+'&send_red_status='+para.send_red_status+'&receive_card_status='+para.receive_card_status;
+      this.$message({
+        message: '由于月初报表下载量过大，我们做了流量控制，请于明日之后下载！',
+        type: 'warning'
+      });
     },
     //获取套餐列表
     getProductList(){

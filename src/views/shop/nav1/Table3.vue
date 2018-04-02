@@ -118,7 +118,7 @@ export default {
       pickerOptions2: {
         disabledDate: (time) => {
           let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.filters.startTime), 'yyyy-MM-dd')));
-          if (time.getTime() > startTimeOne + 3600 * 1000 * 24 * 30 || time.getTime() < startTimeOne) {
+          if (time.getTime() > startTimeOne + 3600 * 1000 * 24 * 30 || time.getTime() < startTimeOne - 3600 * 1000 * 24 * 1) {
             return true;
           }
         }
@@ -200,17 +200,21 @@ export default {
       }
     },
     submitForm(formName) {
-        let para={
-          payType:String(this.filters.payType),
-          startTime:this.filters.startTime,
-          endTime:this.filters.endTime,
-          sid: String(this.filters.state1)
-        }
-        // para.payWay = para.payWay == 0 ? 'WX' : 'ALI';
-        para.startTime = (!para.startTime || para.startTime == '') ? '' : util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd');
-        para.endTime = (!para.endTime || para.endTime == '') ? '' : util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd');
+        // let para={
+        //   payType:String(this.filters.payType),
+        //   startTime:this.filters.startTime,
+        //   endTime:this.filters.endTime,
+        //   sid: String(this.filters.state1)
+        // }
+        // // para.payWay = para.payWay == 0 ? 'WX' : 'ALI';
+        // para.startTime = (!para.startTime || para.startTime == '') ? '' : util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd');
+        // para.endTime = (!para.endTime || para.endTime == '') ? '' : util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd');
 
-        window.location.href=process.env.API_ROOT+"/pay/mer/downStrSumExcel"+"?"+"payType="+para.payType+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime+"&"+"sid="+para.sid;
+        // window.location.href=process.env.API_ROOT+"/pay/mer/downStrSumExcel"+"?"+"payType="+para.payType+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime+"&"+"sid="+para.sid;
+        this.$message({
+          message: '由于月初报表下载量过大，我们做了流量控制，请于明日之后下载！',
+          type: 'warning'
+        });
     },
     handleCurrentChange(val) {
       this.page = val;

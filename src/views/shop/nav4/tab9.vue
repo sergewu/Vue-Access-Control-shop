@@ -76,16 +76,20 @@
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          let para={
-            accountType:String(this.ruleForm.accountType),
-            reasonId:String(this.ruleForm.reasonId),
-            startTime:this.ruleForm.startTime,
-            endTime:this.ruleForm.endTime
-          }
-          para.startTime = (!para.startTime || para.startTime == '') ? '' : util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd');
-          para.endTime = (!para.endTime || para.endTime == '') ? '' : util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd');
-          window.location.href=process.env.API_ROOT+"/pay/wxmember/downTransExcel"+"?"+"accountType="+para.accountType+"&"+"reasonId="+para.reasonId+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime;
+        // this.$refs[formName].validate((valid) => {
+        //   let para={
+        //     accountType:String(this.ruleForm.accountType),
+        //     reasonId:String(this.ruleForm.reasonId),
+        //     startTime:this.ruleForm.startTime,
+        //     endTime:this.ruleForm.endTime
+        //   }
+        //   para.startTime = (!para.startTime || para.startTime == '') ? '' : util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd');
+        //   para.endTime = (!para.endTime || para.endTime == '') ? '' : util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd');
+        //   window.location.href=process.env.API_ROOT+"/pay/wxmember/downTransExcel"+"?"+"accountType="+para.accountType+"&"+"reasonId="+para.reasonId+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime;
+        // });
+        this.$message({
+          message: '由于月初报表下载量过大，我们做了流量控制，请于明日之后下载！',
+          type: 'warning'
         });
       },
     }

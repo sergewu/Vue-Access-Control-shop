@@ -74,18 +74,22 @@
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          let para={
-            order_type:String(this.ruleForm.accountType),
-            payWay:String(this.ruleForm.recsonId),
-            startTime:this.ruleForm.startTime,
-            endTime:this.ruleForm.endTime,
-            storeId:""
-          }
-          para.payWay = para.payWay == 0 ? 'WX' : 'ALI';
-          para.startTime = (!para.startTime || para.startTime == '') ? '' : util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd');
-          para.endTime = (!para.endTime || para.endTime == '') ? '' : util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd');
-          window.location.href=process.env.API_ROOT+"/pay/mer/downOrderExcelNew"+"?"+"order_type="+para.order_type+"&"+"payWay="+para.payWay+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime+"&"+"storeId="+para.storeId;
+        // this.$refs[formName].validate((valid) => {
+        //   let para={
+        //     order_type:String(this.ruleForm.accountType),
+        //     payWay:String(this.ruleForm.recsonId),
+        //     startTime:this.ruleForm.startTime,
+        //     endTime:this.ruleForm.endTime,
+        //     storeId:""
+        //   }
+        //   para.payWay = para.payWay == 0 ? 'WX' : 'ALI';
+        //   para.startTime = (!para.startTime || para.startTime == '') ? '' : util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd');
+        //   para.endTime = (!para.endTime || para.endTime == '') ? '' : util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd');
+        //   window.location.href=process.env.API_ROOT+"/pay/mer/downOrderExcelNew"+"?"+"order_type="+para.order_type+"&"+"payWay="+para.payWay+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime+"&"+"storeId="+para.storeId;
+        // });
+        this.$message({
+          message: '由于月初报表下载量过大，我们做了流量控制，请于明日之后下载！',
+          type: 'warning'
         });
       },
     }
