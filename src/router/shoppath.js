@@ -2,23 +2,23 @@ import Abstract from '../views/common/abstract.vue';
 
 export default [{
     path: '/index1',
-    name: '数据统计',
+    name: '交易明细查询',
     meta: {
       icon: 'icon-shujutongji'
     },
     component: Abstract,
     children: [{
       path: 'table',
-      name: '收款记录',
+      name: '实时交易查询',
       meta: {
-        title: '收款记录', icon: 'table1', noCache: false, code:'',
+        title: '实时交易查询', icon: 'table1', noCache: false, code:'',
       },
       component: (resolve) => require(['../views/shop/nav1/Table.vue'], resolve)
     },{
       path: 'table5',
-      name: '历史收款记录',
+      name: '历史交易查询',
       meta: {
-        title: '历史收款记录', icon: 'table', noCache: true, code:''
+        title: '历史交易查询', icon: 'table', noCache: true, code:''
       },
       component: (resolve) => require(['../views/shop/nav1/Table5.vue'], resolve)
     },{
@@ -28,20 +28,28 @@ export default [{
         title: '门店汇总查询', icon: 'table', noCache: true, code:''
       },
       component: (resolve) => require(['../views/shop/nav1/Table2.vue'], resolve)
-    },{
-      path: 'table3',
-      name: '门店汇总查询',
-      meta: {
-        title: '门店汇总查询', icon: 'table', noCache: true, code:''
-      },
-      component: (resolve) => require(['../views/shop/nav1/Table3.vue'], resolve)
-    },{
+    }]
+  },{
+    path: '/index1',
+    name: '交易汇总查询',
+    meta: {
+      icon: 'icon-daohang-shujufenxi'
+    },
+    component: Abstract,
+    children: [{
       path: 'table4',
-      name: '日汇总查询',
+      name: '商户日汇总查询',
       meta: {
-        title: '日汇总查询', icon: 'table', noCache: true, code:''
+        title: '商户日汇总查询', icon: 'table', noCache: true, code:''
       },
       component: (resolve) => require(['../views/shop/nav1/Table4.vue'], resolve)
+    },{
+      path: 'table3',
+      name: '门店日汇总查询',
+      meta: {
+        title: '门店日汇总查询', icon: 'table', noCache: true, code:''
+      },
+      component: (resolve) => require(['../views/shop/nav1/Table3.vue'], resolve)
     }]
   },{
     path: '/index2',
@@ -267,9 +275,9 @@ export default [{
     }]
   },{
     path: '/bill1',
-    name: '总交易账单',
+    name: '对账单下载',
     meta: {
-      title: '总交易账单', icon: 'icon-icon--', noCache: true, code:''
+      title: '对账单下载', icon: 'icon-icon--', noCache: true, code:''
     },
     component: (resolve) => require(['../views/shop/nav6/bill1.vue'], resolve)
   }]

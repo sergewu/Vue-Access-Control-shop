@@ -111,8 +111,11 @@ export default {
     return {
       //时间控制
       pickerOptions1: {
-        disabledDate(time) {
-          return time.getTime() > Date.now();
+        disabledDate: (time) => {
+          let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.filters.endTime), 'yyyy-MM-dd')));
+          if (time.getTime() > startTimeOne || time.getTime() < startTimeOne - 3600 * 1000 * 24 * 90) {
+            return true;
+          }
         }
       },
       pickerOptions2: {

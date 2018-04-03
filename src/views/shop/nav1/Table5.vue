@@ -11,28 +11,31 @@
         </el-form>
       </el-col>
     </el-row>
-    <el-form :inline="true" :model="filters" ref="filters">
+    <el-form :inline="true" :model="filters" ref="filters" :rules="filtersRules" class="top_input">
       <el-row>
-        <el-col :span="20">
-          <el-form-item>
-            <el-date-picker v-model="filters.startTime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false"
+        <el-col>
+          <el-form-item prop="startTime">
+            <el-date-picker v-model="filters.startTime" @change="changTime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false"
               :editable='false'>
-            </el-date-picker> 至
+            </el-date-picker>
+          </el-form-item>
+             至
+          <el-form-item prop="endTime">
             <el-date-picker v-model="filters.endTime" type="datetime" placeholder="选择结束日期" :picker-options="pickerOptions2" :clearable="false"
               :editable='false'>
             </el-date-picker>
           </el-form-item>
-          <el-tag type="danger">最多可查询三个月的信息</el-tag>
+          <el-tag type="success">可查询30天之前的交易，每次查询区间请不要超过一个月</el-tag>
         </el-col>
-        <el-col :span="4">
+        <!-- <el-col :span="4">
           <el-form-item style="float:right">
             <el-button type="text" @click="downExcel()">
             <i class="el-icon-date"></i>导出Excel</el-button>
           </el-form-item>
-        </el-col>
+        </el-col> -->
       </el-row>
       <el-row>
-        <el-form-item prop="parag">
+        <el-form-item>
           <el-select v-model="filters.parag" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
             :loading="loading" clearable @visible-change="clickShop">
             <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.value">
@@ -48,7 +51,7 @@
           </el-select>
         </el-form-item>
         <el-form-item style="float: right;">
-          <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
+          <el-button type="primary" @click="getUsers('filters')" size="medium" round>查询</el-button>
           <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
         </el-form-item>
       </el-row>
@@ -68,10 +71,9 @@
         </el-table-column>
         <el-table-column prop="storeName" label="收款门店" width="120">
         </el-table-column>
-        <el-table-column label="操作" width="180">
+        <el-table-column label="操作" width="100">
           <template slot-scope="scope">
             <el-button size="small" @click="handleEdit(scope.$index, scope.row)">交易详情</el-button>
-            <el-button type="danger" size="small" @click="handleRefund(scope.$index, scope.row)">退款</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -118,27 +120,6 @@
         <el-button type="primary" @click="Print" style="margin-left:45%;">补发打印</el-button>
       </el-form>
     </el-dialog>
-    <!--退款界面-->
-    <el-dialog title="退款" :visible.sync="refundFormVisible" :close-on-click-modal="false" width="600px">
-      <el-form :model="refundForm" :rules="refundFormRules" ref="refundForm">
-        <el-form-item label="订单号：">
-          <span>{{refundForm.orderId}}</span>
-        </el-form-item>
-        <el-form-item label="第三方订单号：">
-          <span>{{refundForm.transactionId}}</span>
-        </el-form-item>
-        <el-form-item label="退款金额" prop="amount">
-          <el-input v-model="refundForm.amount" auto-complete="off" placeholder="请输入退款金额"></el-input>
-        </el-form-item>
-        <el-form-item label="备注" prop="address">
-          <el-input v-model="refundForm.desc" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click.native="refundFormVisible = false">取消</el-button>
-        <el-button type="primary" @click.native="refundSubmit" :loading="refundLoading">提交</el-button>
-      </div>
-    </el-dialog>
   </section>
 </template>
 
@@ -157,17 +138,6 @@
   export default {
     data() {
       var myDate = new Date();
-      var amount = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入退款金额'));
-        } else if (!
-          /^(([1-9][0-9]*)|([0]\.[1-9]{1})|([0]\.[1-9][0-9]{1})|([0]\.[0-9][1-9]{1})|([1-9][0-9]*\.\d{0,2}))$/.test(
-            value)) {
-          callback(new Error('请输入正确的退款金额'));
-        } else {
-          callback();
-        }
-      };
       return {
         //支付方式
         optionsScene: [{
@@ -198,14 +168,20 @@
         options: [],
         //时间控制
         pickerOptions1: {
-          disabledDate(time) {
-            return time.getTime() > Date.now() ;
+          disabledDate: (time) => {
+            if (time.getTime() > Date.now()) {
+              return true;
+            }
+            // let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.filters.endTime), 'yyyy-MM-dd')));
+            // if (time.getTime() > startTimeOne || time.getTime() < startTimeOne - 3600 * 1000 * 24 * 90) {
+            //   return true;
+            // }
           }
         },
         pickerOptions2: {
           disabledDate: (time) => {
             let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.filters.startTime), 'yyyy-MM-dd')));
-            if (time.getTime() > startTimeOne + 3600 * 1000 * 24 * 90 || time.getTime() < startTimeOne - 3600 * 1000 * 24 * 1 ) {
+            if (time.getTime() > startTimeOne + 3600 * 1000 * 24 * 90 || time.getTime() < startTimeOne - 3600 * 1000 * 24 * 1) {
               return true;
             }
           }
@@ -213,8 +189,8 @@
         loading: false,
         //商户名
         filters: {
-          startTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()-1, myDate.getHours(), myDate.getMinutes(), myDate.getSeconds()),
-          endTime: new Date(),
+          startTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()-1),
+          endTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()-1, 23,59,59),
           play: '',
           state: '',
           parag: ''
@@ -242,27 +218,21 @@
           refundAmount: '',
           payWay: ''
         },
-        refundFormVisible: false, //退款界面是否显示
-        refundLoading: false,
-        refundForm: {
-
-        },
-        refundFormRules: {
-          amount: [{
-              required: true,
-              validator: amount,
-              trigger: 'blur'
-            },
-            {
-              max: 10,
-              message: '请输入正确的退款金额',
-              trigger: 'blur'
-            }
+        filtersRules: {
+          endTime: [
+            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
           ]
         }
       }
     },
     methods: {
+      changTime(date){
+        let end_time = Date.parse(new Date(util.formatDate.format(new Date(this.filters.endTime), 'yyyy-MM-dd'))) 
+        let date_time = Date.parse(new Date(util.formatDate.format(new Date(date), 'yyyy-MM-dd'))) 
+        if (date_time < end_time - 3600 * 1000 * 24 * 90) {
+          this.filters.endTime = ''
+        }
+      },
       formatPay2: function (row, column) {
         return row.status == 1 ? '已支付' : row.status == 3 ? '已支付（有退款）' : '未知';
       },
@@ -381,54 +351,15 @@
           this.listLoading = false;
         });
       },
-      getUsers(){
-        this.page = 1
-        this.getList()
-      },
-      //显示退款
-      handleRefund: function (index, row) {
-        this.refundFormVisible = true
-        this.refundForm = Object.assign({}, row);
-      },
-      //确定退款
-      refundSubmit() {
-        this.$refs.refundForm.validate((valid) => {
+      getUsers(formName){
+        console.log(formName);
+        
+        this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$confirm('是否确定退款？', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              let para = {
-                authCode: this.refundForm.orderId,
-                amount: this.refundForm.amount,
-                desc: this.refundForm.desc
-              }
-              merRefund(para).then((res) => {
-                let {
-                  status,
-                  message
-                } = res;
-                if (status == 200) {
-                  this.getUsers();
-                  this.$message({
-                    type: 'success',
-                    message: message
-                  });
-                } else {
-                  this.$message.error(message);
-                }
-              })
-              this.refundFormVisible = false;
-            }).catch(() => {
-              this.refundFormVisible = false;
-              this.$message({
-                type: 'info',
-                message: '已取消退款'
-              });
-            });
+            this.page = 1
+            this.getList()
           }
-        });
+        })
       },
       //显示编辑界面
       handleEdit: function (index, row) {
@@ -450,7 +381,7 @@
       },
     },
     mounted() {
-      this.getUsers();
+      this.getUsers('filters');
       lookupUser().then((res) => {
         var _this = this;
         let {

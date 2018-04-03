@@ -177,6 +177,7 @@ export default {
         //动态注入路由
         vm.extendRoutes(allowedRouter);
         //保存数据用作他处，非必需
+        vm.$store.dispatch('get_menu', allowedRouter)
         vm.menuData = allowedRouter;
         vm.userData = userInfo;
         //权限检验方法
@@ -206,7 +207,7 @@ export default {
     loginDirect: function(newPath){
       this.signin(() => {
         this.$router.replace({path: newPath || '/'});
-      });
+      })
     },
     logoutDirect: function(){
       //清除请求权限控制

@@ -22,7 +22,7 @@
               :editable='false'>
             </el-date-picker>
           </el-form-item>
-          <el-tag type="danger">可查询最近一天的信息</el-tag>
+          <el-tag type="success">可查询最近30天的交易</el-tag>
         </el-col>
       </el-row>
       <el-row>
@@ -192,14 +192,15 @@
         options: [],
         //时间控制
         pickerOptions1: {
-          disabledDate(time) {
-            return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 2;
+          disabledDate(time) {     
+            let date = new Date();
+            return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 35;
           }
         },
         pickerOptions2: {
           disabledDate: (time) => {
             let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.filters.startTime), 'yyyy-MM-dd hh:mm:ss')));
-            if (time.getTime() > startTimeOne + 3600 * 1000 * 24 * 1 || time.getTime() < startTimeOne - 3600 * 1000 * 24 * 1) {
+            if (time.getTime() < startTimeOne || time.getTime() > Date.now()) {
               return true;
             }
           }
@@ -207,8 +208,8 @@
         loading: false,
         //商户名
         filters: {
-          startTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()-1, myDate.getHours(), myDate.getMinutes(), myDate.getSeconds()),
-          endTime: new Date(),
+          startTime: new Date(myDate.getFullYear(),myDate.getMonth(),myDate.getDate()),
+          endTime: new Date(myDate.getFullYear(),myDate.getMonth(),myDate.getDate(),23,59,59),
           play: '',
           state: '',
           parag: ''

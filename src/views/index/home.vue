@@ -467,46 +467,26 @@
       },
       //切换顶部导航
       handleSelect(change) {
-        const loading = this.$loading({
-          lock: true,
-          text: '请稍候,正在加载',
-          background: '#fff'
-        });
-        setTimeout(() => {
-          loading.close();
-        }, 500);
+        //切换头部导航
+        this.$store.dispatch('top_nav', change)
         //清除动态标签
         this.$store.dispatch('delAllViews')
-        if (change === '1') {
-          this.$store.dispatch('top_nav', '1')
-          this.$router.push({
-            path: "/home"
-          });
-        } else if (change === '2') {
-          this.$store.dispatch('top_nav', '2')
-          sessionStorage.setItem('menu', JSON.stringify(1));
-          this.$emit('login', '/index1/table');
-        } else if (change === '3') {
-          this.$store.dispatch('top_nav', '3')
-          sessionStorage.setItem('menu', JSON.stringify(2));
-          this.$emit('login', '/index2/page1');
-        } else if (change === '4') {
-          this.$store.dispatch('top_nav', '4')
-          sessionStorage.setItem('menu', JSON.stringify(3));
-          this.$emit('login', '/index3/tab2');
-        }else if (change === '5'){
-          this.$store.dispatch('top_nav', '5')
-          this.$router.push({ path: "/notonline" });
-        }else if (change === '6'){
-          this.$store.dispatch('top_nav', '6')
-          this.$router.push({ path: "/notonline" });
+
+        switch (parseInt(change)) {
+          case 1 : this.$router.push({ path: "/home" });
+            break;
+          case 2 : sessionStorage.setItem('menu', JSON.stringify(1));
+                  this.$emit('login', '/index1/table');
+            break;
+          case 3 : sessionStorage.setItem('menu', JSON.stringify(2));
+                  this.$emit('login', '/index2/page1');
+            break;
+          case 4 : sessionStorage.setItem('menu', JSON.stringify(3));
+                  this.$emit('login', '/index3/tab4');
+            break;
+          default: this.$router.push({ path: "/notonline" });
+            break;
         }
-        setTimeout(() => {
-          let menus = this.$parent.menuData;
-          if (menus) {
-            this.menus = menus;
-          }
-        }, 500);
       },
     },
     mounted() {
