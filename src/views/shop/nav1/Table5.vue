@@ -25,7 +25,7 @@
               :editable='false'>
             </el-date-picker>
           </el-form-item>
-          <el-tag type="success">可查询30天之前的交易，每次查询区间请不要超过一个月</el-tag>
+          <el-tag type="success">可查询30天之前的交易，每次查询区间做多为3个月</el-tag>
         </el-col>
         <!-- <el-col :span="4">
           <el-form-item style="float:right">
