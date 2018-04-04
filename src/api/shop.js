@@ -254,5 +254,6 @@ export const queryMerDaySum = params => { return instance.post(`${preUrlPath}/pa
 
 //下载ex
 export const checkdownOrderExcelNew = params => { return instance.get('http://download.weupay.com/download/mer/checkdownOrderExcelNew',{ params: params }); };
+export const checkdownOrderExcel = params => { return instance.get('http://download.weupay.com/download/mer/checkdownOrderExcel',{ params: params }); };
 //收款记录
 export const downloadQueryOrderShop = params => { return instance.post('http://download.weupay.com/download/mer/queryOrderShop',params).then(res => res.data); };

@@ -13,7 +13,6 @@
     </el-row>
     <el-form :inline="true" :model="filters" ref="filters" :rules="filtersRules" class="top_input">
       <el-row>
-        <el-col>
           <el-form-item prop="startTime">
             <el-date-picker v-model="filters.startTime" @change="changTime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false"
               :editable='false'>
@@ -26,13 +25,10 @@
             </el-date-picker>
           </el-form-item>
           <el-tag type="success">可查询30天之前的交易，每次查询区间做多为3个月</el-tag>
-        </el-col>
-        <!-- <el-col :span="4">
           <el-form-item style="float:right">
-            <el-button type="text" @click="downExcel()">
-            <i class="el-icon-date"></i>导出Excel</el-button>
+              <el-button type="text" @click="downExcel()">
+              <i class="el-icon-date"></i>导出Excel</el-button>
           </el-form-item>
-        </el-col> -->
       </el-row>
       <el-row>
         <el-form-item>
@@ -132,7 +128,8 @@
     merRefund,
     supplyPrint,
     selectStoreList,
-    checkdownOrderExcelNew
+    checkdownOrderExcelNew,
+    checkdownOrderExcel
   } from '../../../api/shop';
 
   export default {
@@ -305,12 +302,12 @@
         para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
         para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
 
-        checkdownOrderExcelNew(para).then(res=>{
+        checkdownOrderExcel(para).then(res=>{
           if (res.data.status === 200) {
             window.location.href = res.data.data
           }
         })
-       // window.location.href = `http://download.weupay.com/download/mer/checkdownOrderExcelNew?storeId=${para.storeId}&endTime=${para.endTime}&startTime=${para.startTime}&payWay=${para.payWay}&status=${para.status}`;
+      //window.location.href = `http://download.weupay.com/download/mer/checkdownOrderExcelNew?storeId=${para.storeId}&endTime=${para.endTime}&startTime=${para.startTime}&payWay=${para.payWay}&status=${para.status}`;
 
       },
       handleCurrentChange(val) {
