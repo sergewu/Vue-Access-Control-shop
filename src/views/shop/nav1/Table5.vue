@@ -53,13 +53,13 @@
           </el-select>
         </el-form-item>
         <el-form-item prop="goodsprice" class="fixed_search_input">
-          <el-input v-model="filters.goodsprice" placeholder="交易金额"><i slot="prefix" class="iconfont icon-50"></i></el-input>
+          <el-input v-model.trim="filters.goodsprice" placeholder="交易金额"><i slot="prefix" class="iconfont icon-50"></i></el-input>
         </el-form-item>
         <el-form-item prop="orderId" class="fixed_search_input">
-          <el-input v-model="filters.orderId" placeholder="订单号"></el-input>
+          <el-input v-model.trim="filters.orderId" placeholder="订单号"></el-input>
         </el-form-item>
         <el-form-item prop="transaction_id" class="fixed_search_input">
-          <el-input v-model="filters.transaction_id" placeholder="第三方订单号"></el-input>
+          <el-input v-model.trim="filters.transaction_id" placeholder="第三方订单号"></el-input>
         </el-form-item>
         <el-form-item style="float: right;">
           <el-button type="primary" @click="getUsers('filters')" size="medium" round>查询</el-button>
