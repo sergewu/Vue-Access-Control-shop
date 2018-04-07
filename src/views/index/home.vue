@@ -97,7 +97,7 @@
   }
 
   .top_logo {
-    width: 180px;
+    width: 150px;
     float: left;
   }
 
@@ -126,18 +126,15 @@
 <template>
   <div>
     <el-container style="height:100%">
-      <el-header style="background: #fff;">
+      <el-header style="background: #fff;height:auto">
         <el-row>
-          <el-col :span="6">
+          <el-col :span="5">
             <div class="top_logo">
               <img src="../../assets/images/logo4.png" />
-              <span>万 鼎 科 技</span>
+              <span>万鼎科技</span>
             </div>
-            <el-button type="text" @click="isCollapse=!isCollapse" class="menu_icon">
-              <i class="iconfont icon-caidan"></i>
-            </el-button>
           </el-col>
-          <el-col :span="9">
+          <el-col :span="12">
             <div class="navmenu_horizontal">
               <el-menu :default-active="activeIndex" class="el_menu_horizontal" mode="horizontal" @select="handleSelect" background-color="#fff">
                 <el-menu-item index="1">首页</el-menu-item>
@@ -149,8 +146,8 @@
               </el-menu>
             </div>
           </el-col>
-          <el-col :span="9" style="line-height: 60px;text-align: right;">
-            <span>{{sysUserName}} 您好！欢迎登录商户平台 </span>
+          <el-col :span="7" style="line-height: 60px;text-align: right;">
+            <span>{{sysUserName}} ，欢迎登录商户平台 </span>
             <el-dropdown split-button size="small" type="danger" @click="logout">
               退出登录
               <el-dropdown-menu slot="dropdown">
@@ -467,6 +464,10 @@
       },
       //切换顶部导航
       handleSelect(change) {
+        if (this.activeIndex===change) {
+          return
+        }
+        sessionStorage.setItem('activeIndex', JSON.stringify(change));
         //切换头部导航
         this.$store.dispatch('top_nav', change)
         //清除动态标签
@@ -490,6 +491,11 @@
       },
     },
     mounted() {
+      let activeIndex = JSON.parse(sessionStorage.getItem('activeIndex'));
+      if (activeIndex) {
+        //切换头部导航
+        this.$store.dispatch('top_nav', activeIndex)
+      }
       //用户名
       let user = sessionStorage.getItem('user');
       if (user) {

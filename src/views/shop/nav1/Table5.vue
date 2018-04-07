@@ -13,43 +13,62 @@
     </el-row>
     <el-form :inline="true" :model="filters" ref="filters" :rules="filtersRules" class="top_input">
       <el-row>
-          <el-form-item prop="startTime">
-            <el-date-picker v-model="filters.startTime" @change="changTime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false"
-              :editable='false'>
-            </el-date-picker>
-          </el-form-item>
-             至
-          <el-form-item prop="endTime">
-            <el-date-picker v-model="filters.endTime" type="datetime" placeholder="选择结束日期" :picker-options="pickerOptions2" :clearable="false"
-              :editable='false'>
-            </el-date-picker>
-          </el-form-item>
-          <el-tag type="success">可查询30天之前的交易，每次查询区间做多为3个月</el-tag>
-          <el-form-item style="float:right">
+        <el-form-item prop="startTime">
+          <el-date-picker class="fixed_search_input_datetime" v-model="filters.startTime" @change="changTime" type="datetime" placeholder="选择开始日期"
+            :picker-options="pickerOptions1" :clearable="false" :editable='false'>
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item>
+          至
+        </el-form-item>
+        <el-form-item prop="endTime">
+          <el-date-picker class="fixed_search_input_datetime" v-model="filters.endTime" type="datetime" placeholder="选择结束日期" :picker-options="pickerOptions2"
+            :clearable="false" :editable='false'>
+          </el-date-picker>
+        </el-form-item>
+        <!-- <el-tag type="success">可查询30天之前的交易，每次查询区间最多为3个月</el-tag> -->
+        <!-- <el-form-item style="float:right">
               <el-button type="text" @click="downExcel()">
               <i class="el-icon-date"></i>导出Excel</el-button>
-          </el-form-item>
-      </el-row>
-      <el-row>
-        <el-form-item>
-          <el-select v-model="filters.parag" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
-            :loading="loading" clearable @visible-change="clickShop">
+          </el-form-item> -->
+        <!-- </el-row>
+      <el-row> -->
+        <el-form-item prop="parag" class="fixed_search_input">
+          <el-select v-model="filters.parag" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
+            :loading="searchLoading" clearable @visible-change="clickShop">
             <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.value">
             </el-option>
           </el-select>
-          <el-select v-model="filters.play" clearable placeholder="请选择支付类型">
+        </el-form-item>
+        <el-form-item prop="play" class="fixed_search_input">
+          <el-select v-model="filters.play" clearable placeholder="支付类型">
             <el-option v-for="item in optionsScene" :label="item.labelScene" :value="item.valueScene" :key="item.valueScene">
             </el-option>
           </el-select>
-          <el-select v-model="filters.state" clearable placeholder="请选择支付状态">
+        </el-form-item>
+        <el-form-item prop="state" class="fixed_search_input">
+          <el-select v-model="filters.state" clearable placeholder="支付状态">
             <el-option v-for="item in optionsState" :label="item.labelState" :value="item.valueState" :key="item.valueState">
             </el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item prop="goodsprice" class="fixed_search_input">
+          <el-input v-model="filters.goodsprice" placeholder="交易金额"><i slot="prefix" class="iconfont icon-50"></i></el-input>
+        </el-form-item>
+        <el-form-item prop="orderId" class="fixed_search_input">
+          <el-input v-model="filters.orderId" placeholder="订单号"></el-input>
+        </el-form-item>
+        <el-form-item prop="transaction_id" class="fixed_search_input">
+          <el-input v-model="filters.transaction_id" placeholder="第三方订单号"></el-input>
         </el-form-item>
         <el-form-item style="float: right;">
           <el-button type="primary" @click="getUsers('filters')" size="medium" round>查询</el-button>
           <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
         </el-form-item>
+      </el-row>
+      <el-row>
+        <el-alert title="可查询30天之前的交易，每次查询区间最多为3个月" type="warning" center close-text="知道了" show-icon>
+        </el-alert>
       </el-row>
     </el-form>
     <!--列表-->
@@ -76,7 +95,8 @@
     </div>
     <!--工具条-->
     <el-col>
-      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total"
+        background style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
     </el-col>
 
@@ -177,20 +197,25 @@
         },
         pickerOptions2: {
           disabledDate: (time) => {
-            let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.filters.startTime), 'yyyy-MM-dd')));
-            if (time.getTime() > startTimeOne + 3600 * 1000 * 24 * 90 || time.getTime() < startTimeOne - 3600 * 1000 * 24 * 1) {
+            let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.filters.startTime),
+              'yyyy-MM-dd')));
+            if (time.getTime() > startTimeOne + 3600 * 1000 * 24 * 90 || time.getTime() < startTimeOne - 3600 * 1000 *
+              24 * 1) {
               return true;
             }
           }
         },
-        loading: false,
+        searchLoading: false,
         //商户名
         filters: {
-          startTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()-1),
-          endTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()-1, 23,59,59),
+          startTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate() - 1),
+          endTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate() - 1, 23, 59, 59),
           play: '',
           state: '',
-          parag: ''
+          parag: '',
+          goodsprice: '',
+          transaction_id: '',
+          goodsprice: ''
         },
         whole: {
           sumAmt: "",
@@ -216,16 +241,19 @@
           payWay: ''
         },
         filtersRules: {
-          endTime: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-          ]
+          endTime: [{
+            type: 'date',
+            required: true,
+            message: '请选择日期',
+            trigger: 'change'
+          }]
         }
       }
     },
     methods: {
-      changTime(date){
-        let end_time = Date.parse(new Date(util.formatDate.format(new Date(this.filters.endTime), 'yyyy-MM-dd'))) 
-        let date_time = Date.parse(new Date(util.formatDate.format(new Date(date), 'yyyy-MM-dd'))) 
+      changTime(date) {
+        let end_time = Date.parse(new Date(util.formatDate.format(new Date(this.filters.endTime), 'yyyy-MM-dd')))
+        let date_time = Date.parse(new Date(util.formatDate.format(new Date(date), 'yyyy-MM-dd')))
         if (date_time < end_time - 3600 * 1000 * 24 * 90) {
           this.filters.endTime = ''
         }
@@ -248,9 +276,9 @@
       },
       remoteShop(query) {
         if (query !== '') {
-          this.loading = true;
+          this.searchLoading = true;
           setTimeout(() => {
-            this.loading = false;
+            this.searchLoading = false;
             selectStoreList({
               sname: query
             }).then((res) => {
@@ -289,27 +317,6 @@
           }
         })
       },
-      //导出Excel
-      downExcel () {
-        let para = {
-          mid:sessionStorage.getItem('mid'),
-          storeId: this.filters.parag,
-          endTime: this.filters.endTime,
-          startTime: this.filters.startTime,
-          payWay: this.filters.play,
-          status: this.filters.state,
-        };
-        para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
-        para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd hh:mm:ss'))); //开始时间
-
-        checkdownOrderExcel(para).then(res=>{
-          if (res.data.status === 200) {
-            window.location.href = res.data.data
-          }
-        })
-      //window.location.href = `http://download.weupay.com/download/mer/checkdownOrderExcelNew?storeId=${para.storeId}&endTime=${para.endTime}&startTime=${para.startTime}&payWay=${para.payWay}&status=${para.status}`;
-
-      },
       handleCurrentChange(val) {
         this.page = val;
         this.getList()
@@ -318,13 +325,16 @@
       getList() {
         this.listLoading = true;
         let para = {
-          mid:sessionStorage.getItem('mid'),
+          mid: sessionStorage.getItem('mid'),
           pageNum: this.page,
           payWay: this.filters.play,
           status: this.filters.state,
           storeId: String(this.filters.parag),
           startTime: this.filters.startTime,
-          endTime: this.filters.endTime
+          endTime: this.filters.endTime,
+          orderId: this.filters.orderId,
+          transaction_id: this.filters.transaction_id,
+          goodsprice: this.filters.goodsprice,
         };
         para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(
           para.startTime), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
@@ -348,9 +358,7 @@
           this.listLoading = false;
         });
       },
-      getUsers(formName){
-        console.log(formName);
-        
+      getUsers(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.page = 1

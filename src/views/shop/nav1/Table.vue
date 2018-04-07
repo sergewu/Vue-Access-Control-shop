@@ -13,30 +13,35 @@
     </el-row>
     <el-form :inline="true" :model="filters" ref="filters">
       <el-row>
-        <el-col :span="24">
-          <el-form-item>
-            <el-date-picker v-model="filters.startTime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false"
-              :editable='false'>
-            </el-date-picker> 至
-            <el-date-picker v-model="filters.endTime" type="datetime" placeholder="选择结束日期" :picker-options="pickerOptions2" :clearable="false"
-              :editable='false'>
-            </el-date-picker>
-          </el-form-item>
-          <el-tag type="success">可查询最近30天的交易</el-tag>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-form-item prop="parag">
-          <el-select v-model="filters.parag" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
+        <el-form-item prop="startTime">
+          <el-date-picker v-model="filters.startTime" class="fixed_search_input_datetime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false"
+            :editable='false'>
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item>至</el-form-item>
+        <el-form-item prop="endTime">
+          <el-date-picker v-model="filters.endTime" class="fixed_search_input_datetime" type="datetime" placeholder="选择结束日期" :picker-options="pickerOptions2" :clearable="false"
+            :editable='false'>
+          </el-date-picker>
+        </el-form-item>
+        <!-- <el-tag type="success">可查询最近30天的交易</el-tag> -->
+        <!-- </el-row>
+      <el-row> -->
+        <el-form-item prop="parag" class="fixed_search_input">
+          <el-select v-model="filters.parag" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
             :loading="loading" clearable @visible-change="clickShop">
             <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.value">
             </el-option>
           </el-select>
-          <el-select v-model="filters.play" clearable placeholder="请选择支付类型">
+        </el-form-item>
+        <el-form-item prop="play" class="fixed_search_input">
+          <el-select v-model="filters.play" clearable placeholder="支付类型">
             <el-option v-for="item in optionsScene" :label="item.labelScene" :value="item.valueScene" :key="item.valueScene">
             </el-option>
           </el-select>
-          <el-select v-model="filters.state" clearable placeholder="请选择支付状态">
+        </el-form-item>
+        <el-form-item prop="state" class="fixed_search_input">
+          <el-select v-model="filters.state" clearable placeholder="支付状态">
             <el-option v-for="item in optionsState" :label="item.labelState" :value="item.valueState" :key="item.valueState">
             </el-option>
           </el-select>
@@ -45,6 +50,10 @@
           <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
           <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
         </el-form-item>
+      </el-row>
+      <el-row>
+        <el-alert title="可查询最近30天的交易" type="warning" center close-text="知道了" show-icon>
+        </el-alert>
       </el-row>
     </el-form>
     <!--列表-->
@@ -72,7 +81,8 @@
     </div>
     <!--工具条-->
     <el-col>
-      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total"
+        background style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
     </el-col>
 
@@ -192,14 +202,15 @@
         options: [],
         //时间控制
         pickerOptions1: {
-          disabledDate(time) {     
+          disabledDate(time) {
             let date = new Date();
             return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 35;
           }
         },
         pickerOptions2: {
           disabledDate: (time) => {
-            let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.filters.startTime), 'yyyy-MM-dd hh:mm:ss')));
+            let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.filters.startTime),
+              'yyyy-MM-dd hh:mm:ss')));
             if (time.getTime() < startTimeOne || time.getTime() > Date.now()) {
               return true;
             }
@@ -208,8 +219,8 @@
         loading: false,
         //商户名
         filters: {
-          startTime: new Date(myDate.getFullYear(),myDate.getMonth(),myDate.getDate()),
-          endTime: new Date(myDate.getFullYear(),myDate.getMonth(),myDate.getDate(),23,59,59),
+          startTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()),
+          endTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate(), 23, 59, 59),
           play: '',
           state: '',
           parag: ''
@@ -354,7 +365,7 @@
           this.listLoading = false;
         });
       },
-      getUsers(){
+      getUsers() {
         this.page = 1
         this.getList()
       },

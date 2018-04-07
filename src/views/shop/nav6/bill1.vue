@@ -5,24 +5,39 @@
     </div>
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-row>
-        <el-form-item label="交易类型" prop="accountType">
-          <el-radio-group v-model="ruleForm.accountType">
+        <el-form-item label="账单类型">
+          <el-radio-group v-model="ruleForm.excel_type">
+            <el-radio v-for="recson in optionsExcel" :label="recson.value" :key="recson.value">{{recson.label}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-row>
+      <el-row>
+        <el-form-item label="交易类型">
+          <el-radio-group v-model="ruleForm.accountType" :disabled="ruleForm.excel_type!=='od'">
             <el-radio :label="0">支付</el-radio>
             <el-radio :label="1">退款</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-row>
       <el-row>
-        <el-form-item label="支付方式" prop="recsonId">
+        <el-form-item label="支付方式">
           <el-radio-group v-model="ruleForm.recsonId">
-            <el-radio :label="0">微信</el-radio>
-            <el-radio :label="1">支付宝</el-radio>
+            <el-radio v-for="recson in optionsScene" :label="recson.value" :key="recson.value">{{recson.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-row>
       <el-row>
+        <el-form-item label="选择门店">
+          <el-select v-model="ruleForm.storeId" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
+            :loading="selectLoading" clearable @visible-change="clickShop">
+            <el-option v-for="item in storeOptions" :key="item.id" :value="item.id" :label="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-row>
+      <el-row>
         <el-col :span="14">
-          <el-form-item label="对账单时间" prop="resource">
+          <el-form-item label="选择时间" prop="resource">
             <el-date-picker
               v-model="ruleForm.startTime"
               :editable="false"
@@ -66,7 +81,7 @@
 
 <script>
   import * as util from '../../../assets/util.js'
-	import { downOrderExcelNew, checkdownOrderExcelNew } from '../../../api/shop';
+	import { downOrderExcelNew, checkdownOrderExcelNew, selectStoreList, checkDataExcel } from '../../../api/shop';
   export default {
     data() {
       var myDate = new Date();
@@ -88,9 +103,15 @@
             }
           }
         },
+        selectLoading:false,
+        //选择门店
+        storeOptions: [],
         ruleForm: {
+          parag:'',
+          excel_type:'od',
           accountType:0,
-          recsonId:0,
+          recsonId:'',
+          storeId:'',
           startTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()-1),
           endTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()-1, 23,59,59),
         },
@@ -98,9 +119,47 @@
           endTime: [
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
           ]
-        }
+        },
+        //账单类型
+        optionsExcel: [{
+          value: 'od',
+          label: '交易明细'
+        }, {
+          value: 'sd',
+          label: '门店日汇总'
+        }, {
+          value: 'ss',
+          label: '门店汇总'
+        }],
+        //支付方式
+        optionsScene: [{
+          value: '',
+          label: '所有'
+        }, {
+          value: 'WX',
+          label: '微信'
+        }, {
+          value: 'ALI',
+          label: '支付宝'
+        }, {
+          value: 'DEBIT',
+          label: '借记卡'
+        }, {
+          value: 'CREDIT',
+          label: '贷记卡'
+        }]
       };
     },
+  computed: {
+    excel_type() {
+  　　return this.ruleForm.excel_type
+  　}
+  },
+  watch: {
+    excel_type(curVal,oldVal) {
+      return curVal !== 'od' ? this.ruleForm.accountType = 0 : this.ruleForm.accountType
+    }
+  },
     methods: {
       changTime(date){
         let end_time = Date.parse(new Date(util.formatDate.format(new Date(this.ruleForm.endTime), 'yyyy-MM-dd'))) 
@@ -109,27 +168,55 @@
           this.ruleForm.endTime = ''
         }
       },
+      //门店远程搜索
+      clickShop: function () {
+        selectStoreList().then((res) => {
+          let {
+            status,
+            data
+          } = res
+          this.storeOptions = data.storeList
+        })
+      },
+      remoteShop(query) {
+        if (query !== '') {
+          this.selectLoading = true;
+          setTimeout(() => {
+            this.selectLoading = false;
+            selectStoreList({
+              sname: query
+            }).then((res) => {
+              let {
+                status,
+                data
+              } = res
+              this.storeOptions = data.storeList
+            })
+          }, 200);
+        } else {
+          this.storeOptions = [];
+        }
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let para={
               mid:sessionStorage.getItem('mid'),
               order_type:String(this.ruleForm.accountType),
-              payWay:String(this.ruleForm.recsonId),
+              payWay:this.ruleForm.recsonId,
               startTime:this.ruleForm.startTime,
               endTime:this.ruleForm.endTime,
-              storeId:""
+              storeId:this.ruleForm.storeId,
+              excel_type:this.ruleForm.excel_type
             }
-            para.payWay = para.payWay == 0 ? 'WX' : 'ALI';
             para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd hh:mm:ss')));
             para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd hh:mm:ss')));
-            checkdownOrderExcelNew(para).then(res=>{
+            checkDataExcel(para).then(res=>{
               if (res.data.status === 200) {
                 window.location.href = res.data.data
               }
             })
           }
-         // window.location.href=process.env.API_ROOT+"/pay/mer/downOrderExcelNew"+"?"+"order_type="+para.order_type+"&"+"payWay="+para.payWay+"&"+"startTime="+para.startTime+"&"+"endTime="+para.endTime+"&"+"storeId="+para.storeId;
         });
       },
     }
@@ -139,6 +226,7 @@
   .bill1-top{
     padding: 0 25px;
     border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
   }
   .demo-ruleForm{
     padding: 0 25px;

@@ -29,7 +29,7 @@
   }
 
   .top_logo {
-    width: 180px;
+    width: 150px;
     float: left;
   }
 
@@ -58,12 +58,12 @@
 <template>
   <div>
     <el-container style="height:100%">
-      <el-header style="background: #fff;">
+      <el-header style="background: #fff;height:auto">
         <el-row>
           <el-col :span="5">
             <div class="top_logo">
               <img src="../assets/images/logo4.png" />
-              <span>万 鼎 科 技</span>
+              <span>万鼎科技</span>
             </div>
             <el-button type="text" @click="isCollapse=!isCollapse" class="menu_icon">
               <i class="iconfont icon-caidan"></i>
@@ -82,7 +82,7 @@
             </div>
           </el-col>
           <el-col :span="7" style="line-height: 60px;text-align: right;">
-            <span>{{sysUserName}} 您好！欢迎登录商户平台 </span>
+            <span>{{sysUserName}} ，欢迎登录商户平台 </span>
             <el-dropdown split-button size="small" type="danger" @click="logout">
               退出登录
               <el-dropdown-menu slot="dropdown">
