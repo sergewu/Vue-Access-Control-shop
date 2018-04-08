@@ -59,11 +59,11 @@
     <!--列表-->
     <div v-loading="listLoading">
       <el-table :data="users" border highlight-current-row>
-        <el-table-column prop="payTime" label="付款时间" min-width="145">
+        <el-table-column prop="payTime" label="付款时间" min-width="165">
         </el-table-column>
-        <el-table-column prop="orderId" label="订单号" min-width="195">
+        <el-table-column prop="orderId" label="订单号" min-width="285">
         </el-table-column>
-        <el-table-column prop="goodsPrice" label="交易金额" width="120">
+        <el-table-column prop="goodsPrice" label="交易金额" width="120" :formatter="format_amount">
         </el-table-column>
         <el-table-column prop="discount" label="优惠金额" width="120">
         </el-table-column>
@@ -73,8 +73,8 @@
         </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">交易详情</el-button>
-            <el-button type="danger" size="small" @click="handleRefund(scope.$index, scope.row)">退款</el-button>
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">交易详情</el-button>
+            <el-button type="danger" size="mini" @click="handleRefund(scope.$index, scope.row)">退款</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -274,6 +274,10 @@
       },
       formatPay1: function (row) {
         return row == 'WX' ? '微信' : row == 'ALI' ? '支付宝' : row == 'DEBIT' ? '借记卡' : row == 'CREDIT' ? '贷记卡' : '未知';
+      },
+      //格式化金额
+      format_amount(row, column) {
+        return util.number_format(row.goodsPrice, 2, ".", ",")
       },
       //门店远程搜索
       clickShop: function () {

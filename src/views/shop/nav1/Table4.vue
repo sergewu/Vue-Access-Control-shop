@@ -32,17 +32,17 @@
         </el-table-column>
         <el-table-column prop="settled_date" label="统计日期" min-width="130" :formatter="settled_date">
         </el-table-column>
-        <el-table-column prop="trans_amt" label="交易金额" min-width="100">
+        <el-table-column prop="trans_amt" label="交易金额" min-width="100" :formatter="format_trans_amt">
         </el-table-column>
-        <el-table-column prop="amount" label="有效金额" min-width="100">
+        <el-table-column prop="amount" label="有效金额" min-width="100" :formatter="format_amount">
         </el-table-column>
         <el-table-column prop="sum_total" label="交易笔数">
         </el-table-column>
-        <el-table-column prop="refund_amt" label="退款金额">
+        <el-table-column prop="refund_amt" label="退款金额" :formatter="format_refund_amt">
         </el-table-column>
-        <el-table-column prop="factorage" label="手续费">
+        <el-table-column prop="factorage" label="手续费" :formatter="format_factorage">
         </el-table-column>
-        <el-table-column prop="avg_amt" label="平均每笔交易额" min-width="120">
+        <el-table-column prop="avg_amt" label="平均每笔交易额" min-width="120" :formatter="format_avg_amt">
         </el-table-column>
       </el-table>
     </div>
@@ -102,6 +102,22 @@
       }
     },
     methods: {
+      //格式化金额
+      format_trans_amt(row, column) {
+        return util.number_format(row.trans_amt, 2, ".", ",")
+      },
+      format_amount(row, column) {
+        return util.number_format(row.amount, 2, ".", ",")
+      },
+      format_refund_amt(row, column) {
+        return util.number_format(row.refund_amt, 2, ".", ",")
+      },
+      format_factorage(row, column) {
+        return util.number_format(row.factorage, 2, ".", ",")
+      },
+      format_avg_amt(row, column) {
+        return util.number_format(row.avg_amt, 2, ".", ",")
+      },
       settled_date: function (row, column) {
         return row.settled_date = util.formatDate.format(new Date(row.settled_date), 'yyyy/MM/dd');
       },

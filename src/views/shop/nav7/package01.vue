@@ -3,11 +3,11 @@
   <!--工具条-->
   <el-row>
     <el-form :inline="true" :model="filters">
-      <el-form-item prop="time1">
+      <el-form-item prop="startTime">
         <el-date-picker v-model="filters.startTime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false" :editable='false'>
         </el-date-picker>
       </el-form-item>
-      <el-form-item prop="time2">
+      <el-form-item prop="endTime">
         <el-date-picker v-model="filters.endTime" type="datetime" placeholder="选择结束日期" :picker-options="pickerOptions2" :clearable="false" :editable='false'>
         </el-date-picker>
       </el-form-item>
@@ -51,15 +51,15 @@
   <!--列表-->
   <div v-loading="listLoading">
     <el-table :data="users" border highlight-current-row style="width: 100%;">
-      <el-table-column prop="nick_name" label="购买人">
+      <el-table-column prop="nick_name" label="购买人" min-width="140">
       </el-table-column>
-      <el-table-column prop="pkg_name" label="套餐名称">
+      <el-table-column prop="pkg_name" label="套餐名称" min-width="140">
       </el-table-column>
-      <el-table-column prop="commission" label="提成金额" :formatter="commission">
+      <el-table-column prop="commission" label="提成金额" min-width="120" :formatter="commission">
       </el-table-column>
-      <el-table-column prop="gmt_create" label="交易时间" :formatter="gmt_create" min-width="170">
+      <el-table-column prop="gmt_create" label="交易时间" min-width="170" :formatter="gmt_create">
       </el-table-column>
-      <el-table-column prop="pkgStatus" label="套餐激活状态" :formatter="pkgStatus" width="120">
+      <el-table-column prop="pkgStatus" label="套餐激活状态" min-width="120" :formatter="pkgStatus">
       </el-table-column>
       <el-table-column prop="receive_card_status" label="领卡状态" width="110">
         <template slot-scope="scope">
@@ -121,8 +121,8 @@ export default {
       },
       filters: {
         pkg_id: '',
-        startTime: [new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate())],
-        endTime: [new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate(), 23, 59, 59)],
+        startTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()),
+        endTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate(), 23, 59, 59),
         redpackets:'',
         cardstatus:''
       },
@@ -194,7 +194,7 @@ export default {
       window.location.href = this.receive.code
     },
     commission:function (row,column) {
-      return String(row.commission)
+      return util.number_format(row.commission, 2, ".", ",")
     },
     //激活状态
     pkgStatus:function (row, column) {

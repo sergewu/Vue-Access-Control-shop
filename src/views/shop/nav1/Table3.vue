@@ -40,17 +40,17 @@
         </el-table-column>
         <el-table-column prop="pay_type" label="付款方式">
         </el-table-column>
-        <el-table-column prop="amount" label="交易金额">
+        <el-table-column prop="amount" label="交易金额" :formatter="format_amount">
         </el-table-column>
-        <el-table-column prop="discount" label="优惠金额">
+        <el-table-column prop="discount" label="优惠金额" :formatter="format_discount">
         </el-table-column>
-        <el-table-column prop="refund_amt" label="退款金额">
+        <el-table-column prop="refund_amt" label="退款金额" :formatter="format_refund_amt">
         </el-table-column>
         <el-table-column prop="rate" label="费率‰">
         </el-table-column>
-        <el-table-column prop="factorage" label="交易手续费" min-width="120">
+        <el-table-column prop="factorage" label="交易手续费" min-width="120" :formatter="format_factorage">
         </el-table-column>
-        <el-table-column prop="surplus" label="划账金额">
+        <el-table-column prop="surplus" label="划账金额" :formatter="format_surplus">
         </el-table-column>
       </el-table>
     </div>
@@ -167,6 +167,22 @@
       }
     },
     methods: {
+      //格式化金额
+      format_amount(row, column) {
+        return util.number_format(row.amount, 2, ".", ",")
+      },
+      format_discount(row, column) {
+        return util.number_format(row.discount, 2, ".", ",")
+      },
+      format_refund_amt(row, column) {
+        return util.number_format(row.refund_amt, 2, ".", ",")
+      },
+      format_factorage(row, column) {
+        return util.number_format(row.factorage, 2, ".", ",")
+      },
+      format_surplus(row, column) {
+        return util.number_format(row.surplus, 2, ".", ",")
+      },
       //门店远程搜索
       clickShop: function () {
         selectStoreList().then((res) => {

@@ -8,9 +8,12 @@
     background-color: #DCDFE6;
     float: left;
   }
-
+  .container_elMenu{
+    background-color: rgb(65, 79, 97);
+  }
   .el_menu_vertical {
     margin-top: -36px;
+    border: none;
   }
 
   .el_menu_vertical:not(.el-menu--collapse) {
@@ -111,30 +114,31 @@
           </el-form>
         </el-dialog>
       </el-header>
-      <TagsView v-bind:style="{ marginLeft: isCollapseSty }"></TagsView>
-      <el-container style="border: 1px solid #eee;">
-        <el-menu :default-active="activeMenu" class="el_menu_vertical" unique-opened :collapse="isCollapse" router background-color="#414F61"
-          text-color="#fff" active-text-color="#409EFF">
-          <template v-for="(route, index) in menus">
-            <template v-if="route.children">
-              <el-submenu :key="index" :index="route.name">
-                <template slot="title">
+      <TagsView v-bind:style="{ paddingLeft: isCollapseSty }"></TagsView>
+      <el-container>
+        <div class="container_elMenu">
+          <el-menu :default-active="activeMenu" class="el_menu_vertical" unique-opened :collapse="isCollapse" router background-color="#414F61" text-color="#fff" active-text-color="#409EFF">
+            <template v-for="(route, index) in menus">
+              <template v-if="route.children">
+                <el-submenu :key="index" :index="route.name">
+                  <template slot="title">
+                    <i class="iconfont route_icon" v-bind:class="[route.meta.icon]"></i>
+                    <span slot="title">{{route.meta.name || route.name}}</span>
+                  </template>
+                  <el-menu-item v-for="(cRoute, cIndex) in route.children" :key="cIndex" :index="cRoute.name" :route="cRoute" v-if="!cRoute.meta.hidden">
+                    {{cRoute.meta.name || cRoute.name}}
+                  </el-menu-item>
+                </el-submenu>
+              </template>
+              <template v-else>
+                <el-menu-item :key="index" :route="route" :index="route.name">
                   <i class="iconfont route_icon" v-bind:class="[route.meta.icon]"></i>
                   <span slot="title">{{route.meta.name || route.name}}</span>
-                </template>
-                <el-menu-item v-for="(cRoute, cIndex) in route.children" :key="cIndex" :index="cRoute.name" :route="cRoute" v-if="!cRoute.meta.hidden">
-                  {{cRoute.meta.name || cRoute.name}}
                 </el-menu-item>
-              </el-submenu>
+              </template>
             </template>
-            <template v-else>
-              <el-menu-item :key="index" :route="route" :index="route.name">
-                <i class="iconfont route_icon" v-bind:class="[route.meta.icon]"></i>
-                <span slot="title">{{route.meta.name || route.name}}</span>
-              </el-menu-item>
-            </template>
-          </template>
-        </el-menu>
+          </el-menu>
+        </div>
         <el-main>
           <template>
             <transition name="fade" mode="out-in">

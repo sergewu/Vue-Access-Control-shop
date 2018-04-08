@@ -16,15 +16,15 @@
     <!--列表-->
     <div v-loading="listLoading">
       <el-table :data="users" border highlight-current-row style="width: 100%;">
-        <el-table-column prop="pkg_name" label="套餐名称">
+        <el-table-column prop="pkg_name" label="套餐名称" min-width="160">
         </el-table-column>
-        <el-table-column prop="price" label="套餐现价">
+        <el-table-column prop="price" label="套餐现价" min-width="120" :formatter="format_price">
         </el-table-column>
-        <el-table-column prop="oprice" label="套餐原价">
+        <el-table-column prop="oprice" label="套餐原价" min-width="120" :formatter="format_oprice">
         </el-table-column>
         <el-table-column prop="level" label="等级标识" min-width="120">
         </el-table-column>
-        <el-table-column prop="gmt_create" label="创建时间" :formatter="gmt_create">
+        <el-table-column prop="gmt_create" label="创建时间" min-width="120" :formatter="gmt_create">
         </el-table-column>
         <el-table-column prop="stock" label="库存">
         </el-table-column>
@@ -551,6 +551,13 @@
       }
     },
     methods: {
+      //格式化金额
+      format_price(row, column) {
+        return util.number_format(row.price, 2, ".", ",")
+      },
+      format_oprice(row, column) {
+        return util.number_format(row.oprice, 2, ".", ",")
+      },
       repairsumbil(){
         if(!this.vipMember.id){
           return this.$message({message: "请先输入卡号查询会员信息",type: 'warning'});

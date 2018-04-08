@@ -21,15 +21,15 @@
     <el-table :data="users" highlight-current-row style="width: 100%;" border>
       <el-table-column prop="card_num" label="公司卡号" min-width="120">
       </el-table-column>
-      <el-table-column prop="name" label="公司名称">
+      <el-table-column prop="name" label="公司名称" min-width="200">
       </el-table-column>
-      <el-table-column prop="address" label="公司地址">
+      <el-table-column prop="address" label="公司地址" min-width="260">
       </el-table-column>
       <el-table-column prop="person" label="负责人姓名" min-width="100">
       </el-table-column>
       <el-table-column prop="phone" label="负责人电话" min-width="120">
       </el-table-column>
-      <el-table-column prop="balance" label="余额￥">
+      <el-table-column prop="balance" label="余额￥" min-width="120" :formatter="format_balance">
       </el-table-column>
       <el-table-column label="操作" width="370">
         <template slot-scope="scope">
@@ -222,6 +222,10 @@ export default {
     }
   },
   methods: {
+    //金额格式化
+    format_balance(row, column){
+      return util.number_format(row.balance, 2, ".", ",")
+    },
     //列表时间格式化
     creat_time(row, column){
       return row.creat_time=util.formatDate.format(new Date(row.creat_time), 'yyyy-MM-dd');

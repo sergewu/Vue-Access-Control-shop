@@ -22,29 +22,29 @@
   <!--列表-->
   <div v-loading="listLoading">
     <el-table :data="users" border highlight-current-row style="width: 100%;">
-      <el-table-column prop="inviter_name" label="邀请人">
+      <el-table-column prop="inviter_name" label="邀请人" min-width="120">
       </el-table-column>
-      <el-table-column prop="phone" label="电话">
+      <el-table-column prop="phone" label="电话" min-width="120">
       </el-table-column>
-      <el-table-column prop="inviter_code" label="邀请码" width="95">
+      <el-table-column prop="inviter_code" label="邀请码" min-width="95">
       </el-table-column>
-      <el-table-column prop="card_num" label="会员卡号">
+      <el-table-column prop="card_num" label="会员卡号" min-width="120">
       </el-table-column>
-      <el-table-column prop="commission" label="提成金额" width="95" :formatter="commission">
+      <el-table-column prop="commission" label="提成金额" min-width="95" :formatter="commission">
       </el-table-column>
-      <el-table-column prop="dividend" label="分红金额">
+      <el-table-column prop="dividend" label="分红金额" min-width="160">
         <template slot-scope="scope">
           <span>{{scope.row.dividend}}</span>
-          <el-button type="warning" size="small" @click="dividendClick(scope.$index, scope.row)">修改</el-button>
+          <el-button type="warning" size="mini" @click="dividendClick(scope.$index, scope.row)">修改</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="sum_invitee" label="邀请成功" width="100">
+      <el-table-column prop="sum_invitee" label="邀请成功" min-width="100">
       </el-table-column>
-      <el-table-column prop="intentSum" label="意向客户" width="100">
+      <el-table-column prop="intentSum" label="意向客户" min-width="100">
       </el-table-column>
       <el-table-column prop="store_name" label="操作" width="100">
         <template slot-scope="scope">
-            <el-button type="info" size="small" @click="seeClick(scope.$index, scope.row)">邀请详情</el-button>
+            <el-button type="info" size="mini" @click="seeClick(scope.$index, scope.row)">邀请详情</el-button>
         </template>
       </el-table-column>
     </el-table>

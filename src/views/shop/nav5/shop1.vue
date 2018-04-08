@@ -28,13 +28,13 @@
 		<!--列表-->
     <div v-loading="listLoading">
       <el-table border :data="users" highlight-current-row style="width: 100%;">
-        <el-table-column prop="name" label="商户名称">
+        <el-table-column prop="name" label="商户名称" min-width="180">
         </el-table-column>
-        <el-table-column prop="oprice" label="商品原价">
+        <el-table-column prop="oprice" label="商品原价" min-width="120" :formatter="format_oprice">
         </el-table-column>
-        <el-table-column prop="nprice" label="商品现价">
+        <el-table-column prop="nprice" label="商品现价" min-width="120" :formatter="format_nprice">
         </el-table-column>
-        <el-table-column prop="stock" label="库存">
+        <el-table-column prop="stock" label="库存" min-width="120">
         </el-table-column>
         <el-table-column prop="stock" label="状态" width="85">
           <template slot-scope="scope">
@@ -285,6 +285,13 @@
 			}
 		},
 		methods: {
+      //格式化金额
+      format_oprice(row, column) {
+        return util.number_format(row.oprice, 2, ".", ",")
+      },
+      format_nprice(row, column) {
+        return util.number_format(row.nprice, 2, ".", ",")
+      },
 			//商户远程搜索
 			clickCard:function () {
 				getCouponByInPro({title:''}).then((res) => {

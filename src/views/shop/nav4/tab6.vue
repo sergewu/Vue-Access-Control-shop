@@ -51,7 +51,7 @@
     </el-table-column>
     <el-table-column prop="account_num" label="会员卡号" min-width="120">
     </el-table-column>
-    <el-table-column prop="amount" label="交易金额（元）" min-width="120">
+    <el-table-column prop="amount" label="交易金额（元）" min-width="120" :formatter="format_amount">
     </el-table-column>
     <el-table-column prop="bouns" label="获得积分" min-width="120">
       <template slot-scope="scope">
@@ -60,7 +60,7 @@
 					<span style="margin-left: 10px">{{ scope.row.bouns }}</span>
 				</template>
     </el-table-column>
-    <el-table-column prop="account_balance" label="余额（元）" min-width="120">
+    <el-table-column prop="account_balance" label="余额（元）" min-width="120" :formatter="format_account_balance">
     </el-table-column>
     <el-table-column prop="creat_stamp" label="交易时间" :formatter="creat_stamp" min-width="160">
     </el-table-column>
@@ -191,6 +191,13 @@ export default {
     }
   },
   methods: {
+    //金额格式化
+    format_amount(row, column){
+      return util.number_format(row.amount, 2, ".", ",")
+    },
+    format_account_balance(row, column){
+      return util.number_format(row.account_balance, 2, ".", ",")
+    },
     codeClick() {
       sendVerCode({
         orderId: this.orderId

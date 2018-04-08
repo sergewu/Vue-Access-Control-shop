@@ -58,15 +58,15 @@
 		<!--列表-->
 		<div v-loading="listLoading">
 			<el-table :data="users" highlight-current-row style="width: 100%;" border>
-				<el-table-column prop="code" label="卡券号">
+				<el-table-column prop="code" label="卡券号" min-width="120">
 				</el-table-column>
-				<el-table-column prop="title" label="卡券名称">
+				<el-table-column prop="title" label="卡券名称" min-width="140">
 				</el-table-column>
-				<el-table-column prop="store_name" label="门店">
+				<el-table-column prop="store_name" label="门店" min-width="190">
 				</el-table-column>
-				<el-table-column prop="consume_source" label="核销方式" :formatter="consume_source">
+				<el-table-column prop="consume_source" label="核销方式" :formatter="consume_source" min-width="120">
 				</el-table-column>
-				<el-table-column prop="update_time" label="时间" :formatter="update_time">
+				<el-table-column prop="update_time" label="时间" :formatter="update_time" min-width="160">
 				</el-table-column>
 			</el-table>
 		</div>

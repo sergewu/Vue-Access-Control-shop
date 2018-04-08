@@ -26,13 +26,6 @@
             :clearable="false" :editable='false'>
           </el-date-picker>
         </el-form-item>
-        <!-- <el-tag type="success">可查询30天之前的交易，每次查询区间最多为3个月</el-tag> -->
-        <!-- <el-form-item style="float:right">
-              <el-button type="text" @click="downExcel()">
-              <i class="el-icon-date"></i>导出Excel</el-button>
-          </el-form-item> -->
-        <!-- </el-row>
-      <el-row> -->
         <el-form-item prop="parag" class="fixed_search_input">
           <el-select v-model="filters.parag" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
             :loading="searchLoading" clearable @visible-change="clickShop">
@@ -63,7 +56,7 @@
         </el-form-item>
         <el-form-item style="float: right;">
           <el-button type="primary" @click="getUsers('filters')" size="medium" round>查询</el-button>
-          <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
+          <!-- <el-button @click="resetForm('filters')" size="medium" round>重置</el-button> -->
         </el-form-item>
       </el-row>
       <el-row>
@@ -74,11 +67,11 @@
     <!--列表-->
     <div v-loading="listLoading">
       <el-table :data="users" border highlight-current-row>
-        <el-table-column prop="payTime" label="付款时间" min-width="145">
+        <el-table-column prop="payTime" label="付款时间" min-width="165">
         </el-table-column>
-        <el-table-column prop="orderId" label="订单号" min-width="195">
+        <el-table-column prop="orderId" label="订单号" min-width="285">
         </el-table-column>
-        <el-table-column prop="goodsPrice" label="交易金额" width="120">
+        <el-table-column prop="goodsPrice" label="交易金额" width="120" :formatter="format_amount">
         </el-table-column>
         <el-table-column prop="discount" label="优惠金额" width="120">
         </el-table-column>
@@ -88,17 +81,17 @@
         </el-table-column>
         <el-table-column label="操作" width="100">
           <template slot-scope="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">交易详情</el-button>
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">交易详情</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <!--工具条-->
-    <el-col>
+    <el-row>
       <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total"
         background style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
-    </el-col>
+    </el-row>
 
     <!--详情界面-->
     <el-dialog title="交易详情" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
@@ -264,6 +257,10 @@
       formatPay1: function (row) {
         return row == 'WX' ? '微信' : row == 'ALI' ? '支付宝' : row == 'DEBIT' ? '借记卡' : row == 'CREDIT' ? '贷记卡' : '未知';
       },
+      //格式化金额
+      format_amount(row, column) {
+        return util.number_format(row.goodsPrice, 2, ".", ",")
+      },
       //门店远程搜索
       clickShop: function () {
         selectStoreList().then((res) => {
@@ -401,8 +398,3 @@
   }
 
 </script>
-
-<style scoped>
-
-
-</style>

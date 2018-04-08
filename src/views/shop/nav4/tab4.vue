@@ -31,7 +31,7 @@
         </el-table-column>
         <el-table-column prop="account_bouns" label="积分" sortable="custom" min-width="120" v-if="supplyBouns">
         </el-table-column>
-        <el-table-column prop="actual_balance" label="余额（元）" sortable="custom" min-width="130" v-if="supplyBalance">
+        <el-table-column prop="actual_balance" label="余额（元）" sortable="custom" min-width="130" :formatter="format_actual_balance" v-if="supplyBalance">
         </el-table-column>
         <el-table-column label="操作" width="380">
           <template slot-scope="scope">
@@ -139,6 +139,10 @@
       }
     },
     methods: {
+      //格式化金额
+      format_actual_balance(row, column) {
+        return util.number_format(row.actual_balance, 2, ".", ",")
+      },
       addSubmit() {
         this.$refs.addForm.validate((valid) => {
           if (valid) {

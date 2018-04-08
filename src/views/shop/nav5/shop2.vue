@@ -24,17 +24,17 @@
 		<!--列表-->
 		<div v-loading="listLoading">
 			<el-table :data="users" border highlight-current-row style="width: 100%;">
-				<el-table-column prop="name" label="姓名" width="140">
+				<el-table-column prop="name" label="姓名" min-width="120">
 				</el-table-column>
-				<el-table-column prop="phone" label="电话" width="140">
+				<el-table-column prop="phone" label="电话" min-width="140">
 				</el-table-column>
-				<el-table-column prop="product_name" label="商品名称" width="140">
+				<el-table-column prop="product_name" label="商品名称" min-width="180">
 				</el-table-column>
-				<el-table-column prop="order_id" label="订单号" min-width="180">
+				<el-table-column prop="order_id" label="订单号" min-width="280">
 				</el-table-column>
-				<el-table-column prop="status" label="状态" width="100" :formatter="status">
+				<el-table-column prop="status" label="状态" min-width="100" :formatter="status">
 				</el-table-column>
-				<el-table-column prop="creat_time" label="创建时间"  :formatter="creat_time">
+				<el-table-column prop="creat_time" label="创建时间" min-width="160"  :formatter="creat_time">
 				</el-table-column>
 			</el-table>
 		</div>

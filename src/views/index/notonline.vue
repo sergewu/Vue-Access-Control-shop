@@ -1,6 +1,6 @@
 <template>
   <el-container style="height:100%">
-      <el-header style="background: #fff;">
+      <el-header style="background: #fff;height:auto">
         <el-row>
           <el-col :span="5">
             <div class="top_logo">
@@ -24,7 +24,7 @@
             </div>
           </el-col>
           <el-col :span="7" style="line-height: 60px;text-align: right;">
-            <span>{{sysUserName}} 您好！欢迎登录商户平台 </span>
+            <span>{{sysUserName}} ，欢迎登录商户平台 </span>
             <el-dropdown split-button size="small" type="danger" @click="logout">
               退出登录
               <el-dropdown-menu slot="dropdown">
@@ -268,46 +268,30 @@
       },
       //切换顶部导航
       handleSelect(change) {
-        const loading = this.$loading({
-          lock: true,
-          text: '请稍候,正在加载',
-          background: '#fff'
-        });
-        setTimeout(() => {
-          loading.close();
-        }, 500);
-                    //清除动态标签
-        this.$store.dispatch('delAllViews')
-        if (change === '1') {
-          this.$store.dispatch('top_nav', '1')
-          this.$router.push({
-            path: "/home"
-          });
-        } else if (change === '2') {
-          this.$store.dispatch('top_nav', '2')
-          sessionStorage.setItem('menu', JSON.stringify(1));
-          this.$emit('login', '/index1/table');
-        } else if (change === '3') {
-          this.$store.dispatch('top_nav', '3')
-          sessionStorage.setItem('menu', JSON.stringify(2));
-          this.$emit('login', '/index2/page1');
-        } else if (change === '4') {
-          this.$store.dispatch('top_nav', '4')
-          sessionStorage.setItem('menu', JSON.stringify(3));
-          this.$emit('login', '/index3/tab2');
-        }else if (change === '5'){
-          this.$store.dispatch('top_nav', '5')
-          this.$router.push({ path: "/notonline" });
-        }else if (change === '6'){
-          this.$store.dispatch('top_nav', '6')
-          this.$router.push({ path: "/notonline" });
+        if (this.activeIndex===change) {
+          return
         }
-        setTimeout(() => {
-          let menus = this.$parent.menuData;
-          if (menus) {
-            this.menus = menus;
-          }
-        }, 500);
+        sessionStorage.setItem('activeIndex', JSON.stringify(change));
+        //切换头部导航
+        this.$store.dispatch('top_nav', change)
+        //清除动态标签
+        this.$store.dispatch('delAllViews')
+
+        switch (parseInt(change)) {
+          case 1 : this.$router.push({ path: "/home" });
+            break;
+          case 2 : sessionStorage.setItem('menu', JSON.stringify(1));
+                  this.$emit('login', '/index1/table');
+            break;
+          case 3 : sessionStorage.setItem('menu', JSON.stringify(2));
+                  this.$emit('login', '/index2/page1');
+            break;
+          case 4 : sessionStorage.setItem('menu', JSON.stringify(3));
+                  this.$emit('login', '/index3/tab4');
+            break;
+          default: this.$router.push({ path: "/notonline" });
+            break;
+        }
       },
     },
     created: function () {
@@ -349,7 +333,10 @@
   .notonline_main {
     text-align: center
   }
-  .menu_icon span i {
-    font-size: 24px;
+
+  .el_menu_horizontal {
+    border: none;
+    float: right;
   }
+
 </style>
