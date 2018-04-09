@@ -73,7 +73,7 @@
         </el-table-column>
         <el-table-column prop="goodsPrice" label="交易金额" width="120" :formatter="format_amount">
         </el-table-column>
-        <el-table-column prop="discount" label="优惠金额" width="120">
+        <el-table-column prop="payWay" label="支付方式" width="120" :formatter="format_payWay">
         </el-table-column>
         <el-table-column prop="status" label="交易状态" width="150" :formatter="formatPay2">
         </el-table-column>
@@ -256,6 +256,9 @@
       },
       formatPay1: function (row) {
         return row == 'WX' ? '微信' : row == 'ALI' ? '支付宝' : row == 'DEBIT' ? '借记卡' : row == 'CREDIT' ? '贷记卡' : '未知';
+      },
+      format_payWay(row,column){
+        return row.payWay === 'WX' ? '微信' : row.payWay === 'ALI' ? '支付宝' : row.payWay === 'DEBIT' ? '借记卡' : row.payWay === 'CREDIT' ? '贷记卡' : '未知';
       },
       //格式化金额
       format_amount(row, column) {

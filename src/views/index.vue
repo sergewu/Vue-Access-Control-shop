@@ -38,7 +38,7 @@
 
   .top_logo img {
     width: 30%;
-    margin-top: 17px;
+    margin-top: 19px;
     float: left;
   }
 
@@ -50,11 +50,11 @@
   }
 
   .menu_icon {
-    line-height: 32px;
+    margin-top: 10px;
   }
 
   .menu_icon span i {
-    font-size: 24px;
+    font-size: 18px;
   }
 
 </style>
@@ -69,7 +69,8 @@
               <span>万鼎科技</span>
             </div>
             <el-button type="text" @click="isCollapse=!isCollapse" class="menu_icon">
-              <i class="iconfont icon-caidan"></i>
+              <i class="iconfont icon-weibiaoti12" v-if="!isCollapse"></i>
+              <i class="iconfont icon-weibiaoti12-copy" v-else></i>
             </el-button>
           </el-col>
           <el-col :span="12">
@@ -86,7 +87,7 @@
           </el-col>
           <el-col :span="7" style="line-height: 60px;text-align: right;">
             <span>{{sysUserName}} ，欢迎登录商户平台 </span>
-            <el-dropdown split-button size="small" type="danger" @click="logout">
+            <el-dropdown split-button size="mini" type="danger" @click="logout">
               退出登录
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item @click.native="handleEdit">修改密码</el-dropdown-item>

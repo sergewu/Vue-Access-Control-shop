@@ -103,7 +103,7 @@
 
   .top_logo img {
     width: 30%;
-    margin-top: 17px;
+    margin-top: 19px;
     float: left;
   }
 
@@ -112,14 +112,6 @@
     font-weight: bolder;
     color: #284890;
     line-height: 60px;
-  }
-
-  .menu_icon {
-    line-height: 32px;
-  }
-
-  .menu_icon span i {
-    font-size: 24px;
   }
 
 </style>
@@ -148,7 +140,7 @@
           </el-col>
           <el-col :span="7" style="line-height: 60px;text-align: right;">
             <span>{{sysUserName}} ，欢迎登录商户平台 </span>
-            <el-dropdown split-button size="small" type="danger" @click="logout">
+            <el-dropdown split-button size="mini" type="danger" @click="logout">
               退出登录
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item @click.native="handleEdit">修改密码</el-dropdown-item>

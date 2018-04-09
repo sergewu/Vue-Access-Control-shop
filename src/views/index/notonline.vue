@@ -1,62 +1,59 @@
 <template>
   <el-container style="height:100%">
-      <el-header style="background: #fff;height:auto">
-        <el-row>
-          <el-col :span="5">
-            <div class="top_logo">
-              <img src="../../assets/images/logo4.png" />
-              <span>万 鼎 科 技</span>
-            </div>
-            <el-button type="text" @click="isCollapse=!isCollapse" class="menu_icon">
-              <i class="iconfont icon-caidan"></i>
-            </el-button>
-          </el-col>
-          <el-col :span="12">
-            <div class="navmenu_horizontal">
-              <el-menu :default-active="activeIndex" class="el_menu_horizontal" mode="horizontal" @select="handleSelect" background-color="#fff">
-                <el-menu-item index="1">首页</el-menu-item>
-                <el-menu-item index="2">交易中心</el-menu-item>
-                <el-menu-item index="3">商户中心</el-menu-item>
-                <el-menu-item index="4">产品中心</el-menu-item>
-                <el-menu-item index="5">营销中心</el-menu-item>
-                <el-menu-item index="6">帮助中心</el-menu-item>
-              </el-menu>
-            </div>
-          </el-col>
-          <el-col :span="7" style="line-height: 60px;text-align: right;">
-            <span>{{sysUserName}} ，欢迎登录商户平台 </span>
-            <el-dropdown split-button size="small" type="danger" @click="logout">
-              退出登录
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item @click.native="handleEdit">修改密码</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </el-col>
-        </el-row>
-        <!--修改密码-->
-        <el-dialog :visible.sync="editFormVisible" :close-on-click-modal="false" width="400px">
-          <el-alert title="提示：密码修改成功后需重新登录" type="warning" center show-icon :closable="false"></el-alert>
-          <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
-            <el-form-item label="旧密码" prop="usedPass">
-              <el-input type="password" v-model="ruleForm.usedPass"></el-input>
-            </el-form-item>
-            <el-form-item label="新密码" prop="pass">
-              <el-input type="password" v-model="ruleForm.pass"></el-input>
-            </el-form-item>
-            <el-form-item label="确认新密码" prop="checkPass">
-              <el-input type="password" v-model="ruleForm.checkPass"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button @click="editFormVisible=false">取消</el-button>
-              <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-            </el-form-item>
-          </el-form>
-        </el-dialog>
-    <el-main>
-      <div class="notonline_main">
-        <h1>敬请期待</h1>
-      </div>
-    </el-main>
+    <el-header style="background: #fff;height:auto">
+      <el-row>
+        <el-col :span="5">
+          <div class="top_logo">
+            <img src="../../assets/images/logo4.png" />
+            <span>万 鼎 科 技</span>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <div class="navmenu_horizontal">
+            <el-menu :default-active="activeIndex" class="el_menu_horizontal" mode="horizontal" @select="handleSelect" background-color="#fff">
+              <el-menu-item index="1">首页</el-menu-item>
+              <el-menu-item index="2">交易中心</el-menu-item>
+              <el-menu-item index="3">商户中心</el-menu-item>
+              <el-menu-item index="4">产品中心</el-menu-item>
+              <el-menu-item index="5">营销中心</el-menu-item>
+              <el-menu-item index="6">帮助中心</el-menu-item>
+            </el-menu>
+          </div>
+        </el-col>
+        <el-col :span="7" style="line-height: 60px;text-align: right;">
+          <span>{{sysUserName}} ，欢迎登录商户平台 </span>
+          <el-dropdown split-button size="mini" type="danger" @click="logout">
+            退出登录
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item @click.native="handleEdit">修改密码</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-col>
+      </el-row>
+      <!--修改密码-->
+      <el-dialog :visible.sync="editFormVisible" :close-on-click-modal="false" width="400px">
+        <el-alert title="提示：密码修改成功后需重新登录" type="warning" center show-icon :closable="false"></el-alert>
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+          <el-form-item label="旧密码" prop="usedPass">
+            <el-input type="password" v-model="ruleForm.usedPass"></el-input>
+          </el-form-item>
+          <el-form-item label="新密码" prop="pass">
+            <el-input type="password" v-model="ruleForm.pass"></el-input>
+          </el-form-item>
+          <el-form-item label="确认新密码" prop="checkPass">
+            <el-input type="password" v-model="ruleForm.checkPass"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button @click="editFormVisible=false">取消</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
+      <el-main>
+        <div class="notonline_main">
+          <h1>敬请期待</h1>
+        </div>
+      </el-main>
     </el-header>
   </el-container>
 </template>
@@ -268,7 +265,7 @@
       },
       //切换顶部导航
       handleSelect(change) {
-        if (this.activeIndex===change) {
+        if (this.activeIndex === change) {
           return
         }
         sessionStorage.setItem('activeIndex', JSON.stringify(change));
@@ -278,18 +275,27 @@
         this.$store.dispatch('delAllViews')
 
         switch (parseInt(change)) {
-          case 1 : this.$router.push({ path: "/home" });
+          case 1:
+            this.$router.push({
+              path: "/home"
+            });
             break;
-          case 2 : sessionStorage.setItem('menu', JSON.stringify(1));
-                  this.$emit('login', '/index1/table');
+          case 2:
+            sessionStorage.setItem('menu', JSON.stringify(1));
+            this.$emit('login', '/index1/table');
             break;
-          case 3 : sessionStorage.setItem('menu', JSON.stringify(2));
-                  this.$emit('login', '/index2/page1');
+          case 3:
+            sessionStorage.setItem('menu', JSON.stringify(2));
+            this.$emit('login', '/index2/page1');
             break;
-          case 4 : sessionStorage.setItem('menu', JSON.stringify(3));
-                  this.$emit('login', '/index3/tab4');
+          case 4:
+            sessionStorage.setItem('menu', JSON.stringify(3));
+            this.$emit('login', '/index3/tab4');
             break;
-          default: this.$router.push({ path: "/notonline" });
+          default:
+            this.$router.push({
+              path: "/notonline"
+            });
             break;
         }
       },
@@ -310,6 +316,7 @@
       }
     }
   };
+
 </script>
 <style scoped lang="scss">
   .top_logo {
@@ -319,7 +326,7 @@
 
   .top_logo img {
     width: 30%;
-    margin-top: 17px;
+    margin-top: 19px;
     float: left;
   }
 
@@ -331,7 +338,7 @@
   }
 
   .notonline_main {
-    text-align: center
+    text-align: center;
   }
 
   .el_menu_horizontal {
