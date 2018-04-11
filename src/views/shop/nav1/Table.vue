@@ -35,7 +35,7 @@
           </el-select>
         </el-form-item>
         <el-form-item prop="play" class="fixed_search_input">
-          <el-select v-model="filters.play" clearable placeholder="支付类型">
+          <el-select v-model="filters.play" clearable placeholder="支付方式">
             <el-option v-for="item in optionsScene" :label="item.labelScene" :value="item.valueScene" :key="item.valueScene">
             </el-option>
           </el-select>
@@ -186,6 +186,9 @@
         }, {
           valueScene: 'CREDIT',
           labelScene: '贷记卡'
+        }, {
+          valueScene: 'BEST',
+          labelScene: '翼支付'
         }],
         //支付状态
         optionsState: [{
@@ -273,10 +276,10 @@
         return row.status == 1 ? '已支付' : row.status == 3 ? '已支付（有退款）' : '未知';
       },
       formatPay1: function (row) {
-        return row == 'WX' ? '微信' : row == 'ALI' ? '支付宝' : row == 'DEBIT' ? '借记卡' : row == 'CREDIT' ? '贷记卡' : '未知';
+        return row == 'WX' ? '微信' : row == 'ALI' ? '支付宝' : row == 'DEBIT' ? '借记卡' : row == 'CREDIT' ? '贷记卡' : row == 'BEST' ? '翼支付' : '未知';
       },
       format_payWay(row,column){
-        return row.payWay === 'WX' ? '微信' : row.payWay === 'ALI' ? '支付宝' : row.payWay === 'DEBIT' ? '借记卡' : row.payWay === 'CREDIT' ? '贷记卡' : '未知';
+        return row.payWay === 'WX' ? '微信' : row.payWay === 'ALI' ? '支付宝' : row.payWay === 'DEBIT' ? '借记卡' : row.payWay === 'CREDIT' ? '贷记卡' : row.payWay === 'BEST' ? '翼支付' : '未知';
       },
       //格式化金额
       format_amount(row, column) {

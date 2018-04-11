@@ -132,6 +132,9 @@
         }, {
           value: 'CREDIT',
           label: '贷记卡'
+        }, {
+          value: 'BEST',
+          label: '翼支付'
         }],
         //商户查询
         optionsMers: [],

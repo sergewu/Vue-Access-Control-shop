@@ -36,7 +36,7 @@
         </el-form-item>
       </el-row>
       <el-row>
-        <el-col :span="14">
+        <el-col :span="12">
           <el-form-item label="选择时间" prop="resource">
             <el-date-picker
               v-model="ruleForm.startTime"
@@ -49,8 +49,10 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="2">
-           <p>至</p>
+        <el-col :span="1">
+          <el-form-item label-width="0">
+             至
+          </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="" prop="endTime" label-width="0px">
@@ -147,6 +149,9 @@
         }, {
           value: 'CREDIT',
           label: '贷记卡'
+        }, {
+          value: 'BEST',
+          label: '翼支付'
         }]
       };
     },
@@ -230,7 +235,7 @@
   }
   .demo-ruleForm{
     padding: 0 25px;
-    width: 600px;
+    width: 650px;
     margin: auto;
   }
 </style>

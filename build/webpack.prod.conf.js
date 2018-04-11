@@ -13,7 +13,7 @@ const chalk = require('chalk')
 
 const env = require('../config/prod.env')
 
-console.log(chalk.blue('正在打包环境为===>' + env.API_ROOT))
+console.log(chalk.blue('>>>正在打包环境为：' + chalk.yellowBright(env.API_ROOT) + '.\n'))
 
 
 const webpackConfig = merge(baseWebpackConfig, {
