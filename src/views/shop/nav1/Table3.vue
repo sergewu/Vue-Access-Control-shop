@@ -19,7 +19,7 @@
           </el-select>
         </el-form-item>
         <el-form-item class="fixed_search_input">
-          <el-select v-model="filters.payType" placeholder="支付方式">
+          <el-select v-model="filters.payType" clearable placeholder="支付方式">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
