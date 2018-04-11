@@ -25,6 +25,10 @@
         </el-form-item>
       </el-form>
     </el-row>
+    <el-row>
+      <el-alert title="可查询最近90天的交易" type="warning" center close-text="知道了" show-icon>
+      </el-alert>
+    </el-row>
     <!--列表-->
     <div v-loading="listLoading">
       <el-table :data="users" border highlight-current-row style="width: 100%;">

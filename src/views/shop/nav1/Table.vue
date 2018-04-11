@@ -80,11 +80,11 @@
       </el-table>
     </div>
     <!--工具条-->
-    <el-col>
+    <el-row>
       <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total"
         background style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
-    </el-col>
+    </el-row>
 
     <!--详情界面-->
     <el-dialog title="交易详情" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">

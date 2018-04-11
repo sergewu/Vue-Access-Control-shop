@@ -13,7 +13,7 @@
         </el-form-item>
         <el-form-item class="fixed_search_input">
           <el-select v-model="filters.state1" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
-            :loading="loading" clearable @visible-change="clickShop">
+            :loading="storeLoading" clearable @visible-change="clickShop">
             <el-option v-for="item in optionsMers" :key="item.id" :value="item.id" :label="item.value">
             </el-option>
           </el-select>
@@ -29,6 +29,10 @@
         </el-form-item>
       </el-form>
     </el-row>
+    <el-row>
+      <el-alert title="可查询最近90天的交易" type="warning" center close-text="知道了" show-icon>
+      </el-alert>
+    </el-row>
     <!--列表-->
     <div v-loading="listLoading">
       <el-table :data="users" border highlight-current-row style="width: 100%;">
@@ -38,7 +42,7 @@
         </el-table-column>
         <el-table-column prop="sname" label="商户名称" min-width="120">
         </el-table-column>
-        <el-table-column prop="pay_type" label="付款方式">
+        <el-table-column prop="pay_type" label="付款方式" :formatter="format_pay_type">
         </el-table-column>
         <el-table-column prop="amount" label="交易金额" :formatter="format_amount">
         </el-table-column>
@@ -61,30 +65,6 @@
         background style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
     </el-row>
-
-    <!--编辑界面-->
-    <el-dialog title="门店详情" :visible.sync="editFormVisible" :close-on-click-modal="false">
-      <el-form :model="editForm" label-width="" ref="editForm">
-        <el-form-item label="门店名称：">
-          <span name="name">{{editForm.name}}</span>
-        </el-form-item>
-        <el-form-item label="门店ID：">
-          <span name="name">{{editForm.id}}</span>
-        </el-form-item>
-        <el-form-item label="支付方式：">
-          <span>{{editForm.mode}}</span>
-        </el-form-item>
-        <el-form-item label="交易状态：">
-          <span>{{editForm.state}}</span>
-        </el-form-item>
-        <el-form-item label="交易日期：">
-          <span>{{editForm.value}}</span>
-        </el-form-item>
-        <el-form-item label="交易金额（元）：">
-          <span>{{editForm.money}}</span>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
   </section>
 </template>
 
@@ -145,31 +125,18 @@
           startTime: new Date() - 24 * 60 * 60 * 1000,
           endTime: new Date() - 24 * 60 * 60 * 1000
         },
-        loading: false,
+        storeLoading: false,
         users: [],
         page: 1,
         total: null,
         listLoading: false,
-        sels: [], //列表选中列
-
-        editFormVisible: false, //编辑界面是否显示
-        editLoading: false,
-        //编辑界面数据
-        editForm: {
-          id: 0,
-          name: '',
-          mode: -1,
-          state: 0,
-          value: '',
-          money: ''
-        },
-
-        addFormVisible: false, //新增界面是否显示
-        addLoading: false,
 
       }
     },
     methods: {
+      format_pay_type(row,column){
+        return row.pay_type === 'WX' ? '微信' : row.pay_type === 'ALI' ? '支付宝' : row.pay_type === 'DEBIT' ? '借记卡' : row.pay_type === 'CREDIT' ? '贷记卡' : row.pay_type === 'BEST' ? '翼支付' : '未知';
+      },
       //格式化金额
       format_amount(row, column) {
         return util.number_format(row.amount, 2, ".", ",")
@@ -198,9 +165,9 @@
       },
       remoteShop(query) {
         if (query !== '') {
-          this.loading = true;
+          this.storeLoading = true;
           setTimeout(() => {
-            this.loading = false;
+            this.storeLoading = false;
             selectStoreList({
               sname: query
             }).then((res) => {
@@ -218,7 +185,6 @@
       handleCurrentChange(val) {
         this.page = val;
         this.getList()
-
       },
       getList() {
         let para = {
@@ -249,16 +215,10 @@
       getUsers() {
         this.page = 1
         this.getList()
-      },
-      //显示编辑界面
-      handleEdit: function (index, row) {
-        this.editFormVisible = true;
-        this.editForm = Object.assign({}, row);
-      },
+      }
     },
     mounted() {
       this.getUsers();
     }
   }
-
 </script>
