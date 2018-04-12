@@ -27,38 +27,47 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item prop="parag" class="fixed_search_input">
-          <el-select v-model="filters.parag" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
-            :loading="searchLoading" clearable @visible-change="clickShop">
+          <el-select v-model="filters.parag" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="searchLoading"
+            clearable @visible-change="clickShop">
             <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="play" class="fixed_search_input">
-          <el-select v-model="filters.play" clearable placeholder="支付方式">
-            <el-option v-for="item in optionsScene" :label="item.labelScene" :value="item.valueScene" :key="item.valueScene">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item prop="state" class="fixed_search_input">
-          <el-select v-model="filters.state" clearable placeholder="支付状态">
-            <el-option v-for="item in optionsState" :label="item.labelState" :value="item.valueState" :key="item.valueState">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item prop="goodsprice" class="fixed_search_input">
-          <el-input v-model.trim="filters.goodsprice" placeholder="交易金额"><i slot="prefix" class="iconfont icon-50"></i></el-input>
-        </el-form-item>
-        <el-form-item prop="orderId" class="fixed_search_input">
-          <el-input v-model.trim="filters.orderId" placeholder="订单号"></el-input>
-        </el-form-item>
-        <el-form-item prop="transaction_id" class="fixed_search_input">
-          <el-input v-model.trim="filters.transaction_id" placeholder="第三方订单号"></el-input>
-        </el-form-item>
         <el-form-item style="float: right;">
           <el-button type="primary" @click="getUsers('filters')" size="medium" round>查询</el-button>
-          <!-- <el-button @click="resetForm('filters')" size="medium" round>重置</el-button> -->
+          <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
+          <el-button type="text" @click="advancedOptions = !advancedOptions">{{advancedOptions ? '隐藏' : '显示'}}高级选项</el-button>
         </el-form-item>
       </el-row>
+      <el-collapse-transition>
+        <div v-show="advancedOptions">
+          <el-row>
+            <el-form-item prop="play" class="fixed_search_input">
+              <el-select v-model="filters.play" clearable placeholder="支付方式">
+                <el-option v-for="item in optionsScene" :label="item.labelScene" :value="item.valueScene" :key="item.valueScene">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item prop="state" class="fixed_search_input">
+              <el-select v-model="filters.state" clearable placeholder="支付状态">
+                <el-option v-for="item in optionsState" :label="item.labelState" :value="item.valueState" :key="item.valueState">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item prop="goodsprice" class="fixed_search_input">
+              <el-input v-model.trim="filters.goodsprice" placeholder="交易金额">
+                <i slot="prefix" class="iconfont icon-50"></i>
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="orderId" class="fixed_search_input">
+              <el-input v-model.trim="filters.orderId" placeholder="订单号"></el-input>
+            </el-form-item>
+            <el-form-item prop="transaction_id" class="fixed_search_input">
+              <el-input v-model.trim="filters.transaction_id" placeholder="第三方订单号"></el-input>
+            </el-form-item>
+          </el-row>
+        </div>
+      </el-collapse-transition>
       <el-row>
         <el-alert title="可查询30天之前的交易，每次查询区间最多为3个月" type="warning" center close-text="知道了" show-icon>
         </el-alert>
@@ -221,7 +230,7 @@
         page: 1,
         users: [],
         listLoading: false,
-        sels: [], //列表选中列
+        advancedOptions: false,
 
         editFormVisible: false, //编辑界面是否显示
         editLoading: false,
@@ -258,10 +267,12 @@
         return row.status == 1 ? '已支付' : row.status == 3 ? '已支付（有退款）' : '未知';
       },
       formatPay1: function (row) {
-        return row == 'WX' ? '微信' : row == 'ALI' ? '支付宝' : row == 'DEBIT' ? '借记卡' : row == 'CREDIT' ? '贷记卡' : row == 'BEST' ? '翼支付' : '未知';
+        return row == 'WX' ? '微信' : row == 'ALI' ? '支付宝' : row == 'DEBIT' ? '借记卡' : row == 'CREDIT' ? '贷记卡' : row ==
+          'BEST' ? '翼支付' : '未知';
       },
-      format_payWay(row,column){
-        return row.payWay === 'WX' ? '微信' : row.payWay === 'ALI' ? '支付宝' : row.payWay === 'DEBIT' ? '借记卡' : row.payWay === 'CREDIT' ? '贷记卡' : row.payWay === 'BEST' ? '翼支付' : '未知';
+      format_payWay(row, column) {
+        return row.payWay === 'WX' ? '微信' : row.payWay === 'ALI' ? '支付宝' : row.payWay === 'DEBIT' ? '借记卡' : row.payWay ===
+          'CREDIT' ? '贷记卡' : row.payWay === 'BEST' ? '翼支付' : '未知';
       },
       //格式化金额
       format_amount(row, column) {

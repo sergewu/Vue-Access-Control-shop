@@ -119,7 +119,7 @@ export default {
               color: '#409EFF',
               lineStyle: {
                 color: '#409EFF',
-                width: 4
+                width: 2
               }
             }
           },

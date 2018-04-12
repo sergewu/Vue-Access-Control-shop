@@ -79,6 +79,9 @@
       <el-form-item label="微收银设备号" prop="wsy_num">
         <el-input v-model="modForm.wsy_num"></el-input>
       </el-form-item>
+      <el-form-item label="新大陆设备号" prop="ndl_num">
+        <el-input v-model="modForm.ndl_num"></el-input>
+      </el-form-item>
       <el-form-item label="选择门店">
         <template>
             <el-select v-model="modForm.value" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
@@ -154,6 +157,9 @@
       </el-form-item>
       <el-form-item label="微收银设备号" prop="wsy_num">
         <el-input v-model="addForm.wsy_num"></el-input>
+      </el-form-item>
+      <el-form-item label="新大陆设备号" prop="ndl_num">
+        <el-input v-model="addForm.ndl_num"></el-input>
       </el-form-item>
       <el-form-item label="选择门店" prop="value">
         <template>
@@ -306,7 +312,8 @@ export default {
         value: '',
         options: '',
         eid: '',
-        wsy_num: ''
+        wsy_num: '',
+        ndl_num:'',
       },
       //新增界面数据
       loading: false,
@@ -318,7 +325,8 @@ export default {
         email: '',
         terminal_id: '',
         options: '',
-        wsy_num: ''
+        wsy_num: '',
+        ndl_num:''
       }
 
     }
@@ -542,6 +550,7 @@ export default {
         email: '',
         terminal_id: '',
         options: '',
+        ndl_num:''
       };
     },
     //编辑
@@ -550,7 +559,6 @@ export default {
         if (valid) {
           this.$confirm('确认提交吗？', '提示', {}).then(() => {
             this.editLoading = true;
-            
             let para = {
               eid: this.modForm.eid,
               username: this.modForm.username,
@@ -559,10 +567,9 @@ export default {
               terminal_id: this.modForm.terminal_id,
               storeId: this.modForm.value,
               ali_operation_id: this.modForm.ali_operation_id,
-              wsy_num: this.modForm.wsy_num
-
+              wsy_num: this.modForm.wsy_num,
+              ndl_num: this.modForm.wsy_num,
             };
-            //para.birth = (!para.birth || para.birth == '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
             updateEmployee(para).then((res) => {
               var _this = this;
               this.editLoading = false;
@@ -630,7 +637,8 @@ export default {
               phone: this.addForm.phone,
               email: this.addForm.email,
               terminal_id: this.addForm.terminal_id,
-              wsy_num: this.addForm.wsy_num
+              wsy_num: this.addForm.wsy_num,
+              ndl_num: this.addForm.ndl_num,
             };
             addEmployee(para).then((res) => {
               let {

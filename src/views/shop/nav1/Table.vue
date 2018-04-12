@@ -14,43 +14,47 @@
     <el-form :inline="true" :model="filters" ref="filters">
       <el-row>
         <el-form-item prop="startTime">
-          <el-date-picker v-model="filters.startTime" class="fixed_search_input_datetime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false"
-            :editable='false'>
+          <el-date-picker v-model="filters.startTime" class="fixed_search_input_datetime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1"
+            :clearable="false" :editable='false'>
           </el-date-picker>
         </el-form-item>
         <el-form-item>至</el-form-item>
         <el-form-item prop="endTime">
-          <el-date-picker v-model="filters.endTime" class="fixed_search_input_datetime" type="datetime" placeholder="选择结束日期" :picker-options="pickerOptions2" :clearable="false"
-            :editable='false'>
+          <el-date-picker v-model="filters.endTime" class="fixed_search_input_datetime" type="datetime" placeholder="选择结束日期" :picker-options="pickerOptions2"
+            :clearable="false" :editable='false'>
           </el-date-picker>
-        </el-form-item>
-        <!-- <el-tag type="success">可查询最近30天的交易</el-tag> -->
-        <!-- </el-row>
-      <el-row> -->
-        <el-form-item prop="parag" class="fixed_search_input">
-          <el-select v-model="filters.parag" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
-            :loading="loading" clearable @visible-change="clickShop">
-            <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item prop="play" class="fixed_search_input">
-          <el-select v-model="filters.play" clearable placeholder="支付方式">
-            <el-option v-for="item in optionsScene" :label="item.labelScene" :value="item.valueScene" :key="item.valueScene">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item prop="state" class="fixed_search_input">
-          <el-select v-model="filters.state" clearable placeholder="支付状态">
-            <el-option v-for="item in optionsState" :label="item.labelState" :value="item.valueState" :key="item.valueState">
-            </el-option>
-          </el-select>
         </el-form-item>
         <el-form-item style="float: right;">
           <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
           <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
+          <el-button type="text" @click="advancedOptions = !advancedOptions">{{advancedOptions ? '隐藏' : '显示'}}高级选项</el-button>
         </el-form-item>
       </el-row>
+      <el-collapse-transition>
+        <div v-show="advancedOptions">
+          <el-row>
+            <el-form-item prop="parag" class="fixed_search_input">
+              <el-select v-model="filters.parag" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading"
+                clearable @visible-change="clickShop">
+                <el-option v-for="item in optionsStore" :key="item.id" :value="item.id" :label="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item prop="play" class="fixed_search_input">
+              <el-select v-model="filters.play" clearable placeholder="支付方式">
+                <el-option v-for="item in optionsScene" :label="item.labelScene" :value="item.valueScene" :key="item.valueScene">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item prop="state" class="fixed_search_input">
+              <el-select v-model="filters.state" clearable placeholder="支付状态">
+                <el-option v-for="item in optionsState" :label="item.labelState" :value="item.valueState" :key="item.valueState">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-row>
+        </div>
+      </el-collapse-transition>
       <el-row>
         <el-alert title="可查询最近30天的交易" type="warning" center close-text="知道了" show-icon>
         </el-alert>
@@ -148,6 +152,7 @@
 
 <script>
   import * as util from '../../../assets/util.js'
+
   import {
     getUserListPage,
     lookupUser,
@@ -202,7 +207,7 @@
           labelState: '未知'
         }],
         //选择款台
-        options: [],
+        optionsStore: [],
         //时间控制
         pickerOptions1: {
           disabledDate(time) {
@@ -236,7 +241,7 @@
         page: 1,
         users: [],
         listLoading: false,
-        sels: [], //列表选中列
+        advancedOptions:false,
 
         editFormVisible: false, //编辑界面是否显示
         editLoading: false,
@@ -276,10 +281,12 @@
         return row.status == 1 ? '已支付' : row.status == 3 ? '已支付（有退款）' : '未知';
       },
       formatPay1: function (row) {
-        return row == 'WX' ? '微信' : row == 'ALI' ? '支付宝' : row == 'DEBIT' ? '借记卡' : row == 'CREDIT' ? '贷记卡' : row == 'BEST' ? '翼支付' : '未知';
+        return row == 'WX' ? '微信' : row == 'ALI' ? '支付宝' : row == 'DEBIT' ? '借记卡' : row == 'CREDIT' ? '贷记卡' : row ==
+          'BEST' ? '翼支付' : '未知';
       },
-      format_payWay(row,column){
-        return row.payWay === 'WX' ? '微信' : row.payWay === 'ALI' ? '支付宝' : row.payWay === 'DEBIT' ? '借记卡' : row.payWay === 'CREDIT' ? '贷记卡' : row.payWay === 'BEST' ? '翼支付' : '未知';
+      format_payWay(row, column) {
+        return row.payWay === 'WX' ? '微信' : row.payWay === 'ALI' ? '支付宝' : row.payWay === 'DEBIT' ? '借记卡' : row.payWay ===
+          'CREDIT' ? '贷记卡' : row.payWay === 'BEST' ? '翼支付' : '未知';
       },
       //格式化金额
       format_amount(row, column) {
@@ -292,7 +299,7 @@
             status,
             data
           } = res
-          this.options = data.storeList
+          this.optionsStore = data.storeList
         })
       },
       remoteShop(query) {
@@ -307,11 +314,11 @@
                 status,
                 data
               } = res
-              this.options = data.storeList
+              this.optionsStore = data.storeList
             })
           }, 200);
         } else {
-          this.options = [];
+          this.optionsStore = [];
         }
       },
       //补发打印
@@ -357,7 +364,7 @@
           para.startTime), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
         para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(
           para.endTime), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
-        getUserListPage(para).then((res) => {
+        getUserListPage(para).then((res) => {        
           var _this = this;
           let {
             data,
@@ -373,7 +380,7 @@
             this.users = res.data.summaryCopyList;
           }
           this.listLoading = false;
-        });
+        })
       },
       getUsers() {
         this.page = 1
@@ -452,7 +459,7 @@
           message
         } = res;
         if (status == 200) {
-          this.options = res.data.storeList;
+          this.optionsStore = res.data.storeList;
         }
       });
     }
