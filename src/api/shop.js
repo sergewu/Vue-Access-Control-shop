@@ -106,6 +106,8 @@ export const checkVerCode = params => { return instance.post(`${preUrlPath}/pay/
 //卡劵投放
 // export const getUrlCode = params => { return instance.post(`${preUrlPath}/pay/person/getUrlCode`,params).then(res => res.data); };
 export const getUrlCode = params => { return instance.get(`${preUrlPath}/pay/person/getUrlCode`,{ params: params }); };
+//订单详情
+export const queryOrderDetail = params => { return instance.post(`${preUrlPath}/pay/mer/queryOrderDetail`,params).then(res => res.data); };
 
 
 

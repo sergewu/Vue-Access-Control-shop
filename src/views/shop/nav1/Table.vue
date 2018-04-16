@@ -71,7 +71,7 @@
         </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">交易详情</el-button>
+            <el-button type="success" size="mini" @click="handleDetail(scope.$index, scope.row)">订单详情</el-button>
             <el-button type="danger" size="mini" @click="handleRefund(scope.$index, scope.row)">退款</el-button>
           </template>
         </el-table-column>
@@ -86,7 +86,7 @@
 
     <!--详情界面-->
     <el-dialog title="交易详情" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
-      <el-form :model="editForm" label-width="160px" ref="editForm" label-position="left">
+      <el-form :model="editForm" label-width="140px" ref="editForm" label-position="left" class="table-expand">
         <el-form-item label="订单号：">
           <span>{{editForm.orderId}}</span>
         </el-form-item>
@@ -100,7 +100,7 @@
           <span>{{editForm.payTime}}</span>
         </el-form-item>
         <el-form-item label="交易状态：">
-          <span>{{editForm.status}}</span>
+          <span>{{editForm.status === '1' ? '已支付' : editForm.status === '3' ? '已支付（有退款）' : '未知'}}</span>
         </el-form-item>
         <el-form-item label="退款金额（元）：">
           <span>{{editForm.refundAmount}}</span>
@@ -154,7 +154,8 @@
     merRefund,
     supplyPrint,
     selectStoreList,
-    checkdownOrderExcelNew
+    checkdownOrderExcelNew,
+    queryOrderDetail
   } from '../../../api/shop';
 
   export default {
@@ -240,16 +241,7 @@
         editFormVisible: false, //编辑界面是否显示
         editLoading: false,
         //编辑界面数据
-        editForm: {
-          orderId: '',
-          transactionId: '',
-          goodsPrice: '',
-          payTime: '',
-          status: '',
-          storeName: '',
-          refundAmount: '',
-          payWay: ''
-        },
+        editForm: {},
         refundFormVisible: false, //退款界面是否显示
         refundLoading: false,
         refundForm: {
@@ -316,25 +308,16 @@
         }
       },
       //补发打印
-      Print: function () {
-        let para = {
-          orderId: this.editForm.orderId
-        }
-        supplyPrint(para).then((res) => {
+      Print(index, row) {
+        supplyPrint({orderId: row.orderId}).then((res) => {
           let {
             status,
             message
           } = res;
-          if (status == 200) {
-            this.$notify({
-              title: '成功',
+          if (status === 200) {
+            this.$message({
               message: message,
               type: 'success'
-            });
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: message
             });
           }
         })
@@ -426,18 +409,15 @@
         });
       },
       //显示编辑界面
-      handleEdit: function (index, row) {
+      handleDetail(index, row) {
         this.editFormVisible = true;
-        this.editForm = Object.assign({}, row);
-        var pay = this.editForm.payWay;
-        var state = this.editForm.status;
-        if (state == 1) {
-          this.editForm.status = "已支付"
-        } else if (state == 3) {
-          this.editForm.status = "已支付（有退款）"
-        } else {
-          this.editForm.status = "未知"
-        }
+        queryOrderDetail({
+          id: row.id
+        }).then(res => {
+          if (res.status === 200) {
+            this.editForm = res.data.order
+          }
+        })
       },
       //查询重置
       resetForm(formName) {
@@ -462,6 +442,5 @@
 </script>
 
 <style scoped>
-
 
 </style>
