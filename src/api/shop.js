@@ -260,3 +260,5 @@ export const checkDataExcel = params => { return instance.get('http://download.w
 export const checkdownOrderExcel = params => { return instance.get('http://download.weupay.com/download/mer/checkdownOrderExcel',{ params: params }); };
 //收款记录
 export const downloadQueryOrderShop = params => { return instance.post('http://download.weupay.com/download/mer/queryOrderShop',params).then(res => res.data); };
+
+export const downloadQueryOrderDetail = params => { return instance.post('http://download.weupay.com/download/mer/queryOrderDetail',params).then(res => res.data); };

@@ -115,10 +115,10 @@
           <span>{{editForm.goodsPrice}}</span>
         </el-form-item>
         <el-form-item label="付款时间：">
-          <span>{{editForm.payTime}}</span>
+          <span>{{format_payTime(editForm.payTime)}}</span>
         </el-form-item>
         <el-form-item label="交易状态：">
-          <span>{{editForm.status}}</span>
+          <span>{{editForm.status === '1' ? '已支付' : editForm.status === '3' ? '已支付（有退款）' : '未知'}}</span>
         </el-form-item>
         <el-form-item label="退款金额（元）：">
           <span>{{editForm.refundAmount}}</span>
@@ -135,7 +135,6 @@
         <el-form-item label="备注：">
           <span>{{editForm.goodsDesc}}</span>
         </el-form-item>
-        <el-button type="primary" @click="Print" style="margin-left:45%;">补发打印</el-button>
       </el-form>
     </el-dialog>
   </section>
@@ -151,7 +150,8 @@
     supplyPrint,
     selectStoreList,
     checkdownOrderExcelNew,
-    checkdownOrderExcel
+    checkdownOrderExcel,
+    downloadQueryOrderDetail
   } from '../../../api/shop';
 
   export default {
@@ -274,6 +274,9 @@
         return row.payWay === 'WX' ? '微信' : row.payWay === 'ALI' ? '支付宝' : row.payWay === 'DEBIT' ? '借记卡' : row.payWay ===
           'CREDIT' ? '贷记卡' : row.payWay === 'BEST' ? '翼支付' : '未知';
       },
+      format_payTime(props){
+        return util.formatDate.format(new Date(props), 'yyyy-MM-dd hh:mm:ss')
+      },
       //格式化金额
       format_amount(row, column) {
         return util.number_format(row.goodsPrice, 2, ".", ",")
@@ -306,30 +309,6 @@
         } else {
           this.options = [];
         }
-      },
-      //补发打印
-      Print: function () {
-        let para = {
-          orderId: this.editForm.orderId
-        }
-        supplyPrint(para).then((res) => {
-          let {
-            status,
-            message
-          } = res;
-          if (status == 200) {
-            this.$notify({
-              title: '成功',
-              message: message,
-              type: 'success'
-            });
-          } else {
-            this.$notify.error({
-              title: '错误',
-              message: message
-            });
-          }
-        })
       },
       handleCurrentChange(val) {
         this.page = val;
@@ -383,16 +362,13 @@
       //显示编辑界面
       handleEdit: function (index, row) {
         this.editFormVisible = true;
-        this.editForm = Object.assign({}, row);
-        var pay = this.editForm.payWay;
-        var state = this.editForm.status;
-        if (state == 1) {
-          this.editForm.status = "已支付"
-        } else if (state == 3) {
-          this.editForm.status = "已支付（有退款）"
-        } else {
-          this.editForm.status = "未知"
-        }
+        downloadQueryOrderDetail({
+          id: row.id
+        }).then(res => {
+          if (res.status === 200) {
+            this.editForm = res.data.order
+          }
+        })
       },
       //查询重置
       resetForm(formName) {

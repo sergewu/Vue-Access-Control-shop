@@ -97,7 +97,7 @@
           <span>{{editForm.goodsPrice}}</span>
         </el-form-item>
         <el-form-item label="付款时间：">
-          <span>{{editForm.payTime}}</span>
+          <span>{{format_payTime(editForm.payTime)}}</span>
         </el-form-item>
         <el-form-item label="交易状态：">
           <span>{{editForm.status === '1' ? '已支付' : editForm.status === '3' ? '已支付（有退款）' : '未知'}}</span>
@@ -274,6 +274,9 @@
         return row.payWay === 'WX' ? '微信' : row.payWay === 'ALI' ? '支付宝' : row.payWay === 'DEBIT' ? '借记卡' : row.payWay ===
           'CREDIT' ? '贷记卡' : row.payWay === 'BEST' ? '翼支付' : '未知';
       },
+      format_payTime(props){
+        return util.formatDate.format(new Date(props), 'yyyy-MM-dd hh:mm:ss')
+      },
       //格式化金额
       format_amount(row, column) {
         return util.number_format(row.goodsPrice, 2, ".", ",")
@@ -308,8 +311,8 @@
         }
       },
       //补发打印
-      Print(index, row) {
-        supplyPrint({orderId: row.orderId}).then((res) => {
+      Print() {
+        supplyPrint({orderId: this.editForm.orderId}).then((res) => {
           let {
             status,
             message
@@ -440,7 +443,3 @@
   }
 
 </script>
-
-<style scoped>
-
-</style>
