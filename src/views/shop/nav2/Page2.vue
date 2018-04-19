@@ -304,6 +304,7 @@
         },
         stateForm: {},
         modForm: {
+          eid:'',
           username: '',
           phone: '',
           email: '',
@@ -518,7 +519,8 @@
             this.modForm.ali_operation_id = res.data.employee.ali_operation_id
             this.modForm.wsy_num = res.data.employee.device_num
             this.modForm.value = res.data.employee.storeId;
-            this.modForm.ndl_num = res.data.employee.ndl_num;
+            this.modForm.ndl_num = res.data.ndl_num;
+            this.modForm.eid = res.data.employee.eid;
           }
         })
 
@@ -572,7 +574,7 @@
                 storeId: this.modForm.value,
                 ali_operation_id: this.modForm.ali_operation_id,
                 wsy_num: this.modForm.wsy_num,
-                ndl_num: this.modForm.wsy_num,
+                ndl_num: this.modForm.ndl_num,
               };
               updateEmployee(para).then((res) => {
                 var _this = this;
@@ -583,8 +585,7 @@
                   message
                 } = res;
                 if (status == 200) {
-                  this.$notify({
-                    title: '成功',
+                  this.$message({
                     message: message,
                     type: 'success'
                   });
