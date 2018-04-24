@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/pay': {
-        target: 'http://test.weupay.com',
+        target: 'https://dev.weupay.com',
         changeOrigin: true,
         pathRewrite: {
           '^/pay': '/pay'

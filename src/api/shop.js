@@ -262,3 +262,4 @@ export const checkdownOrderExcel = params => { return instance.get('http://downl
 export const downloadQueryOrderShop = params => { return instance.post('http://download.weupay.com/download/mer/queryOrderShop',params).then(res => res.data); };
 
 export const downloadQueryOrderDetail = params => { return instance.post('http://download.weupay.com/download/mer/queryOrderDetail',params).then(res => res.data); };
+
