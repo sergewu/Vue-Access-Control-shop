@@ -279,6 +279,8 @@
       },
       //格式化金额
       format_amount(row, column) {
+        console.log(util.number_format(16.10, 2, ".", ","));
+        
         return util.number_format(row.goodsPrice, 2, ".", ",")
       },
       //门店远程搜索

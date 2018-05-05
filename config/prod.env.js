@@ -4,7 +4,7 @@ const target = process.env.npm_lifecycle_event
 if (target === 'test') {
   var configObj = {
     NODE_ENV: '"production"',
-    API_ROOT: '"https://dev.weupay.com"'
+    API_ROOT: '""'
   }
 } else if (target === 'build') {
   var configObj = {
