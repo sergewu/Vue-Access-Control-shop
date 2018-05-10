@@ -80,7 +80,7 @@
       <h3>修改券面信息</h3>
       <p style="color:#999;text-align:right;padding-right:15px;">注：带*号为必填项</p>
       <el-form-item label="商户logo" prop="logo">
-        <el-upload class="avatar-uploader" :action="uploadimg" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+        <el-upload class="avatar-uploader" :action="uploadimg" :data="uploaddata" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
           <img v-if="imageUrl" :src="imageUrl" style="width:50px;height:50px;float:left">
           <i v-else class="el-icon-plus avatar-uploader-icon" style="width: 50px;height: 50px;border: 1px dashed #d9d9d9;line-height: 50px;"></i>
           <el-button size="small" type="primary" style="float:right;margin-left:15px;">点击上传</el-button>
@@ -101,7 +101,7 @@
         </template>
       </el-form-item>
       <el-form-item label="会员卡背景图">
-        <el-upload class="avatar-uploader" :action="uploadimg" :show-file-list="false" :on-success="handleAvatarBackgr" :before-upload="beforeAvatarUpload">
+        <el-upload class="avatar-uploader" :action="uploadimg" :data="uploaddata" :show-file-list="false" :on-success="handleAvatarBackgr" :before-upload="beforeAvatarUpload">
           <img v-if="bgimageUrl" :src="bgimageUrl" style="width:50px;height:50px;float:left">
           <i v-else class="el-icon-plus avatar-uploader-icon" style="width: 50px;height: 50px;border: 1px dashed #d9d9d9;line-height: 50px;"></i>
           <el-button size="small" type="primary" style="float:right;margin-left:15px;">点击上传</el-button>
@@ -358,6 +358,9 @@ export default {
         }
       },
       uploadimg: process.env.API_ROOT + '/pay/wxcard/uploadimg',
+      uploaddata:{
+        mid:''
+      },
       optionscolor: [{
         label: "#63b359",
         value: "Color010",
@@ -924,6 +927,7 @@ export default {
   },
   mounted() {
     this.returnDisplay();
+    this.uploaddata.mid = sessionStorage.getItem('mid')
   }
 }
 </script>

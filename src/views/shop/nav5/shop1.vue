@@ -67,13 +67,13 @@
           <el-input v-model="editForm.name" auto-complete="off" style="width:200px;"></el-input>
         </el-form-item>
         <el-form-item label="商品缩略图：" prop="small_url">
-          <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="small_urlSuccess" :before-upload="beforeAvatarUpload">
+          <el-upload class="avatar-uploader" :action="uploadImage" :data="uploaddata" :show-file-list="false" :on-success="small_urlSuccess" :before-upload="beforeAvatarUpload">
             <img :src="editForm.small_url" style="width:50px;height:50px;float:left">
             <el-button size="small" type="primary" style="float:right;margin-left:15px;">点击上传</el-button>
           </el-upload>
         </el-form-item>
         <el-form-item label="商品详情图：" prop="pic_url">
-          <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="pic_urlSuccess" :before-upload="beforeAvatarUpload">
+          <el-upload class="avatar-uploader" :action="uploadImage" :data="uploaddata" :show-file-list="false" :on-success="pic_urlSuccess" :before-upload="beforeAvatarUpload">
             <img :src="editForm.pic_url" style="width:50px;height:50px;float:left">
             <el-button size="small" type="primary" style="float:right;margin-left:15px;">点击上传</el-button>
           </el-upload>
@@ -120,13 +120,13 @@
 		<el-dialog title="新增商品" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
 			<el-form :model="addForm" label-width="120px" :rules="addFormRules" ref="addForm">
         <el-form-item label="商品缩略图：" prop="small_url">
-          <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="small_urlSuccess" :before-upload="beforeAvatarUpload">
+          <el-upload class="avatar-uploader" :action="uploadImage" :data="uploaddata" :show-file-list="false" :on-success="small_urlSuccess" :before-upload="beforeAvatarUpload">
             <img :src="addForm.small_url" style="width:50px;height:50px;float:left">
             <el-button size="small" type="primary" style="float:right;margin-left:15px;">点击上传</el-button>
           </el-upload>
         </el-form-item>
         <el-form-item label="商品详情图：" prop="pic_url">
-          <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="pic_urlSuccess" :before-upload="beforeAvatarUpload">
+          <el-upload class="avatar-uploader" :action="uploadImage" :data="uploaddata" :show-file-list="false" :on-success="pic_urlSuccess" :before-upload="beforeAvatarUpload">
             <img :src="addForm.pic_url" style="width:50px;height:50px;float:left">
             <el-button size="small" type="primary" style="float:right;margin-left:15px;">点击上传</el-button>
           </el-upload>
@@ -187,7 +187,10 @@
 	export default {
 		data() {
 			return {
-				uploadImage:process.env.API_ROOT+'/pay/wxcard/uploadimg',//上传图片变量
+        uploadImage:process.env.API_ROOT+'/pay/wxcard/uploadimg',//上传图片变量
+        uploaddata:{
+          mid:''
+        },
 				filters: {
 					name: '',
           status:''
@@ -496,7 +499,8 @@
 			},
 		},
 		mounted() {
-			this.getUsers();
+      this.getUsers();
+      this.uploaddata.mid = sessionStorage.getItem('mid')
 		}
 	}
 </script>

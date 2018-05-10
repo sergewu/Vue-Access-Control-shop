@@ -78,7 +78,7 @@
       <h3>券面信息</h3>
       <p style="color:#999;text-align:right;padding-right:15px;">注：带*号为必填项</p>
       <el-form-item label="商户logo" prop="logo">
-        <el-upload class="avatar-uploader" :action="uploadimg" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+        <el-upload class="avatar-uploader" :action="uploadimg" :data="uploaddata" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
           <img :src="imageUrl" style="width:50px;height:50px;float:left">
           <el-button size="small" type="primary" style="float:right;margin-left:15px;">点击上传</el-button>
         </el-upload>
@@ -288,6 +288,9 @@ export default {
         }
       },
       uploadimg: process.env.API_ROOT + '/pay/wxcard/uploadimg',
+      uploaddata:{
+        mid:''
+      },
       optionscolor: [{
         label: "#63b359",
         value: "Color010",
@@ -689,7 +692,10 @@ export default {
       default:
         console.log('未知');
     }
-  }
+  },
+  mounted() {
+    this.uploaddata.mid = sessionStorage.getItem('mid')
+	}
 }
 </script>
 <style scoped lang="scss">

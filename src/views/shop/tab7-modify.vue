@@ -258,6 +258,9 @@ export default {
         }
       },
       uploadimg: process.env.API_ROOT + '/pay/wxcard/uploadimg',
+      uploaddata:{
+        mid:''
+      },
       optionscolor: [{
         label: "#63b359",
         value: "Color010",
@@ -655,7 +658,7 @@ export default {
   },
   mounted() {
     this.returnDisplay();
-
+    this.uploaddata.mid = sessionStorage.getItem('mid')
   }
 }
 </script>

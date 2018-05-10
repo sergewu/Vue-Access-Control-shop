@@ -172,20 +172,20 @@
           <el-input type="textarea" v-model="modifyForm.desc"></el-input>
         </el-form-item>
         <el-form-item label="套餐图片" prop="imageUrl">
-          <el-upload class="avatar-uploader" :action="uploadUrl" :show-file-list="false" :on-success="handleAvatarSuccess01" :before-upload="beforeAvatarUpload">
+          <el-upload class="avatar-uploader" :action="uploadUrl" :data="uploaddata" :show-file-list="false" :on-success="handleAvatarSuccess01" :before-upload="beforeAvatarUpload">
             <img v-if="modifyForm.imageUrl" :src="modifyForm.imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
         <el-form-item label="详情图">
-          <el-upload class="upload-demo" :action="uploadUrl" :show-file-list="false" :on-success="handleChange03">
+          <el-upload class="upload-demo" :action="uploadUrl" :data="uploaddata" :show-file-list="false" :on-success="handleChange03">
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             <img v-if="modifyForm.fileList01" :src="modifyForm.fileList01" class="avatar">
           </el-upload>
         </el-form-item>
         <el-form-item label="套餐顶图">
-          <el-upload class="upload-demo" :action="uploadUrl" :show-file-list="false" :on-success="handleChange04">
+          <el-upload class="upload-demo" :action="uploadUrl" :data="uploaddata" :show-file-list="false" :on-success="handleChange04">
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             <img v-if="modifyForm.fileList02" :src="modifyForm.fileList02" class="avatar">
@@ -279,20 +279,20 @@
           <el-input type="textarea" v-model="establishForm.desc"></el-input>
         </el-form-item>
         <el-form-item label="套餐图片" prop="imageUrl">
-          <el-upload class="avatar-uploader" :action="uploadUrl" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+          <el-upload class="avatar-uploader" :action="uploadUrl" :data="uploaddata" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
             <img v-if="establishForm.imageUrl" :src="establishForm.imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
         <el-form-item label="详情图">
-          <el-upload class="upload-demo" :action="uploadUrl" :show-file-list="false" :on-success="handleChange01">
+          <el-upload class="upload-demo" :action="uploadUrl" :data="uploaddata" :show-file-list="false" :on-success="handleChange01">
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             <img v-if="establishForm.fileList03" :src="establishForm.fileList03" class="avatar">
           </el-upload>
         </el-form-item>
         <el-form-item label="套餐顶图">
-          <el-upload class="upload-demo" :action="uploadUrl" :show-file-list="false" :on-success="handleChange02">
+          <el-upload class="upload-demo" :action="uploadUrl" :data="uploaddata" :show-file-list="false" :on-success="handleChange02">
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             <img v-if="establishForm.fileList04" :src="establishForm.fileList04" class="avatar">
@@ -343,6 +343,9 @@
           value:''
         },
         uploadUrl: process.env.API_ROOT + '/pay/weixin/activity/insertPkgProductPic',
+        uploaddata:{
+          mid:''
+        },
         gradeOptions: [],
         modifyForm: {
           id: '',
@@ -923,6 +926,7 @@
     },
     mounted() {
       this.getUsers();
+      this.uploaddata.mid = sessionStorage.getItem('mid')
     }
   }
 
