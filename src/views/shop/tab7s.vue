@@ -666,6 +666,7 @@ export default {
     },
   },
   mounted() {
+    this.uploaddata.mid = sessionStorage.getItem('mid')
     let card_type = sessionStorage.getItem('card_type');
     switch (card_type) {
       case '1':
@@ -692,10 +693,7 @@ export default {
       default:
         console.log('未知');
     }
-  },
-  mounted() {
-    this.uploaddata.mid = sessionStorage.getItem('mid')
-	}
+  }
 }
 </script>
 <style scoped lang="scss">
