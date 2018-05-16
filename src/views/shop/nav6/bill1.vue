@@ -42,7 +42,7 @@
               v-model="ruleForm.startTime"
               :editable="false"
               :clearable="false"
-              type="datetime"
+              :type="dateType"
               @change="changTime"
               :picker-options="pickerOptions1"
               placeholder="选择日期">
@@ -60,7 +60,7 @@
               v-model="ruleForm.endTime"
               :editable="false"
               :clearable="false"
-              type="datetime"
+              :type="dateType"
               :picker-options="pickerOptions2"
               placeholder="选择日期">
             </el-date-picker>
@@ -106,6 +106,7 @@
           }
         },
         selectLoading:false,
+        dateType:'datetime',
         //选择门店
         storeOptions: [],
         ruleForm: {
@@ -162,7 +163,13 @@
   },
   watch: {
     excel_type(curVal,oldVal) {
-      return curVal !== 'od' ? this.ruleForm.accountType = 0 : this.ruleForm.accountType
+      // return curVal !== 'od' ? this.ruleForm.accountType = 0 : this.ruleForm.accountType
+      if (curVal !== 'od') {
+        this.ruleForm.accountType = 0
+        this.dateType = 'date'
+      }else{
+        this.dateType = 'datetime'
+      }
     }
   },
     methods: {

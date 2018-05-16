@@ -107,11 +107,8 @@
           value: 'ALI',
           label: '支付宝'
         }, {
-          value: 'DEBIT',
-          label: '借记卡'
-        }, {
-          value: 'CREDIT',
-          label: '贷记卡'
+          value: 'BANK',
+          label: '银行卡'
         }, {
           value: 'BEST',
           label: '翼支付'
