@@ -36,7 +36,7 @@
     <!--列表-->
     <div v-loading="listLoading">
       <el-table :data="users" border highlight-current-row style="width: 100%;">
-        <el-table-column prop="settled_date" label="统计日期" min-width="120"  :formatter="format_settled_date">
+        <el-table-column prop="settled_date" label="统计日期" min-width="120" :formatter="format_settled_date">
         </el-table-column>
         <el-table-column prop="saccount" label="商户编号" min-width="120">
         </el-table-column>
@@ -74,7 +74,8 @@
   import {
     queryStrStatement,
     selectStoreList,
-    downStrSumExcel
+    downStrSumExcel,
+    queryStrStateCp
   } from '../../../api/shop';
 
   export default {
@@ -199,7 +200,7 @@
         para.endTime = (!para.endTime || para.endTime == '') ? '' : util.formatDate.format(new Date(para.endTime),
           'yyyy-MM-dd');
         this.listLoading = true;
-        queryStrStatement(para).then((res) => {
+        queryStrStateCp(para).then((res) => {
           let {
             status,
             message

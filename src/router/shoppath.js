@@ -50,6 +50,13 @@ export default [{
         title: '门店日汇总查询', icon: 'table', noCache: true, code:''
       },
       component: (resolve) => require(['../views/shop/nav1/Table3.vue'], resolve)
+    },{
+      path: 'table6',
+      name: '门店数据查询（汇总）',
+      meta: {
+        title: '门店数据查询（汇总）', icon: 'table', noCache: true, code:''
+      },
+      component: (resolve) => require(['../views/shop/nav1/Table6.vue'], resolve)
     }]
   },{
     path: '/index2',

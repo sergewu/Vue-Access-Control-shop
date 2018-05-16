@@ -69,7 +69,7 @@
       </el-row>
       <el-row>
         <el-form-item  label="注：">
-          <span style="color:#999;">如果下载出现乱码，请选择office2003打开</span>
+          <span style="color:#999;">每次下载区间最多为3个月。如果下载出现乱码，请选择office2003打开</span>
         </el-form-item>
       </el-row>
       <el-row>

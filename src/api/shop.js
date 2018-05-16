@@ -250,6 +250,8 @@ export const queryMember = params => { return instance.post(`${preUrlPath}/pay/c
 export const makeUpPurchase = params => { return instance.post(`${preUrlPath}/pay/activity/makeUpPurchase`,params).then(res => res.data); };
 //商户交易日汇总
 export const queryMerDaySum = params => { return instance.post(`${preUrlPath}/pay/mer/queryMerDaySum`,params).then(res => res.data); };
+//门店数据查询
+export const queryStrStateCp = params => { return instance.post(`${preUrlPath}/pay/mer/queryStrStateCp`,params).then(res => res.data); };
 
 
 
