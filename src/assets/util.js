@@ -23,29 +23,7 @@ export const number_format = function (number, decimals, dec_point, thousands_se
  6         * dec_point：小数点符号
  7         * thousands_sep：千分位符号
  8         * */
-  number = (number + '').replace(/[^0-9+-Ee.]/g, '');
-  var n = !isFinite(+number) ? 0 : +number,
-
-    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-    s = '',
-    toFixedFix = function (n, prec) {
-      var k = Math.pow(10, prec);
-      return '' + Math.floor(n * k) / k;
-    };
-  s = (prec ? toFixedFix(n, prec) : '' + Math.floor(n)).split('.');
-  var re = /(-?\d+)(\d{3})/;
-  console.log(s)
-  while (re.test(s[0])) {
-    s[0] = s[0].replace(re, "$1" + sep + "$2");
-  }
-
-  if ((s[1] || '').length < prec) {
-    s[1] = s[1] || '';
-    s[1] += new Array(prec - s[1].length + 1).join('0');
-  }
-  return s.join(dec);
+  return number
 }
 
 //sessionStorage
