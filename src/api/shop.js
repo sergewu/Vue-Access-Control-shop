@@ -10,7 +10,7 @@ export const loginShopVerify = {
 //获取验证码
 export const getCode = {
   p: ['get,/login'],
-  r: process.env.API_ROOT+"/pay/getCode"
+  r: process.env.API_ROOT+"/pay/wp/comm/getCode"
 };
 //门店汇总
 export const getUserList = params => { return instance.post(`${preUrlPath}/pay/wp/mer/querySummary`, params).then(res => res.data);};
@@ -21,7 +21,7 @@ export const getUserList = params => { return instance.post(`${preUrlPath}/pay/w
 //退出登录
  export const batchRemoveUser = params => { return instance.post(`${preUrlPath}/pay/wp/mer/loginMerOut`, params).then(res => res.data); };
 //模糊查询
- export const lookupUser = params => { return instance.post(`${preUrlPath}/pay/comm/selectStoreList`,params).then(res => res.data); };
+ export const lookupUser = params => { return instance.post(`${preUrlPath}/pay/wp/comm/selectStoreList`,params).then(res => res.data); };
 //门店管理
  export const queryStoresShop = params => { return instance.post(`${preUrlPath}/pay/wp/mer/queryStoresShop`,params).then(res => res.data); };
 //列表修改
@@ -63,7 +63,7 @@ export const bindAudio = params => { return instance.post(`${preUrlPath}/pay/wp/
 
 export const volAudio = params => { return instance.post(`${preUrlPath}/pay/wp/mer/volAudio`,params).then(res => res.data); };
 
-export const selectEmpsBySid = params => { return instance.post(`${preUrlPath}/pay/comm/selectEmpsBySid`,params).then(res => res.data); };
+export const selectEmpsBySid = params => { return instance.post(`${preUrlPath}/pay/wp/comm/selectEmpsBySid`,params).then(res => res.data); };
 //款台状态
 export const updateEmployeeStatus = params => { return instance.post(`${preUrlPath}/pay/wp/mer/updateEmployeeStatus`,params).then(res => res.data); };
 //修改打印配置
@@ -77,11 +77,11 @@ export const downOrderExcel = params => { return instance.get(`${preUrlPath}/pay
 //导出Excel(汇总)
 export const downOrderSumExcel = params => { return instance.get(`${preUrlPath}/pay/wp/mer/downOrderSumExcel`,{ params: params }); };
 //二维码
-export const getEmpTwoCode = params => { return instance.get(`${preUrlPath}/pay/wp/mer/getEmpTwoCode`,{ params: params }); };
+export const getEmpTwoCode = `${preUrlPath}/pay/wp/mer/getEmpTwoCode`;
 //会员卡支付二维码
-export const getEmpMemCode = params => { return instance.get(`${preUrlPath}/pay/wp/mer/getEmpMemCode`,{ params: params }); };
+export const getEmpMemCode = `${preUrlPath}/pay/wp/mer/getEmpMemCode`;
 //打印增加款台
-export const selectEmpListByMid = params => { return instance.post(`${preUrlPath}/pay/comm/selectEmpListByMid`,params).then(res => res.data); };
+export const selectEmpListByMid = params => { return instance.post(`${preUrlPath}/pay/wp/comm/selectEmpListByMid`,params).then(res => res.data); };
 //退款
 export const merRefund = params => { return instance.post(`${preUrlPath}/pay/wp/mer/merRefund`,params).then(res => res.data); };
 //补发打印
@@ -89,7 +89,7 @@ export const supplyPrint = params => { return instance.post(`${preUrlPath}/pay/w
 //门店汇总
 export const queryStrStatement = params => { return instance.post(`${preUrlPath}/pay/wp/mer/queryStrStatement`,params).then(res => res.data); };
 //门店汇总
-export const selectStoreList = params => { return instance.post(`${preUrlPath}/pay/comm/selectStoreList`,params).then(res => res.data); };
+export const selectStoreList = params => { return instance.post(`${preUrlPath}/pay/wp/comm/selectStoreList`,params).then(res => res.data); };
 
 export const downStrSumExcel = params => { return instance.get(`${preUrlPath}/pay/wp/mer/downStrSumExcel`,{ params: params }); };
 
@@ -180,7 +180,7 @@ export const updateMenCard = params => { return instance.post(`${preUrlPath}/pay
 export const queryLevel = params => { return instance.post(`${preUrlPath}/pay/wp/mer/queryLevel`,params).then(res => res.data); };
 
 
-export const selectEmpList = params => { return instance.post(`${preUrlPath}/pay/comm/selectEmpList`,params).then(res => res.data); };
+export const selectEmpList = params => { return instance.post(`${preUrlPath}/pay/wp/comm/selectEmpList`,params).then(res => res.data); };
 //余额统计
 export const queryBalance = params => { return instance.post(`${preUrlPath}/pay/wp/mer/queryBalance`,params).then(res => res.data); };
 //余额统计
@@ -245,7 +245,7 @@ export const getNoticeById = params => { return instance.post(`${preUrlPath}/pay
 //人工补录
 export const queryInviter = params => { return instance.post(`${preUrlPath}/pay/wp/mer/queryInviter`,params).then(res => res.data); };
 //人工补录
-export const queryMember = params => { return instance.post(`${preUrlPath}/pay/comm/queryMember`,params).then(res => res.data); };
+export const queryMember = params => { return instance.post(`${preUrlPath}/pay/wp/comm/queryMember`,params).then(res => res.data); };
 //人工补录
 export const makeUpPurchase = params => { return instance.post(`${preUrlPath}/pay/wp/mer/makeUpPurchase`,params).then(res => res.data); };
 //商户交易日汇总
@@ -267,3 +267,6 @@ export const downloadQueryOrderShop = params => { return instance.post('http://d
 
 export const downloadQueryOrderDetail = params => { return instance.post('http://download.weupay.com/download/mer/queryOrderDetail',params).then(res => res.data); };
 
+export const uploadimg = `${preUrlPath}/pay/wp/mer/uploadimg`;
+
+export const insertPkgProductPic = `${preUrlPath}/pay/wp/mer/insertPkgProductPic`;

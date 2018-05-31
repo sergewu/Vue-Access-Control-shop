@@ -183,11 +183,11 @@
 <script>
 	import * as util from '../../../assets/util.js'
 	//
-	import { insertProduct, queryProductList, updateStatus, updateProduct, getCouponByInPro} from '../../../api/shop';
+	import { insertProduct, queryProductList, updateStatus, updateProduct, getCouponByInPro, uploadimg} from '../../../api/shop';
 	export default {
 		data() {
 			return {
-        uploadImage:process.env.API_ROOT+'/pay/wxcard/uploadimg',//上传图片变量
+        uploadImage:uploadimg,//上传图片变量
         uploaddata:{
           mid:''
         },

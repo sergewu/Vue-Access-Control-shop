@@ -166,35 +166,6 @@
     modifyPassword,
     batchRemoveUser
   } from '../api/shop';
-  //  修改密码
-  var validatePass = (rule, value, callback) => {
-    if (value === "") {
-      callback(new Error('旧密码不能为空'));
-    } else {
-      callback()
-    }
-  };
-  var validatePass1 = (rule, value, callback) => {
-    if (value === '') {
-      callback(new Error('请输入密码'));
-    } else if (!/^[a-zA-Z0-9]{6,18}$/.test(value)) {
-      callback(new Error('请输入不含汉字和空格的6到18位密码'));
-    } else {
-      if (this.ruleForm.checkPass !== '') {
-        this.$refs.ruleForm.validateField('checkPass');
-      }
-      callback();
-    }
-  };
-  var validatePass2 = (rule, value, callback) => {
-    if (value === '') {
-      callback(new Error('请再次输入密码'));
-    } else if (value !== this.ruleForm.pass) {
-      callback(new Error('两次输入密码不一致!'));
-    } else {
-      callback();
-    }
-  };
   export default {
     components: {
       TagsView,
@@ -202,6 +173,35 @@
       ErrorPage
     },
     data() {
+        //  修改密码
+      var validatePass = (rule, value, callback) => {
+        if (value === "") {
+          callback(new Error('旧密码不能为空'));
+        } else {
+          callback()
+        }
+      };
+      var validatePass1 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else if (!/^[a-zA-Z0-9]{6,18}$/.test(value)) {
+          callback(new Error('请输入不含汉字和空格的6到18位密码'));
+        } else {
+          if (this.ruleForm.checkPass !== '') {
+            this.$refs.ruleForm.validateField('checkPass');
+          }
+          callback();
+        }
+      };
+      var validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.ruleForm.pass) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
       return {
         user: {},
         isCollapse: false,

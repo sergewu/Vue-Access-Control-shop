@@ -189,7 +189,8 @@
     deleteEmployee,
     updateEmployeeStatus,
     getEmpTwoCode,
-    getEmpMemCode
+    getEmpMemCode,
+
   } from '../../../api/shop';
 
   export default {
@@ -402,7 +403,8 @@
           eid: row.eid,
           storeId: row.storeId
         }
-        this.editCode.code = process.env.API_ROOT + "/pay/cashier/getEmpTwoCode" + "?" + "mid=" + para.mid + "&" +
+        
+        this.editCode.code = getEmpTwoCode + "?" + "mid=" + para.mid + "&" +
           "eid=" + para.eid + "&" + "storeId=" + para.storeId
       },
       code: function () {
@@ -416,7 +418,7 @@
           eid: row.eid,
           storeId: row.storeId
         }
-        this.editVipCode.vipCode = process.env.API_ROOT + "/pay/emp/getEmpMemCode" + "?" + "mid=" + para.mid + "&" +
+        this.editVipCode.vipCode = getEmpMemCode + "?" + "mid=" + para.mid + "&" +
           "eid=" + para.eid + "&" + "storeId=" + para.storeId
       },
       vipCode: function () {

@@ -325,7 +325,8 @@
     updateProdStauts,
     queryInviter,
     queryMember,
-    makeUpPurchase
+    makeUpPurchase,
+    insertPkgProductPic
   } from '../../../api/shop';
   export default {
     data() {
@@ -342,7 +343,7 @@
           card_no:'',
           value:''
         },
-        uploadUrl: process.env.API_ROOT + '/pay/weixin/activity/insertPkgProductPic',
+        uploadUrl: insertPkgProductPic,
         uploaddata:{
           mid:''
         },

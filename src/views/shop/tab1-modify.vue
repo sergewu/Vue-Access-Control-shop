@@ -324,7 +324,8 @@
 import * as util from '../../assets/util.js'
 import {
   updateMenCard,
-  queryCardByKey
+  queryCardByKey,
+  uploadimg
 } from '../../api/shop';
 export default {
   data() {
@@ -357,7 +358,7 @@ export default {
           return time.getTime() < Date.now() - 8.64e7;
         }
       },
-      uploadimg: process.env.API_ROOT + '/pay/wxcard/uploadimg',
+      uploadimg: uploadimg,
       uploaddata:{
         mid:''
       },
