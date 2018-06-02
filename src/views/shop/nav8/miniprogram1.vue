@@ -37,7 +37,7 @@
       </el-pagination>
     </el-row>
     <el-dialog title="新增小程序轮播图" :visible.sync="carouselDialogVisible" width="420px">
-      <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+      <el-upload class="avatar-uploader" :action="uploadimg" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
         <img v-if="imageCarouselUrl" :src="imageCarouselUrl" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
       </el-upload>
@@ -52,11 +52,11 @@
 <script>
   import * as util from '../../../assets/util.js'
   import Sortable from 'sortablejs'
-  import {} from '../../../api/shop';
+  import { uploadimg } from '../../../api/shop';
   export default {
     data() {
       return {
-        uploadImage: process.env.API_ROOT + '/pay/wxcard/uploadimg', //上传图片变量
+        uploadimg: uploadimg,
         filters: {},
         addLoading: false,
         listLoading: false,
@@ -111,10 +111,10 @@
         const isLt2M = file.size / 1024 / 1024 < 2;
 
         if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
+          this.$message.error('上传头像只能是 JPG 格式!');
         }
         if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
+          this.$message.error('上传头像大小不能超过 2MB!');
         }
         return isJPG && isLt2M;
       },

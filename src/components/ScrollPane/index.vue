@@ -64,6 +64,5 @@ export default {
   width: 100%;
   .scroll-wrapper {
     position: absolute;
-  }
-}
+  }}
 </style>

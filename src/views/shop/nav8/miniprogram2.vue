@@ -48,7 +48,7 @@
   export default {
     data() {
       return {
-        uploadImage: process.env.API_ROOT + '/pay/wxcard/uploadimg', //上传图片变量
+        uploadImage: process.env.API_ROOT + '/pay/wp/mer/uploadimg', //上传图片变量
         filters: {},
         addLoading: false,
         listLoading: false,

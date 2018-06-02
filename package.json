@@ -25,6 +25,7 @@
     "echarts": "^4.0.4",
     "element-ui": "^2.2.2",
     "sass-loader": "^6.0.7",
+    "tinymce": "^4.7.13",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
     "vuedraggable": "^2.16.0",

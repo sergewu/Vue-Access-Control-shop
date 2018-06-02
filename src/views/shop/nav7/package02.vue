@@ -215,8 +215,9 @@ export default {
         phone:this.filters.phone,
         card_num:this.filters.cardnum
       }
-
-      window.location.href=process.env.API_ROOT+"/pay/weixin/activity/downPkgInviterExcel?name="+para.name+'&phone='+para.phone+'&card_num='+para.card_num;
+      console.log(downPkgInviterExcel);
+      
+      window.location.href= process.env.API_ROOT + downPkgInviterExcel + "?name=" +para.name+'&phone='+para.phone+'&card_num='+para.card_num;
     },
     getUsers(){
       this.page = 1

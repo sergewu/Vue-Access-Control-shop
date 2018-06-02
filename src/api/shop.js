@@ -215,9 +215,9 @@ export const updatePkgProduct = params => { return instance.post(`${preUrlPath}/
 
 export const updateProdStauts = params => { return instance.post(`${preUrlPath}/pay/wp/mer/updateProdStauts`,params).then(res => res.data); };
 
-export const downPkgPurchaseExcel = params => { return instance.get(`${preUrlPath}/pay/wp/mer/downPkgPurchaseExcel`,{ params: params }); };
+export const downPkgPurchaseExcel = `${preUrlPath}/pay/wp/mer/downPkgPurchaseExcel`;
 
-export const downPkgInviterExcel = params => { return instance.get(`${preUrlPath}/pay/wp/mer/downPkgInviterExcel`,{ params: params }); };
+export const downPkgInviterExcel = `${preUrlPath}/pay/wp/mer/downPkgInviterExcel`;
 
 
 
@@ -266,6 +266,8 @@ export const checkdownOrderExcel = params => { return instance.get('http://downl
 export const downloadQueryOrderShop = params => { return instance.post('http://download.weupay.com/download/mer/queryOrderShop',params).then(res => res.data); };
 
 export const downloadQueryOrderDetail = params => { return instance.post('http://download.weupay.com/download/mer/queryOrderDetail',params).then(res => res.data); };
+
+export const tinymceUploadimg = params => { return instance.post(`${preUrlPath}/pay/wp/mer/uploadimg`,params).then(res => res.data); };
 
 export const uploadimg = `${preUrlPath}/pay/wp/mer/uploadimg`;
 

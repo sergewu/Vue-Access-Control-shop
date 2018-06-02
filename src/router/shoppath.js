@@ -301,6 +301,13 @@ export default [{
         title: '导航列表', icon: 'table', noCache: true, code:'20180316115233_28'
       },
       component: (resolve) => require(['../views/shop/nav8/miniprogram2.vue'], resolve)
+    },{
+      path: 'miniprogram3',
+      name: '新增新闻',
+      meta: {
+        title: '新增新闻', icon: 'table', noCache: true, code:'20180316115233_28'
+      },
+      component: (resolve) => require(['../views/shop/nav8/miniprogram3.vue'], resolve)
     }]
   },{
     path: '/bill1',
