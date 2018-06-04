@@ -37,6 +37,7 @@
       submitForm() {
         console.log(this.postForm);
         console.log(this.$refs);
+        console.log('123');
         
       }
     },
