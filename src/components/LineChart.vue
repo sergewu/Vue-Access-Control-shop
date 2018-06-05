@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import echarts from 'echarts'
-require('echarts/theme/macarons') // echarts theme
+// import echarts from 'echarts'
+// require('echarts/theme/macarons') // echarts theme
 import * as util from '../assets/util'
 export default {
   props: {
@@ -87,11 +87,12 @@ export default {
           }
         },
         grid: {
+          show: true,
           left: 10,
           right: 30,
           bottom: 20,
           top: 50,
-          containLabel: true,
+          containLabel: true
         },
         tooltip: {
           trigger: 'axis',

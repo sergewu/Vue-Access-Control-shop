@@ -11,11 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/pay': {
-        target: 'https://dev.weupay.com',
+      '/admin': {
+        target: 'http://dev.weupay.com',
         changeOrigin: true,
         pathRewrite: {
-          '^/pay': '/pay'
+          '^/admin': '/admin'
         }
       }  
     },

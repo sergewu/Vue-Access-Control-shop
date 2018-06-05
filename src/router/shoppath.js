@@ -289,16 +289,16 @@ export default [{
     component: Abstract,
     children: [{
       path: 'miniprogram1',
-      name: '轮播图列表',
+      name: '导航列表',
       meta: {
-        title: '轮播图列表', icon: 'table', noCache: true, code:'20180316115233_28'
+        title: '导航列表', icon: 'table', noCache: true, code:'20180316115233_28'
       },
       component: (resolve) => require(['../views/shop/nav8/miniprogram1.vue'], resolve)
     },{
       path: 'miniprogram2',
-      name: '导航列表',
+      name: '轮播图列表',
       meta: {
-        title: '导航列表', icon: 'table', noCache: true, code:'20180316115233_28'
+        title: '轮播图列表', icon: 'table', noCache: true, code:'20180316115233_28'
       },
       component: (resolve) => require(['../views/shop/nav8/miniprogram2.vue'], resolve)
     },{

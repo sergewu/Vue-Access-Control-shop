@@ -29,14 +29,13 @@
       return {
         postForm: {
           title: '',
-          content: ''
+          content: 'Hello, World!'
         }
       }
     },
     methods: {
       submitForm() {
         console.log(this.postForm);
-        console.log(this.$refs);
         console.log('123');
         
       }
