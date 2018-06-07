@@ -1,16 +1,16 @@
 {
   "name": "vue-access-control",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Frontend access control framework based Vue",
   "keywords": [
     "vue",
     "access-control"
   ],
-  "author": "tower1229@gmail.com",
+  "author": "962271461@qq.com",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tower1229/Vue-Access-Control"
+    "url": "https://github.com/LaoHu97/Vue-Access-Control-shop.git"
   },
   "main": "build/build.js",
   "scripts": {
