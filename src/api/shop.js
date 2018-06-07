@@ -104,8 +104,7 @@ export const sendVerCode = params => { return instance.post(`${preUrlPath}/admin
 //确认退款
 export const checkVerCode = params => { return instance.post(`${preUrlPath}/admin/wp/mer/checkVerCode`,params).then(res => res.data); };
 //卡劵投放
-// export const getUrlCode = params => { return instance.post(`${preUrlPath}/admin/wp/mer/getUrlCode`,params).then(res => res.data); };
-export const getUrlCode = params => { return instance.get(`${preUrlPath}/admin/wp/mer/getUrlCode`,{ params: params }); };
+export const getUrlCode = `${preUrlPath}/admin/wp/mer/getUrlCode`;
 //订单详情
 export const queryOrderDetail = params => { return instance.post(`${preUrlPath}/admin/wp/mer/queryOrderDetail`,params).then(res => res.data); };
 
@@ -161,7 +160,7 @@ export const depositCompany = params => { return instance.post(`${preUrlPath}/ad
 //修改库存
 export const modifyStock = params => { return instance.post(`${preUrlPath}/admin/wp/mer/modifyStock`,params).then(res => res.data); };
 //交易账单
-export const downTransExcel = params => { return instance.get(`${preUrlPath}/admin/wp/mer/downTransExcel`,{ params: params }); };
+export const downTransExcel = `${preUrlPath}/admin/wp/mer/downTransExcel`;
 //会员交易查询
 export const queryMemTrans = params => { return instance.post(`${preUrlPath}/admin/wp/mer/queryMemTrans`,params).then(res => res.data); };
 //添加充值规则
@@ -199,7 +198,7 @@ export const queryActivePur = params => { return instance.post(`${preUrlPath}/ad
 
 export const updateRedStatus = params => { return instance.post(`${preUrlPath}/admin/wp/mer/updateRedStatus`,params).then(res => res.data); };
 
-export const qRCode = params => { return instance.get(`${preUrlPath}/admin/wp/mer/qRCode`,{ params: params }); };
+export const qRCode = `${preUrlPath}/admin/wp/mer/qRCode`;
 
 export const updatePkgInviterById = params => { return instance.post(`${preUrlPath}/admin/wp/mer/updatePkgInviterById`,params).then(res => res.data); };
 

@@ -15,11 +15,13 @@
       <el-table :data="users" row-key="id" border style="width: 100%">
         <el-table-column align="center" prop="id" label="ID" width="165">
         </el-table-column>
-        <el-table-column prop="date" label="日期" width="180">
+        <el-table-column prop="date" label="创建时间" width="180">
         </el-table-column>
-        <el-table-column prop="name" label="姓名" width="180">
+        <el-table-column prop="date" label="导航图标" width="180">
         </el-table-column>
-        <el-table-column prop="address" label="地址">
+        <el-table-column prop="name" label="导航标题" width="180">
+        </el-table-column>
+        <el-table-column prop="address" label="导航地址">
         </el-table-column>
         <el-table-column align="center"  label="拖拽" width="80">
           <template slot-scope="scope">
@@ -134,7 +136,9 @@
 
       },
       getUsers() {
-        this.oldList = this.users.map(v => v.id)
+        this.oldList = this.users.map(function (v) {
+          return {id:v.id,address:v.address}
+        })
         this.newList = this.oldList.slice()
         this.$nextTick(() => {
           this.setSort()
@@ -147,8 +151,6 @@
         this.carouseForm.imageCarouselUrl = URL.createObjectURL(file.raw);
       },
       beforeAvatarUpload(file) {
-        console.log(file);
-        
         const isJPG = file.type === 'image/jpeg' || 'image/png';
         const isLt1M = file.size / 1024 / 1024 < 1;
         
@@ -170,6 +172,7 @@
             // Detail see : https://github.com/RubaXa/Sortable/issues/1012
           },
           onEnd: evt => {
+            console.log(this.newList);
             const targetRow = this.users.splice(evt.oldIndex, 1)[0]
             this.users.splice(evt.newIndex, 0, targetRow)
             // for show the changes, you can delete in you code

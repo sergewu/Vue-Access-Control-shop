@@ -98,6 +98,11 @@
     },
     //首次加载验证码
     mounted() {
+      if (process.env.NODE_ENV === 'development') {
+        // 干一些测试时不可告人的事情
+        this.user.account = '1000145'
+        this.user.checkPass = '123456'
+      }
       let para = {
         timestamp: (new Date()).valueOf()
       }

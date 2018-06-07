@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="//at.alicdn.com/t/font_581304_vv2hb625i2vxtj4i.css">
     <script src="https://cdn.bootcss.com/tinymce/4.7.13/tinymce.min.js"></script>
     <script src="https://cdn.bootcss.com/echarts/4.0.4/echarts.min.js"></script>
-    <script src="./static/tinymce/langs/zh_CN.js"></script>
+    <!-- <script src="/static/tinymce/langs/zh_CN.js"></script> -->
+    <script src="./${process.env.NODE_ENV === 'production'? 'shop' : 'static'}/tinymce/langs/zh_CN.js"></script>
   </head>
   <body>
     <div id="app"></div>

@@ -149,13 +149,6 @@ export default {
         background: '#fff'
       });
       let vm = this;
-      //检查登录状态
-      // let localUser = util.session('token');
-      // if (!localUser || !localUser.token) {
-      //   return vm.$router.push({ path: '/login', query: { from: vm.$router.currentRoute.path } });
-      // }
-      //设置请求头统一携带token
-      // instance.defaults.headers.common['Authorization'] = 'Bearer ' + localUser.token;
       //获取用户信息及权限数据
       instance.get(`/admin/syscore/menu`, {
         params: {
@@ -164,10 +157,6 @@ export default {
       }).then((res) => {
         loading.close();
         let userInfo = res.data;
-        //取得资源权限对象
-        // let resourcePermission = vm.getPermission(userInfo);
-        //使用资源权限设置请求拦截
-        // vm.setInterceptor(resourcePermission);
         //获得实际路由
         let allowedRouter = vm.getRoutes(userInfo);
         //若无可用路由限制访问
@@ -180,26 +169,6 @@ export default {
         vm.$store.dispatch('get_menu', allowedRouter)
         vm.menuData = allowedRouter;
         vm.userData = userInfo;
-        //权限检验方法
-        // Vue.prototype.$_has = function(rArray) {
-        //   let resources = [];
-        //   let permission = true;
-        //   //提取权限数组
-        //   if (Array.isArray(rArray)) {
-        //     rArray.forEach(function(e) {
-        //       resources = resources.concat(e.p);
-        //     });
-        //   } else {
-        //     resources = resources.concat(rArray.p);
-        //   }
-        //   //校验权限
-        //   resources.forEach(function(p) {
-        //     if (!resourcePermission[p]) {
-        //       return permission = false;
-        //     }
-        //   });
-        //   return permission;
-        // }
         //执行回调
         typeof callback === 'function' && callback();
       })

@@ -364,6 +364,9 @@
         if (this.activeIndex===change) {
           return
         }
+        //清空当前路由
+        this.$store.state.perMission.sideMenus = []
+
         sessionStorage.setItem('activeIndex', JSON.stringify(change));
         //切换头部导航
         this.$store.dispatch('top_nav', change)

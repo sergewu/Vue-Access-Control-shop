@@ -346,11 +346,11 @@
         };
         this.listLoading = true;
         queryMemberList(para).then((res) => {
+          this.listLoading = false;
           this.supplyBalance = res.data.supplyBalance;
           this.supplyBouns = res.data.supplyBouns
-          this.total = res.data.total;
+          this.total = res.data.total || 0;
           this.users = res.data.memberList;
-          this.listLoading = false;
         });
       },
       //会员详情

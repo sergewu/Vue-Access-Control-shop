@@ -2,10 +2,7 @@
   <section>
     <!--工具条-->
     <el-row>
-      <el-form :inline="true" :model="filters">
-        <el-form-item>
-          <el-input v-model="filters.name" placeholder="请输入会员卡名称"></el-input>
-        </el-form-item>
+      <el-form :inline="true">
         <el-form-item style="float:right">
           <el-button type="primary" size="medium" @click="handleAdd" round>新增会员卡</el-button>
         </el-form-item>
@@ -19,7 +16,7 @@
       <el-table :data="users" border highlight-current-row style="width: 100%;">
         <el-table-column prop="id" label="编号">
         </el-table-column>
-        <el-table-column prop="brand_name" label="会员卡名称" min-width="120">
+        <el-table-column prop="title" label="会员卡名称" min-width="120">
         </el-table-column>
         <el-table-column prop="wxcard_id" label="会员卡ID" min-width="280">
         </el-table-column>
@@ -152,9 +149,6 @@
         }
       };
       return {
-        filters: {
-          name: '',
-        },
         users: [],
         total: 0,
         page: 1,
@@ -319,7 +313,7 @@
 					level:this.codeForm.level
         }
         this.codeLoading = false;
-				this.editVipCode.vipCode = `${process.env.API_ROOT}/pay/wxcard/qRCode?sid=${para.storeId}&level=${para.level}`;
+				this.editVipCode.vipCode = `${qRCode}?sid=${para.storeId}&level=${para.level}`;
         this.codeMode = true;
       },
       //门店远程搜索
@@ -501,8 +495,7 @@
       getList() {
         this.listLoading = true;
         let para = {
-          pagNum: this.page,
-          name: this.filters.name
+          pagNum: this.page
         };
         queryMemCardList(para).then((res) => {
           this.total = res.data.total;

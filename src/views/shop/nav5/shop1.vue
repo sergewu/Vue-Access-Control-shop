@@ -4,7 +4,7 @@
 		<el-row>
 			<el-form :inline="true" :model="filters">
 				<el-form-item>
-					<el-input v-model="filters.name" placeholder="商户名称"></el-input>
+					<el-input v-model="filters.name" placeholder="商品名称"></el-input>
 				</el-form-item>
         <el-form-item>
           <template>
@@ -28,7 +28,7 @@
 		<!--列表-->
     <div v-loading="listLoading">
       <el-table border :data="users" highlight-current-row style="width: 100%;">
-        <el-table-column prop="name" label="商户名称" min-width="180">
+        <el-table-column prop="name" label="商品名称" min-width="180">
         </el-table-column>
         <el-table-column prop="oprice" label="商品原价" min-width="120" :formatter="format_oprice">
         </el-table-column>

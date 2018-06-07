@@ -4,7 +4,7 @@
 		<el-row>
 			<el-form :inline="true" :model="filters">
 				<el-form-item>
-					<el-input v-model="filters.name" placeholder="商户名称"></el-input>
+					<el-input v-model="filters.name" placeholder="卡券名称"></el-input>
 				</el-form-item>
         <el-form-item>
           <template>
@@ -188,7 +188,7 @@
 					scene:this.codeForm.scene
 				}
 					this.codeLoading=false;
-					this.editVipCode.vipCode = process.env.API_ROOT+"/pay/person/getUrlCode"+"?"+"cardid="+para.cardid+"&"+"storeId="+para.storeId+"&"+"scene="+para.scene;
+					this.editVipCode.vipCode = getUrlCode +"?"+"cardid="+para.cardid+"&"+"storeId="+para.storeId+"&"+"scene="+para.scene;
 					this.codeMode=true;
 			},
 			//门店远程搜索

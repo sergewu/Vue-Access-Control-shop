@@ -132,7 +132,7 @@
         <el-form-item label="退款金额" prop="amount">
           <el-input v-model="refundForm.amount" auto-complete="off" placeholder="请输入退款金额"></el-input>
         </el-form-item>
-        <el-form-item label="备注" prop="address">
+        <el-form-item label="备注">
           <el-input v-model="refundForm.desc" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
