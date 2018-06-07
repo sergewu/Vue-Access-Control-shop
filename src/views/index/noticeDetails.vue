@@ -43,8 +43,6 @@ export default {
   },
   mounted(){
     this.getUsers()
-    console.log(this.$route.query.id);
-    
   }
 }
 </script>

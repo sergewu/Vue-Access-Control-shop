@@ -38,7 +38,7 @@
       <el-table :data="users" border highlight-current-row style="width: 100%;">
         <el-table-column prop="settled_date" label="统计日期" min-width="120" :formatter="format_settled_date">
         </el-table-column>
-        <el-table-column prop="saccount" label="商户编号" min-width="120">
+        <el-table-column prop="saccount" label="门店编号" min-width="120">
         </el-table-column>
         <el-table-column prop="sname" label="门店名称" min-width="120">
         </el-table-column>

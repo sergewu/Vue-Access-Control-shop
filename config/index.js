@@ -17,7 +17,14 @@ module.exports = {
         pathRewrite: {
           '^/admin': '/admin'
         }
-      }  
+      },
+      '/download': {
+        target: 'http://test.weupay.com:8080',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/download': '/download'
+        }
+      }
     },
 
     // Various Dev Server settings

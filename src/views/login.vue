@@ -147,8 +147,7 @@
             sessionStorage.setItem('name', JSON.stringify(name));
             sessionStorage.setItem('mid', JSON.stringify(mid));
             this.$store.dispatch('top_nav', '2')
-            sessionStorage.setItem('menu', JSON.stringify(1));
-            vm.$emit('login', '/index1/table');
+            vm.$emit('login', {path: '/index1/table', menu: '1'});
           } else {
             this.clickCode()
           }

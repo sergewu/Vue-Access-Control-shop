@@ -12,7 +12,8 @@ import instance from './api';
 import userPath from './router/fullpath';
 import * as util from './assets/util.js';
 import {
-  batchRemoveUser
+  batchRemoveUser,
+  menu
 } from './api/shop';
 
 //请求拦截句柄
@@ -22,54 +23,11 @@ export default {
   data() {
     return {
       menuData: null,
-      userData: null
+      userData: null,
+      menuID: ''
     }
   },
-  computed: {
-
-  },
   methods: {
-    getPermission: function(userInfo) {
-      let resourcePermission = {};
-      if (Array.isArray(userInfo.resources)) {
-        userInfo.resources.forEach(function(e, i) {
-          let key = e.method.toLowerCase() + ',' + e.url;
-          resourcePermission[key] = true;
-        });
-      }
-      return resourcePermission;
-    },
-    setInterceptor: function(resourcePermission) {
-      let vm = this;
-      myInterceptor = instance.interceptors.request.use(function(config) {
-        //得到请求路径
-        let perName = config.url.replace(config.baseURL, '').replace('/GET','').replace('/POST','').split('?')[0];
-        //权限格式1 /path/${param}
-        let reg1 = perName.match(/^(\/[^\/]+\/)[^\/]+$/);
-        if (reg1) {
-          perName = reg1[1] + '**';
-        }
-        //权限格式2 /path/${param}/path
-        let reg2 = perName.match(/^\/[^\/]+\/([^\/]+)\/[^\/]+$/);
-        if (reg2) {
-          perName = perName.replace(reg2[1], '*');
-        }
-        //校验权限
-        if (!resourcePermission[config.method + ',' + perName]) {
-          //调试信息
-          console.warn(resourcePermission, config.method + ',' + perName);
-          vm.$message({
-            message: '无访问权限，请联系企业管理员',
-            type: 'warning'
-          });
-          //拦截请求
-          return Promise.reject({
-            message: 'no permission'
-          });
-        }
-        return config;
-      });
-    },
     getRoutes: function(userInfo) {
       if(!userInfo.data){
         return console.warn(userInfo);
@@ -150,12 +108,15 @@ export default {
       });
       let vm = this;
       //获取用户信息及权限数据
-      instance.get(`/admin/syscore/menu`, {
-        params: {
-          flag:sessionStorage.getItem('menu')||'false'
-        }
-      }).then((res) => {
-        loading.close();
+      let sessionMenuID = JSON.parse(sessionStorage.getItem('menuID'));
+
+      let para = {
+        flag: this.menuID || sessionMenuID || 'false'
+      }
+      menu(para).then(res=>{
+        setTimeout(() => {
+          loading.close();
+        }, 200);
         let userInfo = res.data;
         //获得实际路由
         let allowedRouter = vm.getRoutes(userInfo);
@@ -173,9 +134,11 @@ export default {
         typeof callback === 'function' && callback();
       })
     },
-    loginDirect: function(newPath){
+    loginDirect: function(data){
+      this.menuID= data.menu
+      sessionStorage.setItem('menuID', JSON.stringify(data.menu));
       this.signin(() => {
-        this.$router.replace({path: newPath || '/'});
+        this.$router.replace({path: data.path || '/'});
       })
     },
     logoutDirect: function(){

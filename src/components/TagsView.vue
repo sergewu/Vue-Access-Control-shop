@@ -83,8 +83,8 @@ export default {
           if (latestView) {
             this.$router.push(latestView.path)
           } else {
-            this.$router.push('/home')
             this.$store.dispatch('top_nav', '1')
+            this.$router.push('/home')
           }
         }
       })

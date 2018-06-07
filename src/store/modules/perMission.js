@@ -13,6 +13,9 @@ const perMission = {
     },
     GET_MENU: (state, view) => {      
       state.sideMenus=view
+    },
+    DEL_MENU: (state, view) => {      
+      state.sideMenus=[]
     }
   },
   actions: {
@@ -22,7 +25,11 @@ const perMission = {
     side_nav({ commit }, view) {
       commit('SIDE_NAV', view)
     },
+    
     get_menu({ commit }, view) {
+      commit('GET_MENU', view)
+    },
+    del_menu({ commit }, view) {
       commit('GET_MENU', view)
     }
   }

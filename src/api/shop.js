@@ -1,5 +1,8 @@
 import instance from './index';
+
 const preUrlPath = '';
+let downloadPath = process.env.API_DOWNLOAD || '';
+
 //登录
 export const loginShopVerify = {
   p:['post,/login'],
@@ -12,6 +15,12 @@ export const getCode = {
   p: ['get,/login'],
   r: process.env.API_ROOT+"/admin/wp/comm/getCode"
 };
+
+//验证权限
+export const checkPermission = params => { return instance.post(`${preUrlPath}/admin/syscore/checkPermission`, params).then(res => res.data);};
+//获取服务端菜单
+export const menu = params => { return instance.get(`${preUrlPath}/admin/syscore/menu`,{ params: params }); };
+
 //门店汇总
 export const getUserList = params => { return instance.post(`${preUrlPath}/admin/wp/mer/querySummary`, params).then(res => res.data);};
 //收款记录
@@ -256,18 +265,24 @@ export const queryStrStateCp = params => { return instance.post(`${preUrlPath}/a
 
 
 //下载ex
-export const checkdownOrderExcelNew = params => { return instance.get('http://download.weupay.com/download/mer/checkdownOrderExcelNew',{ params: params }); };
+export const checkdownOrderExcelNew = params => { return instance.get(`${downloadPath}/download/mer/checkdownOrderExcelNew`,{ params: params }); };
 
-export const checkDataExcel = params => { return instance.get('http://download.weupay.com/download/mer/checkDataExcel',{ params: params }); };
+export const checkDataExcel = params => { return instance.get(`${downloadPath}/download/mer/checkDataExcel`,{ params: params }); };
 
-export const checkdownOrderExcel = params => { return instance.get('http://download.weupay.com/download/mer/checkdownOrderExcel',{ params: params }); };
+export const checkdownOrderExcel = params => { return instance.get(`${downloadPath}/download/mer/checkdownOrderExcel`,{ params: params }); };
 //收款记录
-export const downloadQueryOrderShop = params => { return instance.post('http://download.weupay.com/download/mer/queryOrderShop',params).then(res => res.data); };
+export const downloadQueryOrderShop = params => { return instance.post(`${downloadPath}/download/mer/queryOrderShop`,params).then(res => res.data); };
 
-export const downloadQueryOrderDetail = params => { return instance.post('http://download.weupay.com/download/mer/queryOrderDetail',params).then(res => res.data); };
+export const downloadQueryOrderDetail = params => { return instance.post(`${downloadPath}/download/mer/queryOrderDetail`,params).then(res => res.data); };
+
+
 
 export const tinymceUploadimg = params => { return instance.post(`${preUrlPath}/admin/wp/mer/uploadimg`,params).then(res => res.data); };
 
 export const uploadimg = `${preUrlPath}/admin/wp/mer/uploadimg`;
 
 export const insertPkgProductPic = `${preUrlPath}/admin/wp/mer/insertPkgProductPic`;
+
+/*
+小程序管理
+*/

@@ -13,7 +13,7 @@ const chalk = require('chalk')
 
 const env = require('../config/prod.env')
 
-console.log(chalk.blue('>>>正在打包...'))
+console.log(chalk.blue('>>>正在打包环境为：' + chalk.yellowBright(env.API_DOWNLOAD) + '.\n'))
 
 
 const webpackConfig = merge(baseWebpackConfig, {
