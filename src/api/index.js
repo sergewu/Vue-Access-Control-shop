@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as util from '../assets/util.js';
+import * as util from '../util/util.js';
 
 const instance = axios.create({
   baseURL: process.env.API_ROOT,

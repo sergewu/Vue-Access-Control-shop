@@ -110,7 +110,7 @@
 </template>
 
 <script>
-	import * as util from '../../../assets/util.js'
+	import * as util from '../../../util/util.js'
 	//
 	import { queryCouponList, uploadCoupon, selectStoreList, getUrlCode } from '../../../api/shop';
 	export default {

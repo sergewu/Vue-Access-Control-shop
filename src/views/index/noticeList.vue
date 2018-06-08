@@ -32,7 +32,7 @@
 </template>
 <script>
 import { getNotices } from '../../api/shop'
-import * as util from '../../assets/util'
+import * as util from '../../util/util'
 export default {
   data(){
     return{

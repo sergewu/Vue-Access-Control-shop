@@ -80,7 +80,7 @@
 </template>
 
 <script>
-	import * as util from '../../../assets/util.js'
+	import * as util from '../../../util/util.js'
 	//
 	import { queryCode, consumeCode, queryConsumeList } from '../../../api/shop';
 	export default {

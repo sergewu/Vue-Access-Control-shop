@@ -163,7 +163,7 @@
 <script>
   import instance from "../../api";
   import CryptoJS from "crypto-js";
-  import * as util from '../../assets/util'
+  import * as util from '../../util/util'
   import {
     modifyPassword,
     batchRemoveUser,

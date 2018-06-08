@@ -82,7 +82,7 @@
 </template>
 
 <script>
-  import * as util from '../../../assets/util.js'
+  import * as util from '../../../util/util.js'
 	import { downOrderExcelNew, checkdownOrderExcelNew, selectStoreList, checkDataExcel } from '../../../api/shop';
   export default {
     data() {

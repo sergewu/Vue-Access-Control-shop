@@ -5,7 +5,7 @@
 <script>
 // import echarts from 'echarts'
 // require('echarts/theme/macarons') // echarts theme
-import * as util from '../assets/util'
+import * as util from '../util/util'
 export default {
   props: {
     className: {

@@ -12,32 +12,32 @@
     <el-form :inline="true" :model="filters" ref="filters">
       <el-row>
         <el-form-item prop="startTime">
-          <el-date-picker v-model="filters.startTime" class="fixed_search_input_datetime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1"
+          <el-date-picker v-model="filters.startTime" type="datetime" placeholder="选择开始日期" :picker-options="pickerOptions1"
             :clearable="false" :editable='false'>
           </el-date-picker>
         </el-form-item>
         <el-form-item>至</el-form-item>
         <el-form-item prop="endTime">
-          <el-date-picker v-model="filters.endTime" class="fixed_search_input_datetime" type="datetime" placeholder="选择结束日期" :picker-options="pickerOptions2"
+          <el-date-picker v-model="filters.endTime" type="datetime" placeholder="选择结束日期" :picker-options="pickerOptions2"
             :clearable="false" :editable='false'>
           </el-date-picker>
         </el-form-item>
       </el-row>
       <el-row>
-        <el-form-item prop="parag" class="fixed_search_input">
+        <el-form-item prop="parag">
           <el-select v-model="filters.parag" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading"
             clearable @visible-change="clickShop">
             <el-option v-for="item in optionsStore" :key="item.id" :value="item.id" :label="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="play" class="fixed_search_input">
+        <el-form-item prop="play">
           <el-select v-model="filters.play" clearable placeholder="支付方式">
             <el-option v-for="item in optionsScene" :label="item.labelScene" :value="item.valueScene" :key="item.valueScene">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="state" class="fixed_search_input">
+        <el-form-item prop="state">
           <el-select v-model="filters.state" clearable placeholder="支付状态">
             <el-option v-for="item in optionsState" :label="item.labelState" :value="item.valueState" :key="item.valueState">
             </el-option>
@@ -145,7 +145,8 @@
 </template>
 
 <script>
-  import * as util from '../../../assets/util.js'
+  import * as util from '../../../util/util.js'
+  import * as rules from '../../../util/rules.js'
 
   import {
     getUserListPage,
@@ -161,17 +162,6 @@
   export default {
     data() {
       var myDate = new Date();
-      var amount = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入退款金额'));
-        } else if (!
-          /^(([1-9][0-9]*)|([0]\.[1-9]{1})|([0]\.[1-9][0-9]{1})|([0]\.[0-9][1-9]{1})|([1-9][0-9]*\.\d{0,2}))$/.test(
-            value)) {
-          callback(new Error('请输入正确的退款金额'));
-        } else {
-          callback();
-        }
-      };
       return {
         //支付方式
         optionsScene: [{
@@ -250,7 +240,7 @@
         refundFormRules: {
           amount: [{
               required: true,
-              validator: amount,
+              validator: rules.validatorAmount,
               trigger: 'blur'
             },
             {

@@ -10,7 +10,7 @@
 import Vue from 'vue';
 import instance from './api';
 import userPath from './router/fullpath';
-import * as util from './assets/util.js';
+import * as util from './util/util.js';
 import {
   batchRemoveUser,
   menu
