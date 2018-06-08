@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import {
-  Message
-} from 'element-ui'
+// import Vue from 'vue'
+// import {
+//   Message
+// } from 'element-ui'
 
 var SIGN_REGEXP = /([yMdhsm])(\1*)/g;
 var DEFAULT_PATTERN = 'yyyy-MM-dd';

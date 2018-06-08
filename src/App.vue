@@ -114,9 +114,7 @@ export default {
         flag: this.menuID || sessionMenuID || 'false'
       }
       menu(para).then(res=>{
-        setTimeout(() => {
-          loading.close();
-        }, 200);
+        loading.close();
         let userInfo = res.data;
         //获得实际路由
         let allowedRouter = vm.getRoutes(userInfo);
