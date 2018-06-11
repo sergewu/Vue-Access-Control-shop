@@ -1,6 +1,6 @@
 <template>
   <div>
-    <textarea id="tinymceId">Hello, World!</textarea>
+    <textarea id="tinymceId"></textarea>
   </div>
 </template>
 <script>

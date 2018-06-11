@@ -4,7 +4,7 @@
     <el-row>
       <el-form :inline="true" :model="filters">
         <el-form-item style="float:right">
-          <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
+          <el-button type="primary" v-on:click="getUsers" size="medium" round>刷新</el-button>
           <el-button type="primary" @click="addCarousel" size="medium" round>新增轮播图</el-button>
         </el-form-item>
       </el-form>
@@ -17,7 +17,10 @@
         </el-table-column>
         <el-table-column prop="id" label="图片名称">
         </el-table-column>
-        <el-table-column align="center" label="操作" width="165">
+        <el-table-column align="center" label="操作" width="125">
+          <template slot-scope="scope">
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>

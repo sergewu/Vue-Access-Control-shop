@@ -1,15 +1,20 @@
 <template>
   <div>
-    <el-form ref="form" :model="postForm" label-width="80px">
+    <el-form ref="form" :inline="true" :model="postForm" label-width="80px">
       <el-row>
-        <el-col :span="8">
           <el-form-item label="文章标题">
             <el-input v-model="postForm.title"></el-input>
           </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-button type="success" @click="submitForm">发布</el-button>
-        </el-col>
+          <el-form-item label="创建日期">
+            <el-date-picker
+              v-model="postForm.date"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item style="float:right">
+            <el-button type="success" @click="submitForm">发布</el-button>
+          </el-form-item>
       </el-row>
       <Tinymce ref="editor" v-model="postForm.content"></Tinymce>
     </el-form>
@@ -29,7 +34,8 @@
       return {
         postForm: {
           title: '',
-          content: 'Hello, World!'
+          date:'',
+          content: '你好'
         }
       }
     },
@@ -42,8 +48,6 @@
     },
     mounted() {
       console.log(this.postForm);
-
     }
   }
-
 </script>
