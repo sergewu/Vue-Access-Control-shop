@@ -242,6 +242,7 @@ export const formatDate = {
     return null;
   }
 };
+//函数防抖
 export const debounce = function (func, wait, immediate) {
   let timeout, args, context, timestamp, result
 

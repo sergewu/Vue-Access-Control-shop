@@ -1,3 +1,8 @@
+English | [中文](README_CN.md)
+
+<h1 align="center">Vue-Access-Control-shop</h1>
+
+
 <p align="center">
   <a href="https://github.com/vuejs/vue">
     <img src="https://img.shields.io/badge/vue-2.5.16-brightgreen.svg" alt="vue">
