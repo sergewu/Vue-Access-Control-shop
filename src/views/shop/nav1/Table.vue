@@ -147,6 +147,7 @@
 <script>
   import * as util from '../../../util/util.js'
   import * as rules from '../../../util/rules.js'
+  import * as data from '../../../util/data.js'
 
   import {
     getUserListPage,
@@ -164,22 +165,7 @@
       var myDate = new Date();
       return {
         //支付方式
-        optionsScene: [{
-          valueScene: 'WX',
-          labelScene: '微信'
-        }, {
-          valueScene: 'ALI',
-          labelScene: '支付宝'
-        }, {
-          valueScene: 'DEBIT',
-          labelScene: '借记卡'
-        }, {
-          valueScene: 'CREDIT',
-          labelScene: '贷记卡'
-        }, {
-          valueScene: 'BEST',
-          labelScene: '翼支付'
-        }],
+        optionsScene: data.optionsPayment,
         //支付状态
         optionsState: [{
           valueState: '1',
@@ -257,12 +243,10 @@
         return row.status == 1 ? '已支付' : row.status == 3 ? '已支付（有退款）' : '未知';
       },
       formatPay1: function (row) {
-        return row == 'WX' ? '微信' : row == 'ALI' ? '支付宝' : row == 'DEBIT' ? '借记卡' : row == 'CREDIT' ? '贷记卡' : row ==
-          'BEST' ? '翼支付' : '未知';
+        return util.formatPayment(row)
       },
       format_payWay(row, column) {
-        return row.payWay === 'WX' ? '微信' : row.payWay === 'ALI' ? '支付宝' : row.payWay === 'DEBIT' ? '借记卡' : row.payWay ===
-          'CREDIT' ? '贷记卡' : row.payWay === 'BEST' ? '翼支付' : '未知';
+        return util.formatPayment(row.payWay)
       },
       format_payTime(props){
         return util.formatDate.format(new Date(props), 'yyyy-MM-dd hh:mm:ss')
@@ -380,14 +364,12 @@
                   status,
                   message
                 } = res;
-                if (status == 200) {
+                if (status === 200) {
                   this.getUsers();
                   this.$message({
                     type: 'success',
                     message: message
                   });
-                } else {
-                  this.$message.error(message);
                 }
               })
               this.refundFormVisible = false;

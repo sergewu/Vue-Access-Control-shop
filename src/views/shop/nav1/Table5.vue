@@ -142,6 +142,7 @@
 
 <script>
   import * as util from '../../../util/util.js'
+  import * as data from '../../../util/data.js'
   import {
     downloadQueryOrderShop,
     lookupUser,
@@ -159,22 +160,7 @@
       var myDate = new Date();
       return {
         //支付方式
-        optionsScene: [{
-          valueScene: 'WX',
-          labelScene: '微信'
-        }, {
-          valueScene: 'ALI',
-          labelScene: '支付宝'
-        }, {
-          valueScene: 'DEBIT',
-          labelScene: '借记卡'
-        }, {
-          valueScene: 'CREDIT',
-          labelScene: '贷记卡'
-        }, {
-          valueScene: 'BEST',
-          labelScene: '翼支付'
-        }],
+        optionsScene: data.optionsPayment,
         //支付状态
         optionsState: [{
           valueState: '1',

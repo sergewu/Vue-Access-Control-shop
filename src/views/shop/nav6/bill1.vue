@@ -83,6 +83,7 @@
 
 <script>
   import * as util from '../../../util/util.js'
+  import * as data from '../../../util/data.js'
 	import { downOrderExcelNew, checkdownOrderExcelNew, selectStoreList, checkDataExcel } from '../../../api/shop';
   export default {
     data() {
@@ -135,25 +136,7 @@
           label: '门店汇总'
         }],
         //支付方式
-        optionsScene: [{
-          value: '',
-          label: '所有'
-        }, {
-          value: 'WX',
-          label: '微信'
-        }, {
-          value: 'ALI',
-          label: '支付宝'
-        }, {
-          value: 'DEBIT',
-          label: '借记卡'
-        }, {
-          value: 'CREDIT',
-          label: '贷记卡'
-        }, {
-          value: 'BEST',
-          label: '翼支付'
-        }]
+        optionsScene: data.optionsPaymentExcel
       };
     },
   computed: {

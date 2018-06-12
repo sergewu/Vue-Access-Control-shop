@@ -276,3 +276,7 @@ export const debounce = function (func, wait, immediate) {
     return result
   }
 }
+//格式化支付方式
+export const formatPayment = function (data) {
+  return data === 'WX' ? '微信' : data === 'ALI' ? '支付宝' : data === 'DEBIT' ? '借记卡' : data ==='CREDIT' ? '贷记卡' : data === 'BEST' ? '翼支付' : '其它'; 
+} 

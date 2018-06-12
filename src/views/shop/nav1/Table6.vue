@@ -70,7 +70,7 @@
 
 <script>
   import * as util from '../../../util/util.js'
-
+  import * as data from '../../../util/data.js'
   import {
     queryStrStatement,
     selectStoreList,
@@ -101,19 +101,7 @@
             }
           }
         },
-        options: [{
-          value: 'WX',
-          label: '微信'
-        }, {
-          value: 'ALI',
-          label: '支付宝'
-        }, {
-          value: 'BANK',
-          label: '银行卡'
-        }, {
-          value: 'BEST',
-          label: '翼支付'
-        }],
+        options: data.optionsPaymentCopy,
         //商户查询
         optionsMers: [],
         //商户名
