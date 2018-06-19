@@ -1,10 +1,10 @@
-import { uploadimg } from '../../api/shop';
+import { uploadImage } from '../../api/shop';
 
 const images_upload_handler = function (blobInfo, success, failure) {
   var xhr, formData;
   xhr = new XMLHttpRequest();
   xhr.withCredentials = false;
-  xhr.open('POST', uploadimg);
+  xhr.open('POST', uploadImage);
   xhr.onload = function () {
     var json;
 
@@ -14,15 +14,16 @@ const images_upload_handler = function (blobInfo, success, failure) {
     }
     json = JSON.parse(xhr.responseText);
 
-    if (!json || typeof json.location != 'string') {
+    console.log(json);
+
+    if (!json || typeof json.data.locationPath != 'string') {
       failure('Invalid JSON: ' + xhr.responseText);
       return;
     }
-    success(json.location);
+    success(json.data.locationPath);
   };
   formData = new FormData();
   formData.append('file', blobInfo.blob());
-  formData.append('mid', '66');
   xhr.send(formData);
 }
 

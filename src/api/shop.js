@@ -286,3 +286,34 @@ export const insertPkgProductPic = `${preUrlPath}/admin/wp/mer/insertPkgProductP
 /*
 小程序管理
 */
+export const addWdMiniInfo = params => { return instance.post(`${preUrlPath}/admin/api/wd/200/1/addWdMiniInfo`,params).then(res => res.data); };
+
+export const queryWdMiniInfo = params => { return instance.post(`${preUrlPath}/admin/api/wd/200/1/queryWdMiniInfo`,params).then(res => res.data); };
+
+export const deleteWdMiniInfo = params => { return instance.post(`${preUrlPath}/admin/api/wd/200/1/deleteWdMiniInfo`,params).then(res => res.data); };
+
+export const selectInfoByMid = params => { return instance.post(`${preUrlPath}/admin/api/wd/300/1/selectInfoByMid`,params).then(res => res.data); };
+
+export const queryWdMiniMenu = params => { return instance.post(`${preUrlPath}/admin/api/wd/300/1/queryWdMiniMenu`,params).then(res => res.data); };
+
+export const updateMiniInfo = params => { return instance.post(`${preUrlPath}/admin/api/wd/200/1/updateMiniInfo`,params).then(res => res.data); };
+
+export const addMiniMenu = params => { return instance.post(`${preUrlPath}/admin/api/wd/300/1/addMiniMenu`,params).then(res => res.data); };
+
+export const deleteWdMiniMenu = params => { return instance.post(`${preUrlPath}/admin/api/wd/300/1/deleteWdMiniMenu`,params).then(res => res.data); };
+
+export const updateMiniMenu = params => { return instance.post(`${preUrlPath}/admin/api/wd/300/1/updateMiniMenu`,params).then(res => res.data); };
+
+export const addMiniNews = params => { return instance.post(`${preUrlPath}/admin/api/wd/400/1/addMiniNews`,params).then(res => res.data); };
+
+export const queryWdMiniNews = params => { return instance.post(`${preUrlPath}/admin/api/wd/400/1/queryWdMiniNews`,params).then(res => res.data); };
+
+export const deleteMiniNews = params => { return instance.post(`${preUrlPath}/admin/api/wd/400/1/deleteMiniNews`,params).then(res => res.data); };
+
+export const updateMiniNews = params => { return instance.post(`${preUrlPath}/admin/api/wd/400/1/updateMiniNews`,params).then(res => res.data); };
+
+export const getNewDetail = params => { return instance.post(`${preUrlPath}/admin/api/wd/400/1/getNewDetail`,params).then(res => res.data); };
+
+export const uploadImage = `${preUrlPath}admin/api/wd/200/1/uploadImage`;
+
+export const uploadLogo = `${preUrlPath}admin/api/wd/300/1/uploadLogo`;

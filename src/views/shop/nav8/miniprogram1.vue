@@ -15,28 +15,28 @@
       <el-table :data="users" row-key="id" border style="width: 100%">
         <el-table-column align="center" prop="id" label="ID" width="165">
         </el-table-column>
-        <el-table-column prop="date" label="创建时间" width="180">
+        <el-table-column prop="appid" label="APPID" width="180">
         </el-table-column>
-        <el-table-column prop="date" label="导航图标" width="180">
+        <el-table-column prop="gmt_create" label="创建时间" width="180" :formatter="formatter_time">
         </el-table-column>
-        <el-table-column prop="name" label="导航标题" width="180">
+        <el-table-column prop="menu_url" label="导航标题" width="180">
         </el-table-column>
-        <el-table-column prop="address" label="导航地址">
+        <el-table-column prop="forward_url" label="导航地址">
         </el-table-column>
-        <el-table-column align="center"  label="拖拽" width="80">
+        <!-- <el-table-column align="center"  label="拖拽" width="80">
           <template slot-scope="scope">
             <i class="icon_rank el-icon-rank"></i>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column align="center" label="操作" width="160">
           <template slot-scope="scope">
-            <el-button type="primary" round size="mini">修改</el-button>
-            <el-button type="danger" round size="mini">删除</el-button>
+            <el-button size="mini" type="warning" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <div class='show-d'>{{oldList}}</div>
-      <div class='show-d'>{{newList}}</div>
+      <!-- <div class='show-d'>{{oldList}}</div>
+      <div class='show-d'>{{newList}}</div> -->
     </div>
     <!--工具条-->
     <el-row>
@@ -44,7 +44,7 @@
         background style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
     </el-row>
-    <el-dialog title="新增小程序导航" :visible.sync="carouselDialogVisible" width="650px">
+    <el-dialog :title="dialogTitle" :visible.sync="carouselDialogVisible" width="650px">
       <el-form :model="carouseForm" ref="carouseForm" label-width="80px" label-position="left">
         <el-form-item label="导航Icon" prop="imageCarouselUrl" :rules="[
           { required: true, message: '导航Icon不能为空'}
@@ -55,22 +55,53 @@
           </el-upload>
         </el-form-item> 
         <el-form-item label="导航Url" prop="url" :rules="[
-          { required: true, message: '导航Url不能为空'}
+          { required: true, message: '导航Url不能为空', trigger: 'blur'}
         ]">
           <el-input placeholder="请输入导航超链接" v-model="carouseForm.url">
             <template slot="prepend">Https://</template>
           </el-input>
         </el-form-item>
         <el-form-item label="导航Title" prop="title" :rules="[
-          { required: true, message: '导航标题不能为空'},
+          { required: true, message: '导航标题不能为空', trigger: 'blur'},
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]">
           <el-input placeholder="请输入导航标题" v-model="carouseForm.title"></el-input>
         </el-form-item>
+        <el-form-item label="导航类型" prop="navType" :rules="[
+          { required: true, message: '导航类型不能为空', trigger: 'change'}
+        ]">
+          <el-select v-model="carouseForm.navType" placeholder="请选择导航类型">
+            <el-option
+              v-for="item in navOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="小程序" prop="navType" :rules="[
+          { required: true, message: '请选择小程序', trigger: 'change'}
+        ]">
+          <el-select v-model="carouseForm.miniinfo" placeholder="请选择小程序">
+            <el-option
+              v-for="item in miniinfoOptions"
+              :key="item.appid"
+              :label="item.appname"
+              :value="item.appid">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="导航排序" prop="sort" :rules="[
+          { required: true, message: '导航排序不能为空', trigger: 'blur'},
+          { type: 'number', message: '导航排序必须为数字值', trigger: 'blur'}
+        ]">
+          <el-input placeholder="请输入导航排序" v-model.number="carouseForm.sort"></el-input>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="carouselDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="carouselSubmit('carouseForm')">确 定</el-button>
+        <el-button type="primary" v-if="submitType" @click="carouselSubmit('carouseForm')">确 定</el-button>
+        <el-button type="primary" v-else @click="editSubmit('carouseForm')">修 改</el-button>
       </span>
     </el-dialog>
   </section>
@@ -79,76 +110,192 @@
 <script>
   import * as util from '../../../util/util.js'
   import Sortable from 'sortablejs'
-  import { uploadimg } from '../../../api/shop';
+  import { uploadLogo, addWdMiniInfo, selectInfoByMid, queryWdMiniMenu, addMiniMenu, deleteWdMiniMenu, updateMiniMenu  } from '../../../api/shop';
   export default {
     data() {
       return {
-        uploadimg: uploadimg,
+        uploadimg: uploadLogo,
         filters: {},
         addLoading: false,
         listLoading: false,
-        users: [{
-          id: 1,
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          id: 2,
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          id: 3,
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄是的复苏的复苏的分'
-        }, {
-          id: 4,
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }],
+        users: [],
         page: 1,
         total: 0,
         carouselDialogVisible: false,
-        imageCarouselUrl: '',
         oldList: [],
         newList: [],
         carouseForm: {
           imageCarouselUrl: '',
           url: '',
-          title: ''
-        }
+          title: '',
+          navType: '',
+          miniinfo: '',
+          sort: ''
+        },
+        navOptions: [{
+          value: '1',
+          label: '选项1'
+        }, {
+          value: '2',
+          label: '选项2'
+        }, {
+          value: '3',
+          label: '选项3'
+        }],
+        miniinfoOptions: [],
+        dialogTitle: '新增小程序导航',
+        submitType: true
       }
     },
     methods: {
-      carouselSubmit(carouseForm) {
+      formatter_time(row, column){
+        return util.formatDate.format(new Date(row.gmt_create), 'yyyy-MM-dd hh:mm:ss')
+      },
+      handleEdit(index, row){
+        this.carouselDialogVisible = true
+        this.dialogTitle = '修改小程序导航'
+        this.getMiniInfo()
+        this.submitType = false
+        this.carouseForm.id = row.id
+        this.carouseForm.sort = row.sort
+        this.carouseForm.imageCarouselUrl = row.menu_ico
+        this.carouseForm.url = row.forward_url
+        this.carouseForm.title = row.menu_url
+        this.carouseForm.navType = String(row.menu_type)
+        this.carouseForm.miniinfo = row.appid
+      },
+      handleDelete(index, row) {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let para = {
+            id: row.id
+          }
+          deleteWdMiniMenu(para).then(res => {
+            if (res.status === 200) {
+              this.getUsers()
+              this.$message({
+                message: res.message,
+                type: 'success'
+              });
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+      editSubmit(carouseForm) {
         this.$refs[carouseForm].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            let para = {
+              id: this.carouseForm.id,
+              sort: this.carouseForm.sort,
+              appid: this.carouseForm.miniinfo,
+              menu_ico: this.carouseForm.imageCarouselUrl,
+              menu_type: this.carouseForm.navType,
+              forward_url: this.carouseForm.url,
+              menu_url: this.carouseForm.title
+            }
+            updateMiniMenu(para).then(res=>{
+              if (res.status === 200) {
+                this.carouselDialogVisible = false
+                this.$refs[carouseForm].resetFields();
+                this.getUsers()
+                this.$message({
+                  message: res.message,
+                  type: 'success'
+                });
+              }
+            })
           } else {
             console.log('error submit!!');
             return false;
           }
         });
       },
-      handleCurrentChange() {
-
+      carouselSubmit(carouseForm) {
+        this.$refs[carouseForm].validate((valid) => {
+          if (valid) {
+            let para = {
+              appid: this.carouseForm.miniinfo,
+              sort: this.carouseForm.sort,
+              menu_ico: this.carouseForm.imageCarouselUrl,
+              menu_type: this.carouseForm.navType,
+              forward_url: this.carouseForm.url,
+              menu_url: this.carouseForm.title
+            }
+            addMiniMenu(para).then(res=>{
+              if (res.status === 200) {
+                this.carouselDialogVisible = false
+                this.$refs[carouseForm].resetFields();
+                this.getUsers()
+                this.$message({
+                  message: res.message,
+                  type: 'success'
+                });
+              }
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      handleCurrentChange(val) {
+        this.page = val
+        this.gerList()
       },
       getUsers() {
-        this.oldList = this.users.map(function (v) {
-          return {id:v.id,address:v.address}
+        this.page = 1
+        this.gerList()
+        // this.oldList = this.users.map(function (v) {
+        //   return {id:v.id,address:v.address}
+        // })
+        // this.newList = this.oldList.slice()
+        // this.$nextTick(() => {
+        //   this.setSort()
+        // })
+      },
+      getMiniInfo(){
+        selectInfoByMid().then(res=>{
+          if (res.status === 200) {
+            this.miniinfoOptions = res.data.miniMenu
+          }
         })
-        this.newList = this.oldList.slice()
-        this.$nextTick(() => {
-          this.setSort()
+      },
+      gerList() {
+        let para = {
+          page: this.page
+        }
+        this.listLoading = true
+        queryWdMiniMenu(para).then(res=>{
+          this.listLoading = false
+          if (res.status ===200) {
+            this.users = res.data.miniMenuList
+            this.total = res.data.totalCount
+          }
         })
       },
       addCarousel() {
         this.carouselDialogVisible = true
+        this.dialogTitle = '新增小程序导航'
+        this.getMiniInfo()
+        this.submitType = true        
+        this.carouseForm = {
+          imageCarouselUrl: '',
+          url: '',
+          title: '',
+          navType: '',
+          miniinfo: ''
+        }
       },
       handleAvatarSuccess(res, file) {
-        this.carouseForm.imageCarouselUrl = URL.createObjectURL(file.raw);
+        this.carouseForm.imageCarouselUrl = res.data.locationPath;
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg' || 'image/png';
@@ -162,25 +309,25 @@
         }
         return isJPG && isLt1M;
       },
-      setSort() {
-        const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
-        this.sortable = Sortable.create(el, {
-          ghostClass: 'sortable-ghost', // Class name for the drop placeholder,
-          setData: function (dataTransfer) {
-            dataTransfer.setData('Text', '')
-            // to avoid Firefox bug
-            // Detail see : https://github.com/RubaXa/Sortable/issues/1012
-          },
-          onEnd: evt => {
-            console.log(this.newList);
-            const targetRow = this.users.splice(evt.oldIndex, 1)[0]
-            this.users.splice(evt.newIndex, 0, targetRow)
-            // for show the changes, you can delete in you code
-            const tempIndex = this.newList.splice(evt.oldIndex, 1)[0]
-            this.newList.splice(evt.newIndex, 0, tempIndex)
-          }
-        })
-      }
+      // setSort() {
+      //   const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
+      //   this.sortable = Sortable.create(el, {
+      //     ghostClass: 'sortable-ghost', // Class name for the drop placeholder,
+      //     setData: function (dataTransfer) {
+      //       dataTransfer.setData('Text', '')
+      //       // to avoid Firefox bug
+      //       // Detail see : https://github.com/RubaXa/Sortable/issues/1012
+      //     },
+      //     onEnd: evt => {
+      //       console.log(this.newList);
+      //       const targetRow = this.users.splice(evt.oldIndex, 1)[0]
+      //       this.users.splice(evt.newIndex, 0, targetRow)
+      //       // for show the changes, you can delete in you code
+      //       const tempIndex = this.newList.splice(evt.oldIndex, 1)[0]
+      //       this.newList.splice(evt.newIndex, 0, tempIndex)
+      //     }
+      //   })
+      // }
     },
     mounted() {
       this.getUsers()

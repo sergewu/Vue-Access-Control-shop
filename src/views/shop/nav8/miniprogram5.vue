@@ -10,7 +10,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="文章类型" prop="newsType" :rules="[
+          <el-form-item label="文章类型" prop="newsType"  :rules="[
           { required: true, message: '请选择文章类型', trigger: 'change' }
         ]">
             <el-select v-model="postForm.newsType" placeholder="请选择文章类型">
@@ -20,7 +20,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="小程序" prop="miniinfoType" :rules="[
+          <el-form-item label="小程序" prop="miniinfoType"  :rules="[
             { required: true, message: '请选择小程序', trigger: 'change' }
           ]">
             <el-select v-model="postForm.miniinfoType" placeholder="请选择小程序">
@@ -84,13 +84,14 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let para = {
+              id: this.$route.params.id,
               appid: this.postForm.miniinfoType,
               title: this.postForm.title,
               title_url: this.postForm.url,
               title_contents: this.postForm.content,
               title_type: this.postForm.newsType
             }
-            addMiniNews(para).then(res => {
+            updateMiniNews(para).then(res => {
               if (res.status === 200) {
                 this.$refs[formName].resetFields();
                 this.$router.push({path: '/index4/miniprogram4'});
@@ -108,7 +109,7 @@
       },
       getNewsDetail() {
         let para = {
-          id: this.$route.query.id
+          id: this.$route.params.id
         }
         getNewDetail(para).then(res => {
           if (res.status === 200) {
@@ -133,9 +134,7 @@
     },
     mounted() {
       this.getMiniinfo()
-      if (this.$route.query.id) {
-        this.getNewsDetail()
-      }
+      this.getNewsDetail()
     }
   }
 

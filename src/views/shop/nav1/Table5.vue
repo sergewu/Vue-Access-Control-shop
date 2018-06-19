@@ -257,8 +257,7 @@
           'BEST' ? '翼支付' : '未知';
       },
       format_payWay(row, column) {
-        return row.payWay === 'WX' ? '微信' : row.payWay === 'ALI' ? '支付宝' : row.payWay === 'DEBIT' ? '借记卡' : row.payWay ===
-          'CREDIT' ? '贷记卡' : row.payWay === 'BEST' ? '翼支付' : '未知';
+        return util.formatPayment(row.payWay)
       },
       format_payTime(props){
         return util.formatDate.format(new Date(props), 'yyyy-MM-dd hh:mm:ss')

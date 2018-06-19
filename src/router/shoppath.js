@@ -288,13 +288,6 @@ export default [{
     },
     component: Abstract,
     children: [{
-      path: 'miniprogram1',
-      name: '导航列表',
-      meta: {
-        title: '导航列表', icon: 'table', noCache: true, code:'20180316115233_28'
-      },
-      component: (resolve) => require(['../views/shop/nav8/miniprogram1.vue'], resolve)
-    },{
       path: 'miniprogram2',
       name: '轮播图列表',
       meta: {
@@ -302,12 +295,33 @@ export default [{
       },
       component: (resolve) => require(['../views/shop/nav8/miniprogram2.vue'], resolve)
     },{
-      path: 'miniprogram3',
-      name: '新增新闻',
+      path: 'miniprogram1',
+      name: '导航列表',
       meta: {
-        title: '新增新闻', icon: 'table', noCache: true, code:'20180316115233_28'
+        title: '导航列表', icon: 'table', noCache: true, code:'20180316115233_28'
+      },
+      component: (resolve) => require(['../views/shop/nav8/miniprogram1.vue'], resolve)
+    },{
+      path: 'miniprogram4',
+      name: '资讯列表',
+      meta: {
+        title: '资讯列表', icon: 'table', noCache: true, code:'20180316115233_28'
+      },
+      component: (resolve) => require(['../views/shop/nav8/miniprogram4.vue'], resolve)
+    },{
+      path: 'miniprogram3',
+      name: '新增资讯',
+      meta: {
+        title: '新增资讯', icon: 'table', noCache: true, code:'20180316115233_28', hidden:true
       },
       component: (resolve) => require(['../views/shop/nav8/miniprogram3.vue'], resolve)
+    },{
+      path: 'miniprogram5',
+      name: '资讯修改',
+      meta: {
+        title: '资讯修改', icon: 'table', noCache: true, code:'20180316115233_28', hidden:true
+      },
+      component: (resolve) => require(['../views/shop/nav8/miniprogram5.vue'], resolve)
     }]
   },{
     path: '/bill1',

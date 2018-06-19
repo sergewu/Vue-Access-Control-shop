@@ -60,7 +60,7 @@ export default {
     },
     addViewTags() {
       const route = this.generateRoute()
-      if (!route) {
+      if (!route || route.meta.hidden) {
         return false
       }
       this.$store.dispatch('addVisitedViews', route)

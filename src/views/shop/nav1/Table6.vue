@@ -121,7 +121,7 @@
     },
     methods: {
       format_pay_type(row,column){
-        return row.pay_type === 'WX' ? '微信' : row.pay_type === 'ALI' ? '支付宝' : row.pay_type === 'BANK' ? '银行卡' : row.pay_type === 'BEST' ? '翼支付' : '未知';
+        return util.formatPayment(row.pay_type)
       },
       format_settled_date(row,column){
         return util.formatDate.format(new Date(row.settled_date), 'yyyy-MM-dd')

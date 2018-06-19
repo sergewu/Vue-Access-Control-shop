@@ -14,6 +14,9 @@ export const optionsPayment = [{
 }, {
   valueScene: 'BEST',
   labelScene: '翼支付'
+}, {
+  valueScene: 'UNIONPAY',
+  labelScene: '银联二维码'
 }]
 export const optionsPaymentCopy = [{
   value: 'WX',
@@ -27,6 +30,9 @@ export const optionsPaymentCopy = [{
 }, {
   value: 'BEST',
   label: '翼支付'
+}, {
+  value: 'UNIONPAY',
+  label: '银联二维码'
 }]
 export const optionsPaymentExcel = [{
   value: '',
@@ -46,4 +52,7 @@ export const optionsPaymentExcel = [{
 }, {
   value: 'BEST',
   label: '翼支付'
+}, {
+  value: 'UNIONPAY',
+  label: '银联二维码'
 }]

@@ -225,7 +225,7 @@
   }
   .demo-ruleForm{
     padding: 0 25px;
-    width: 650px;
+    width: 750px;
     margin: auto;
   }
 </style>
