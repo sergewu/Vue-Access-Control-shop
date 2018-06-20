@@ -84,7 +84,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let para = {
-              id: this.$route.params.id,
+              id: this.$route.query.id,
               appid: this.postForm.miniinfoType,
               title: this.postForm.title,
               title_url: this.postForm.url,
@@ -109,7 +109,7 @@
       },
       getNewsDetail() {
         let para = {
-          id: this.$route.params.id
+          id: this.$route.query.id
         }
         getNewDetail(para).then(res => {
           if (res.status === 200) {

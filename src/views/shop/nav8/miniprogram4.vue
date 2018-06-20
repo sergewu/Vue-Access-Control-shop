@@ -51,7 +51,7 @@
     </div>
     <!--工具条-->
     <el-row>
-      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="10" :total="total"
+      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total"
         background style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
     </el-row>
@@ -60,7 +60,7 @@
 <script>
   import * as util from '../../../util/util.js'
   import {
-    queryWdMiniNews,
+    selectByTime,
     deleteMiniNews
   } from '../../../api/shop';
   export default {
@@ -95,7 +95,8 @@
           endTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate(), 23, 59, 59),
           newsType: '',
           name: ''
-        }
+        },
+        value12:''
       }
     },
     methods: {
@@ -152,6 +153,8 @@
         this.getList()
       },
       getList() {
+        console.log(this.value12);
+        
         let para = {
           page: this.page,
           title: this.filters.name,
@@ -164,10 +167,10 @@
           para.startTime), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
         para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(
           para.endTime), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
-        queryWdMiniNews(para).then(res => {
+        selectByTime(para).then(res => {
           this.listLoading = false
           if (res.status === 200) {
-            this.users = res.data.miniNewsList
+            this.users = res.data.newsList
             this.total = res.data.totalCount
           }
         })
