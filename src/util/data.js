@@ -56,3 +56,23 @@ export const optionsPaymentExcel = [{
   value: 'UNIONPAY',
   label: '银联二维码'
 }]
+export const optionsBank = [{
+  value: 'DEBIT',
+  label: '借记卡'
+},{
+  value: 'CREDIT',
+  label: '贷记卡'
+}]
+export const optionsPayState = [{
+  value: 'SUCCESS',
+  label: '支付成功'
+},{
+  value: 'REFUND',
+  label: '退款成功'
+},{
+  value: 'FAIL',
+  label: '支付失败'
+},{
+  value: 'UNKNOWN',
+  label: '未知'
+}]
