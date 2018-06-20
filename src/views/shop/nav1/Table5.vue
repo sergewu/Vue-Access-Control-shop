@@ -253,8 +253,7 @@
         return row.status == 1 ? '已支付' : row.status == 3 ? '已支付（有退款）' : '未知';
       },
       formatPay1: function (row) {
-        return row == 'WX' ? '微信' : row == 'ALI' ? '支付宝' : row == 'DEBIT' ? '借记卡' : row == 'CREDIT' ? '贷记卡' : row ==
-          'BEST' ? '翼支付' : '未知';
+        return util.formatPayment(row)
       },
       format_payWay(row, column) {
         return util.formatPayment(row.payWay)
