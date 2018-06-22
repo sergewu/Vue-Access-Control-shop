@@ -14,8 +14,7 @@
       <el-row>
         <el-form-item label="交易类型">
           <el-radio-group v-model="ruleForm.accountType" :disabled="ruleForm.excel_type!=='od'">
-            <el-radio :label="0">支付</el-radio>
-            <el-radio :label="1">退款</el-radio>
+            <el-radio v-for="recson in optionsPayType" :label="recson.value" :key="recson.value">{{recson.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-row>
@@ -27,13 +26,24 @@
         </el-form-item>
       </el-row>
       <el-row>
-        <el-form-item label="选择门店">
-          <el-select v-model="ruleForm.storeId" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
-            :loading="selectLoading" clearable @visible-change="clickShop">
-            <el-option v-for="item in storeOptions" :key="item.id" :value="item.id" :label="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
+        <el-col :span="12">
+          <el-form-item label="门店名称">
+            <el-select v-model="ruleForm.storeName" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
+              :loading="searchLoading" clearable @focus="clickShop" @change="selectStoreChange">
+              <el-option v-for="item in optionsStore" :key="item.id" :value="item.id" :label="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="款台名称">
+            <el-select v-model="ruleForm.empName" placeholder="款台名称" :multiple="false" filterable remote :remote-method="remoteEmp" :loading="empSearchLoading"
+              clearable @focus="clickEmp">
+              <el-option v-for="item in optionsEmp" :key="item.eid" :value="item.eid" :label="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-row>
         <el-col :span="12">
@@ -84,7 +94,7 @@
 <script>
   import * as util from '../../../util/util.js'
   import * as data from '../../../util/data.js'
-	import { downOrderExcelNew, checkdownOrderExcelNew, selectStoreList, checkDataExcel } from '../../../api/shop';
+	import { downOrderExcelNew, checkdownOrderExcelNew, selectStoreList, checkDataExcel, selectEmpsBySid } from '../../../api/shop';
   export default {
     data() {
       var myDate = new Date();
@@ -109,13 +119,17 @@
         selectLoading:false,
         dateType:'datetime',
         //选择门店
-        storeOptions: [],
+        optionsStore: [],
+        optionsEmp: [],
+        searchLoading: false,
+        empSearchLoading: false,
         ruleForm: {
           parag:'',
           excel_type:'od',
-          accountType:0,
+          accountType: '0',
           recsonId:'',
-          storeId:'',
+          storeName:'',
+          empName: '',
           startTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()-1),
           endTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()-1, 23,59,59),
         },
@@ -135,6 +149,17 @@
           value: 'ss',
           label: '门店汇总'
         }],
+        //账单类型
+        optionsPayType: [{
+          value: '0',
+          label: '支付'
+        }, {
+          value: '1',
+          label: '退款'
+        }, {
+          value: 'ALL',
+          label: '所有'
+        }],
         //支付方式
         optionsScene: data.optionsPaymentExcel
       };
@@ -148,7 +173,7 @@
     excel_type(curVal,oldVal) {
       // return curVal !== 'od' ? this.ruleForm.accountType = 0 : this.ruleForm.accountType
       if (curVal !== 'od') {
-        this.ruleForm.accountType = 0
+        this.ruleForm.accountType = '0'
         this.dateType = 'date'
       }else{
         this.dateType = 'datetime'
@@ -163,21 +188,65 @@
           this.ruleForm.endTime = ''
         }
       },
-      //门店远程搜索
-      clickShop: function () {
-        selectStoreList().then((res) => {
+      //款台远程搜索
+      clickEmp: function () {
+        this.empSearchLoading = true;
+        let para = {
+          mid: sessionStorage.getItem('mid'),
+          storeId: String(this.ruleForm.storeName),
+          ename: ''
+        }
+        selectEmpsBySid(para).then((res) => {
+          this.empSearchLoading = false;
           let {
             status,
             data
           } = res
-          this.storeOptions = data.storeList
+          this.optionsEmp = data.emplyeeList
+        })
+      },
+      remoteEmp(query) {
+        if (query !== '') {
+          this.empSearchLoading = true;
+          setTimeout(() => {
+            this.empSearchLoading = false;
+            let para = {
+              mid: sessionStorage.getItem('mid'),
+              storeId: String(this.ruleForm.storeName),
+              ename: query
+            }
+            selectEmpsBySid(para).then((res) => {
+              let {
+                status,
+                data
+              } = res
+              this.optionsEmp = data.emplyeeList
+            })
+          }, 200);
+        } else {
+          this.optionsEmp = [];
+        }
+      },
+      //门店远程搜索
+      selectStoreChange() {
+        this.ruleForm.empName = ''
+      },
+      clickShop: function () {
+        this.searchLoading = true;
+        selectStoreList().then((res) => {
+          this.searchLoading = false;
+          let {
+            status,
+            data
+          } = res
+          this.optionsStore = data.storeList
         })
       },
       remoteShop(query) {
         if (query !== '') {
-          this.selectLoading = true;
+          this.searchLoading = true;
           setTimeout(() => {
-            this.selectLoading = false;
+            this.searchLoading = false;
             selectStoreList({
               sname: query
             }).then((res) => {
@@ -185,11 +254,11 @@
                 status,
                 data
               } = res
-              this.storeOptions = data.storeList
+              this.optionsStore = data.storeList
             })
           }, 200);
         } else {
-          this.storeOptions = [];
+          this.optionsStore = [];
         }
       },
       submitForm(formName) {
@@ -201,7 +270,8 @@
               payWay:this.ruleForm.recsonId,
               startTime:this.ruleForm.startTime,
               endTime:this.ruleForm.endTime,
-              storeId:this.ruleForm.storeId,
+              storeId: String(this.ruleForm.storeName),
+              eid: String(this.ruleForm.empName),
               excel_type:this.ruleForm.excel_type
             }
             para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd hh:mm:ss')));

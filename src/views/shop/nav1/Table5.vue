@@ -256,7 +256,19 @@
         }
       },
       formatPay2: function (row, column) {
-        return row.status == 1 ? '已支付' : row.status == 3 ? '已支付（有退款）' : '未知';
+        return util.formatPayStatus(row.status, row.orderType)
+        // if (row.orderType == '0' && row.status == '1') {
+        //   return '已支付'
+        // } else if(row.orderType == '0' && row.status == '3') {
+        //   return '已支付（有退款）'
+        // }else if(row.orderType == '1' && row.status == '1') {
+        //   return '退款成功'
+        // }else if(row.orderType == '0' && row.status == '2') {
+        //   return '支付失败'
+        // }else if(row.orderType == '0' && row.status == '5') {
+        //   return '未知'
+        // }
+        // return row.status == 1 && row.orderType == 0 ? '已支付' : row.status == 3 && row.orderType == 0 ? '已支付（有退款）' : '未知';
       },
       formatPay1: function (row) {
         return util.formatPayment(row)

@@ -13,7 +13,7 @@
     <!--列表-->
     <div v-loading="listLoading">
       <el-table :data="users" border row-key="id" style="width: 100%">
-        <el-table-column prop="appid" label="appid" width="180">
+        <el-table-column prop="appid" label="APPID（小程序ID）" width="180">
         </el-table-column>
         <el-table-column prop="appname" label="小程序名称">
         </el-table-column>
@@ -35,7 +35,7 @@
     </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="carouselDialogVisible" width="420px">
       <el-form :inline="true" :model="minifrom" ref="minifrom" label-position="top">
-        <el-form-item label="APPID" prop="appid" :rules="[
+        <el-form-item label="APPID（小程序ID）" prop="appid" :rules="[
           { required: true, message: '请输入APPID', trigger: 'blur' },
         ]">
           <el-input v-model.trim="minifrom.appid" placeholder="请输入APPID"></el-input>

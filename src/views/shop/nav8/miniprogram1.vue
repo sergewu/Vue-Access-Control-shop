@@ -3,6 +3,12 @@
     <!--工具条-->
     <el-row>
       <el-form :inline="true" :model="filters">
+        <el-form-item>
+          <el-input v-model="filters.appid" placeholder="请输入APPID（小程序ID）"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="filters.title" placeholder="请输入导航标题"></el-input>
+        </el-form-item>
         <el-form-item style="float:right">
           <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
           <el-button type="primary" @click="addCarousel" size="medium" round>新增导航</el-button>
@@ -13,15 +19,17 @@
     <!--列表-->
     <div v-loading="listLoading">
       <el-table :data="users" row-key="id" border style="width: 100%">
-        <el-table-column align="center" prop="id" label="ID" width="165">
+        <el-table-column prop="appid" label="APPID（小程序ID）" min-width="180">
         </el-table-column>
-        <el-table-column prop="appid" label="APPID" width="180">
+        <el-table-column prop="appname" label="小程序名称" min-width="180">
         </el-table-column>
-        <el-table-column prop="gmt_create" label="创建时间" width="180" :formatter="formatter_time">
+        <el-table-column prop="gmt_create" label="创建时间" min-width="180" :formatter="formatter_time">
         </el-table-column>
-        <el-table-column prop="menu_url" label="导航标题" width="180">
+        <el-table-column prop="menu_url" label="导航标题" min-width="150">
         </el-table-column>
-        <el-table-column prop="forward_url" label="导航地址">
+        <el-table-column prop="forward_url" label="导航地址" min-width="180">
+        </el-table-column>
+        <el-table-column align="center" prop="sort" label="导航排序" min-width="90">
         </el-table-column>
         <!-- <el-table-column align="center"  label="拖拽" width="80">
           <template slot-scope="scope">
@@ -46,22 +54,22 @@
     </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="carouselDialogVisible" width="650px">
       <el-form :model="carouseForm" ref="carouseForm" label-width="80px" label-position="left">
-        <el-form-item label="导航Icon" prop="imageCarouselUrl" :rules="[
-          { required: true, message: '导航Icon不能为空'}
+        <el-form-item label="导航图标" prop="imageCarouselUrl" :rules="[
+          { required: true, message: '导航图标不能为空'}
         ]">
           <el-upload class="avatar-uploader" :action="uploadimg" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
             <img v-if="carouseForm.imageCarouselUrl" :src="carouseForm.imageCarouselUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item> 
-        <el-form-item label="导航Url" prop="url" :rules="[
-          { required: true, message: '导航Url不能为空', trigger: 'blur'}
+        <el-form-item label="导航链接" prop="url" :rules="[
+          { required: true, message: '导航链接不能为空', trigger: 'blur'}
         ]">
-          <el-input placeholder="请输入导航超链接" v-model="carouseForm.url">
+          <el-input placeholder="请输入导航链接" v-model="carouseForm.url">
             <template slot="prepend">Https://</template>
           </el-input>
         </el-form-item>
-        <el-form-item label="导航Title" prop="title" :rules="[
+        <el-form-item label="导航标题" prop="title" :rules="[
           { required: true, message: '导航标题不能为空', trigger: 'blur'},
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ]">
@@ -115,7 +123,10 @@
     data() {
       return {
         uploadimg: uploadLogo,
-        filters: {},
+        filters: {
+          appid: '',
+          title: ''
+        },
         addLoading: false,
         listLoading: false,
         users: [],
@@ -270,7 +281,9 @@
       },
       gerList() {
         let para = {
-          page: this.page
+          page: this.page,
+          appid: this.filters.appid,
+          menu_url: this.filters.title
         }
         this.listLoading = true
         queryWdMiniMenu(para).then(res=>{

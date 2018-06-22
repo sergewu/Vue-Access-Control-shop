@@ -314,6 +314,18 @@ export const updateMiniNews = params => { return instance.post(`${preUrlPath}/ad
 
 export const getNewDetail = params => { return instance.post(`${preUrlPath}/admin/wp/mer/mini/1/getNewDetail`,params).then(res => res.data); };
 
+export const updateNewsStatu = params => { return instance.post(`${preUrlPath}/admin/wp/mer/mini/1/updateNewsStatu`,params).then(res => res.data); };
+
 export const uploadImage = `${preUrlPath}/admin/wp/mer/mini/1/uploadImage`;
 
 export const uploadLogo = `${preUrlPath}/admin/wp/mer/mini/1/uploadLogo`;
+
+/*
+2018-6-21
+*/
+export const queryMerDaySumDetail = params => { return instance.post(`${preUrlPath}/admin/wp/mer/queryMerDaySumDetail`,params).then(res => res.data); };
+
+
+
+
+

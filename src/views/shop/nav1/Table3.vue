@@ -2,6 +2,15 @@
   <section>
     <!--工具条-->
     <el-row>
+      <el-col>
+        <el-form :inline="true" :model="whole">
+          <el-tag type="primary" style="margin:10px 10px 20px 0;">总交易金额（元）：{{whole.sumTrans}}元</el-tag>
+          <el-tag type="primary" style="margin:10px 10px 20px 0;">总退款金额（元）：{{whole.sumRefund}}笔</el-tag>
+          <el-tag type="primary" style="margin:10px 10px 20px 0;">总实收金额（元）：{{whole.sumAmt}}元</el-tag>
+        </el-form>
+      </el-col>
+    </el-row>
+    <el-row>
       <el-form :inline="true" :model="filters">
         <el-form-item>
           <el-date-picker v-model="filters.startTime"  class="fixed_search_input_date" :editable="false" :clearable="false" type="date" placeholder="请选择开始时间" :picker-options="pickerOptions1">
@@ -38,23 +47,19 @@
       <el-table :data="users" border highlight-current-row style="width: 100%;">
         <el-table-column prop="settled_date" label="统计日期" min-width="120"  :formatter="format_settled_date">
         </el-table-column>
-        <el-table-column prop="saccount" label="门店编号" min-width="120">
-        </el-table-column>
         <el-table-column prop="sname" label="门店名称" min-width="120">
         </el-table-column>
         <el-table-column prop="pay_type" label="付款方式" :formatter="format_pay_type">
         </el-table-column>
-        <el-table-column prop="amount" label="交易金额" :formatter="format_amount">
+        <el-table-column prop="trans_amt" label="交易金额" :formatter="format_amount">
         </el-table-column>
         <el-table-column prop="discount" label="优惠金额" :formatter="format_discount">
         </el-table-column>
         <el-table-column prop="refund_amt" label="退款金额" :formatter="format_refund_amt">
         </el-table-column>
-        <el-table-column prop="rate" label="费率‰">
-        </el-table-column>
         <el-table-column prop="factorage" label="交易手续费" min-width="120" :formatter="format_factorage">
         </el-table-column>
-        <el-table-column prop="surplus" label="划账金额" :formatter="format_surplus">
+        <el-table-column prop="amount" label="实收金额（交易金额减退款金额）" min-width="120" :formatter="format_surplus">
         </el-table-column>
       </el-table>
     </div>
@@ -115,7 +120,11 @@
         page: 1,
         total: null,
         listLoading: false,
-
+        whole: {
+          sumTrans: '',
+          sumRefund: '',
+          sumAmt: ''
+        }
       }
     },
     methods: {
@@ -127,7 +136,7 @@
       },
       //格式化金额
       format_amount(row, column) {
-        return util.number_format(row.amount, 2, ".", ",")
+        return util.number_format(row.trans_amt, 2, ".", ",")
       },
       format_discount(row, column) {
         return util.number_format(row.discount, 2, ".", ",")
@@ -139,7 +148,7 @@
         return util.number_format(row.factorage, 2, ".", ",")
       },
       format_surplus(row, column) {
-        return util.number_format(row.surplus, 2, ".", ",")
+        return util.number_format(row.amount, 2, ".", ",")
       },
       //门店远程搜索
       clickShop: function () {
@@ -188,14 +197,11 @@
           'yyyy-MM-dd');
         this.listLoading = true;
         queryStrStatement(para).then((res) => {
-          let {
-            status,
-            message
-          } = res;
-          if (status == 200) {
+          this.listLoading = false;
+          if (res.status == 200) {
             this.total = res.data.totalCount;
             this.users = res.data.strStatementList;
-            this.listLoading = false;
+            this.whole = res.data;
           }
         });
       },

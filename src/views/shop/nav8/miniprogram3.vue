@@ -37,7 +37,7 @@
           </el-form-item>
         </el-col>
         <el-form-item style="float:right">
-          <el-button type="success" @click="submitForm('postForm')">发布</el-button>
+          <el-button type="success" @click="submitForm('postForm')">保存</el-button>
         </el-form-item>
       </el-row>
       <Tinymce ref="editor" v-model="postForm.content"></Tinymce>

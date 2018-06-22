@@ -279,5 +279,32 @@ export const debounce = function (func, wait, immediate) {
 }
 //格式化支付方式
 export const formatPayment = function (data) {
-  return data === 'WX' ? '微信' : data === 'ALI' ? '支付宝' : data === 'DEBIT' ? '借记卡' : data ==='CREDIT' ? '贷记卡' : data === 'BEST' ? '翼支付' : data === 'UNIONPAY' ? '银联二维码' : '其它'; 
-} 
+  return data === 'WX' ? '微信' : data === 'ALI' ? '支付宝' : data === 'DEBIT' ? '借记卡' : data === 'CREDIT' ? '贷记卡' : data === 'BEST' ? '翼支付' : data === 'UNIONPAY' ? '银联二维码' : '其它';
+}
+//格式化支付状态
+export const formatPayStatus = function (data, val) {
+  let payStatus
+  if (val === '0') {
+    switch (data) {
+      case '1':
+        payStatus = '支付成功'
+        break;
+      case '2':
+        payStatus = '支付失败'
+        break;
+      case '3':
+        payStatus = '支付成功'
+        break;
+      case '5':
+        payStatus = '未知'
+        break;
+    }
+  }else if(val === '1') {
+    switch (data) {
+      case '1':
+        payStatus = '退款成功'
+        break;
+    }
+  }
+  return payStatus
+}
