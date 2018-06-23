@@ -6,7 +6,7 @@
           <el-form-item label="文章标题" prop="title" :rules="[
           { required: true, message: '请输入文章标题', trigger: 'blur' }
         ]">
-            <el-input v-model="postForm.title"></el-input>
+            <el-input v-model="postForm.title" maxlength="40"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">

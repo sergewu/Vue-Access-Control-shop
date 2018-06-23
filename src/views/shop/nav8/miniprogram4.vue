@@ -43,6 +43,8 @@
         </el-table-column>
         <el-table-column prop="title_type" label="资讯类型" :formatter="formatter_title_type">
         </el-table-column>
+        <el-table-column label="内容类型" :formatter="formatter_main">
+        </el-table-column>
         <el-table-column prop="statu" label="状态" :formatter="formatter_statu">
         </el-table-column>
         <!-- <el-table-column align="center" label="状态">
@@ -93,8 +95,11 @@
           }
         },
         pickerOptions2: {
-          disabledDate(time) {
-            return time.getTime() > Date.now();
+          disabledDate: (time)=>{
+            let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.filters.startTime),'yyyy-MM-dd hh:mm:ss')));
+            if (time.getTime() < startTimeOne || time.getTime() > Date.now()) {
+              return true;
+            }
           }
         },
         newsOptions: [{
@@ -121,6 +126,9 @@
       }
     },
     methods: {
+      formatter_main(row, column) {
+        return row.title_url ? '公众号链接' : '自定义内容'
+      },
       formatter_statu(row, column) {
         return row.statu === 1 ? '已发布' : row.statu === 2 ? '未发布' : '未知'
       },
