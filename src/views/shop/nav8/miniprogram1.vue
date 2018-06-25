@@ -18,7 +18,7 @@
 
     <!--列表-->
     <div v-loading="listLoading">
-      <el-table :data="users" row-key="id" border style="width: 100%">
+      <el-table :data="users" row-key="id" border  @sort-change="sortableChange" style="width: 100%">
         <el-table-column prop="appid" label="APPID（小程序ID）" min-width="180">
         </el-table-column>
         <el-table-column prop="appname" label="小程序名称" min-width="180">
@@ -29,7 +29,7 @@
         </el-table-column>
         <el-table-column prop="forward_url" label="导航地址" min-width="180">
         </el-table-column>
-        <el-table-column align="center" prop="sort" label="导航排序" min-width="90">
+        <el-table-column align="center" prop="sort" sortable="custom" label="导航排序" min-width="90">
         </el-table-column>
         <!-- <el-table-column align="center"  label="拖拽" width="80">
           <template slot-scope="scope">
@@ -155,10 +155,15 @@
         }],
         miniinfoOptions: [],
         dialogTitle: '新增小程序导航',
-        submitType: true
+        submitType: true,
+        order: ''
       }
     },
     methods: {
+      sortableChange(sort){
+        this.order = sort.order
+        this.getUsers()
+      },
       formatter_time(row, column){
         return util.formatDate.format(new Date(row.gmt_create), 'yyyy-MM-dd hh:mm:ss')
       },
@@ -283,7 +288,8 @@
         let para = {
           page: this.page,
           appid: this.filters.appid,
-          menu_url: this.filters.title
+          menu_url: this.filters.title,
+          order: this.order
         }
         this.listLoading = true
         queryWdMiniMenu(para).then(res=>{

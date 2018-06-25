@@ -13,16 +13,18 @@
     <el-row>
       <el-form :inline="true" :model="filters">
         <el-form-item>
-          <el-date-picker v-model="filters.startTime"  class="fixed_search_input_date" :editable="false" :clearable="false" type="date" placeholder="请选择开始时间" :picker-options="pickerOptions1">
+          <el-date-picker v-model="filters.startTime" class="fixed_search_input_date" :editable="false" :clearable="false" type="date"
+            placeholder="请选择开始时间" :picker-options="pickerOptions1">
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-date-picker v-model="filters.endTime"  class="fixed_search_input_date" :editable="false" :clearable="false" type="date" placeholder="请选择结束时间" :picker-options="pickerOptions2">
+          <el-date-picker v-model="filters.endTime" class="fixed_search_input_date" :editable="false" :clearable="false" type="date"
+            placeholder="请选择结束时间" :picker-options="pickerOptions2">
           </el-date-picker>
         </el-form-item>
         <el-form-item class="fixed_search_input">
-          <el-select v-model="filters.state1" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
-            :loading="storeLoading" clearable @visible-change="clickShop">
+          <el-select v-model="filters.state1" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="storeLoading"
+            clearable @visible-change="clickShop">
             <el-option v-for="item in optionsMers" :key="item.id" :value="item.id" :label="item.value">
             </el-option>
           </el-select>
@@ -45,7 +47,7 @@
     <!--列表-->
     <div v-loading="listLoading">
       <el-table :data="users" border highlight-current-row style="width: 100%;">
-        <el-table-column prop="settled_date" label="统计日期" min-width="120"  :formatter="format_settled_date">
+        <el-table-column prop="settled_date" label="统计日期" min-width="120" :formatter="format_settled_date">
         </el-table-column>
         <el-table-column prop="sname" label="门店名称" min-width="120">
         </el-table-column>
@@ -59,7 +61,7 @@
         </el-table-column>
         <el-table-column prop="factorage" label="交易手续费" min-width="120" :formatter="format_factorage">
         </el-table-column>
-        <el-table-column prop="amount" label="实收金额（交易金额减退款金额）" min-width="120" :formatter="format_surplus">
+        <el-table-column prop="amount" label="实收金额" min-width="120" align="center" :render-header="renderHeaderMoney" :formatter="format_surplus">
         </el-table-column>
       </el-table>
     </div>
@@ -128,10 +130,22 @@
       }
     },
     methods: {
-      format_pay_type(row,column){
+      renderHeaderMoney(h, {
+        column,
+        $index
+      }) {
+        return h('span', {}, [
+          h('span', {
+            style: 'color: #F56C6C;font-weight: normal'
+          }, '（*交易金额-退款金额）'),
+          h('br'),
+          h('span', {}, column.label)
+        ])
+      },
+      format_pay_type(row, column) {
         return util.formatPayment(row.pay_type)
       },
-      format_settled_date(row,column){
+      format_settled_date(row, column) {
         return util.formatDate.format(new Date(row.settled_date), 'yyyy-MM-dd')
       },
       //格式化金额
@@ -215,4 +229,5 @@
       this.getUsers();
     }
   }
+
 </script>

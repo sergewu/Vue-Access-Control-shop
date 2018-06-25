@@ -5,9 +5,9 @@
       <el-form :inline="true" :model="whole">
         <el-tag type="primary" style="margin:10px 10px 20px 0;">总交易金额（元）：{{whole.sumTransAmt}}</el-tag>
         <el-tag type="primary" style="margin:10px 10px 20px 0;">总退款金额（元）：{{whole.sumRefundAmt}}</el-tag>
-        <!-- <el-tag type="primary" style="margin:10px 10px 20px 0;">总实收金额（元）：{{whole.countRow}}</el-tag> -->
+        <el-tag type="primary" style="margin:10px 10px 20px 0;">总实收金额（元）：{{whole.sumAmt}}</el-tag>
         <el-tag type="primary" style="margin:10px 10px 20px 0;">总手续费（元）：{{whole.sumFac}}</el-tag>
-        <el-tag type="primary" style="margin:10px 10px 20px 0;">总结算金额（元）：{{whole.sumAmt}}</el-tag>
+        <el-tag type="primary" style="margin:10px 10px 20px 0;">总结算金额（元）：{{whole.sumSur}}</el-tag>
       </el-form>
     </el-row>
     <el-row>
@@ -43,15 +43,15 @@
         </el-table-column>
         <el-table-column prop="trans_amt" label="交易金额" min-width="100" :formatter="format_trans_amt">
         </el-table-column>
-        <el-table-column prop="amount" label="有效金额" min-width="100" :formatter="format_amount">
+        <el-table-column prop="amount" label="实收金额" align="center" :render-header="renderHeaderMoney" min-width="120" :formatter="format_amount">
         </el-table-column>
         <el-table-column prop="sum_total" label="交易笔数">
         </el-table-column>
         <el-table-column prop="refund_amt" label="退款金额" :formatter="format_refund_amt">
         </el-table-column>
-        <el-table-column prop="factorage" label="手续费" align="center" :render-header="renderHeaderFactorage" :formatter="format_factorage">
+        <el-table-column prop="factorage" label="手续费" align="center" :render-header="renderHeaderFactorage" :formatter="format_factorage" min-width="120">
         </el-table-column>
-        <el-table-column prop="amount" label="结算金额" align="center" :render-header="renderHeaderAmount" min-width="120">
+        <el-table-column prop="surplus" label="结算金额" align="center" :render-header="renderHeaderAmount" min-width="120">
         </el-table-column>
         <el-table-column align="center" label="操作" width="100">
           <template slot-scope="scope">
@@ -71,15 +71,15 @@
           </el-table-column>
           <el-table-column prop="trans_amt" label="交易金额" min-width="100" :formatter="format_trans_amt">
           </el-table-column>
-          <el-table-column prop="amount" label="有效金额" min-width="100" :formatter="format_amount">
+          <el-table-column prop="amount" label="实收金额" align="center" min-width="180" :render-header="renderHeaderMoney" :formatter="format_amount">
           </el-table-column>
           <el-table-column prop="sum_total" label="交易笔数">
           </el-table-column>
           <el-table-column prop="refund_amt" label="退款金额" :formatter="format_refund_amt">
           </el-table-column>
-          <el-table-column prop="factorage" label="手续费" align="center" :render-header="renderHeaderFactorage" :formatter="format_factorage">
+          <el-table-column prop="factorage" label="手续费" align="center" :render-header="renderHeaderFactorage" :formatter="format_factorage" min-width="160">
           </el-table-column>
-          <el-table-column prop="amount" label="结算金额" align="center" :render-header="renderHeaderAmount" min-width="120">
+          <el-table-column prop="surplus" label="结算金额" align="center" :render-header="renderHeaderAmount" min-width="210">
           </el-table-column>
         </el-table>
       </div>
@@ -150,22 +150,24 @@
       }
     },
     methods: {
+      renderHeaderMoney(h, {
+        column,
+        $index
+      }) {
+        return h('span', {}, [
+          h('span', { style: 'color: #F56C6C;font-weight: normal' }, '（*交易金额-退款金额）'),
+          h('br'),
+          h('span', {}, column.label)
+        ])
+      },
       renderHeaderFactorage(h, {
         column,
         $index
       }) {
         return h('span', {}, [
-          h('span', {}, column.label),
-          h('el-tooltip', {
-            props: {
-              placement: 'top',
-              content: '提示：此数据仅供参考'
-            }
-          }, [
-            h('i', {
-              class: 'el-icon-question'
-            })
-          ])
+          h('span', { style: 'color: #F56C6C;font-weight: normal' }, '（*此数据仅供参考）'),
+          h('br'),
+          h('span', {}, column.label)
         ])
       },
       renderHeaderAmount(h, {
@@ -173,22 +175,14 @@
         $index
       }) {
         return h('span', {}, [
-          h('span', {}, column.label),
-          h('el-tooltip', {
-            props: {
-              placement: 'top',
-              content: '提示：到账金额以银行打款为准'
-            }
-          }, [
-            h('i', {
-              class: 'el-icon-question'
-            })
-          ])
+          h('span', { style: 'color: #F56C6C;font-weight: normal' }, '（*到账金额以银行打款为准）'),
+          h('br'),
+          h('span', {}, column.label)
         ])
       },
-      dialogHandleCurrentChange(val) {
+      // dialogHandleCurrentChange(val) {
 
-      },
+      // },
       handleDetails(index, row) {
         this.dialogDetailsVisible = true
         queryMerDaySumDetail({

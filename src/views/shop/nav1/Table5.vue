@@ -24,14 +24,14 @@
             :clearable="false" :editable='false'>
           </el-date-picker>
         </el-form-item>
-        <el-form-item class="fixed_search_input">
+        <el-form-item prop="storeName" class="fixed_search_input">
           <el-select v-model="filters.storeName" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop"
             :loading="searchLoading" clearable @focus="clickShop" @change="selectStoreChange">
             <el-option v-for="item in optionsStore" :key="item.id" :value="item.id" :label="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item class="fixed_search_input">
+        <el-form-item prop="empName" class="fixed_search_input">
           <el-select v-model="filters.empName" placeholder="款台名称" :multiple="false" filterable remote :remote-method="remoteEmp" :loading="empSearchLoading"
             clearable @focus="clickEmp">
             <el-option v-for="item in optionsEmp" :key="item.eid" :value="item.eid" :label="item.value">
@@ -49,33 +49,33 @@
       <el-collapse-transition>
         <div v-show="advancedOptions">
           <el-row>
-            <el-form-item class="fixed_search_input">
+            <el-form-item prop="play" class="fixed_search_input">
               <el-select v-model="filters.play" clearable placeholder="支付方式">
                 <el-option v-for="item in optionsScene" :label="item.label" :value="item.value" :key="item.value">
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item class="fixed_search_input">
+            <el-form-item prop="cardType" class="fixed_search_input">
               <el-select v-model="filters.cardType" clearable placeholder="银行卡类型">
                 <el-option v-for="item in optionsBank" :label="item.label" :value="item.value" :key="item.value">
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item class="fixed_search_input">
+            <el-form-item prop="state" class="fixed_search_input">
               <el-select v-model="filters.state" clearable placeholder="支付状态">
                 <el-option v-for="item in optionsPayState" :label="item.label" :value="item.value" :key="item.value">
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item class="fixed_search_input">
+            <el-form-item prop="goodsprice" class="fixed_search_input">
               <el-input v-model.trim="filters.goodsprice" placeholder="交易金额">
                 <i slot="prefix" class="iconfont icon-50"></i>
               </el-input>
             </el-form-item>
-            <el-form-item class="fixed_search_input">
+            <el-form-item prop="orderId" class="fixed_search_input">
               <el-input v-model.trim="filters.orderId" placeholder="订单号"></el-input>
             </el-form-item>
-            <el-form-item class="fixed_search_input">
+            <el-form-item prop="orderId" class="fixed_search_input">
               <el-input v-model.trim="filters.transaction_id" placeholder="第三方订单号"></el-input>
             </el-form-item>
           </el-row>
@@ -131,7 +131,7 @@
           <span>{{format_payTime(editForm.payTime)}}</span>
         </el-form-item>
         <el-form-item label="交易状态：">
-          <span>{{editForm.status === '1' ? '已支付' : editForm.status === '3' ? '已支付（有退款）' : '未知'}}</span>
+          <span>{{formatPay2(editForm)}}</span>
         </el-form-item>
         <el-form-item label="退款金额（元）：">
           <span>{{editForm.refundAmount}}</span>
@@ -206,7 +206,7 @@
           startTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate() - 1),
           endTime: new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate() - 1, 23, 59, 59),
           play: '',
-          state: '',
+          state: 'SUCCESS',
           storeName: '',
           empName: '',
           goodsprice: '',
