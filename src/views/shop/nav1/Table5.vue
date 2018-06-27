@@ -75,7 +75,7 @@
             <el-form-item prop="orderId" class="fixed_search_input">
               <el-input v-model.trim="filters.orderId" placeholder="订单号"></el-input>
             </el-form-item>
-            <el-form-item prop="orderId" class="fixed_search_input">
+            <el-form-item prop="transaction_id" class="fixed_search_input">
               <el-input v-model.trim="filters.transaction_id" placeholder="第三方订单号"></el-input>
             </el-form-item>
           </el-row>

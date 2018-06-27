@@ -63,11 +63,10 @@
           </el-upload>
         </el-form-item> 
         <el-form-item label="导航链接" prop="url" :rules="[
-          { required: true, message: '导航链接不能为空', trigger: 'blur'}
+          { required: true, message: '导航链接不能为空', trigger: 'blur'},
+          { type: 'url', message: '请填写正确的URL地址', trigger: 'blur'}
         ]">
-          <el-input placeholder="请输入导航链接" v-model="carouseForm.url">
-            <template slot="prepend">Https://</template>
-          </el-input>
+          <el-input placeholder="请输入导航链接" v-model="carouseForm.url"></el-input>
         </el-form-item>
         <el-form-item label="导航标题" prop="title" :rules="[
           { required: true, message: '导航标题不能为空', trigger: 'blur'},

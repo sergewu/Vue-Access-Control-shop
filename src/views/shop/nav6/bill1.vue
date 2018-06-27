@@ -37,7 +37,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="款台名称">
-            <el-select v-model="ruleForm.empName" placeholder="款台名称" :multiple="false" filterable remote :remote-method="remoteEmp" :loading="empSearchLoading"
+            <el-select v-model="ruleForm.empName" placeholder="款台名称" :disabled="ruleForm.excel_type!=='od'" :multiple="false" filterable remote :remote-method="remoteEmp" :loading="empSearchLoading"
               clearable @focus="clickEmp">
               <el-option v-for="item in optionsEmp" :key="item.eid" :value="item.eid" :label="item.value">
               </el-option>
@@ -175,6 +175,7 @@
       if (curVal !== 'od') {
         this.ruleForm.accountType = '0'
         this.dateType = 'date'
+        this.ruleForm.empName = ''
       }else{
         this.dateType = 'datetime'
       }

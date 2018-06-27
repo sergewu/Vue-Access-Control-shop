@@ -52,35 +52,60 @@
             <img v-if="minifrom.imageCarouselUrl_01" :src="minifrom.imageCarouselUrl_01" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <el-button type="text" style="float:right" @click="deleteImg01">删除</el-button>
+        </el-form-item>
+        <el-form-item style="width:100%" prop="input_01" :rules="[
+          { type: 'url', message: '请填写正确的URL', trigger: 'blur' },
+        ]">
+          <el-input v-model="minifrom.input_01" placeholder="请输入链接地址" style="width:240px;"></el-input>
+          <el-button type="text" style="float:right" @click="deleteImg01">删除图片</el-button>
         </el-form-item>
         <el-form-item>
           <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarSuccess_02" :before-upload="beforeAvatarUpload">
             <img v-if="minifrom.imageCarouselUrl_02" :src="minifrom.imageCarouselUrl_02" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <el-button type="text" style="float:right" @click="deleteImg02">删除</el-button>
+        </el-form-item>
+        <el-form-item style="width:100%" prop="input_01" :rules="[
+          { type: 'url', message: '请填写正确的URL', trigger: 'blur' },
+        ]">
+          <el-input v-model="minifrom.input_02" placeholder="请输入链接地址" style="width:240px;"></el-input>
+          <el-button type="text" style="float:right" @click="deleteImg02">删除图片</el-button>
         </el-form-item>
         <el-form-item>
           <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarSuccess_03" :before-upload="beforeAvatarUpload">
             <img v-if="minifrom.imageCarouselUrl_03" :src="minifrom.imageCarouselUrl_03" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <el-button type="text" style="float:right" @click="deleteImg03">删除</el-button>
+        </el-form-item>
+        <el-form-item style="width:100%" prop="input_01" :rules="[
+          { type: 'url', message: '请填写正确的URL', trigger: 'blur' },
+        ]">
+          <el-input v-model="minifrom.input_03" placeholder="请输入链接地址" style="width:240px;"></el-input>
+          <el-button type="text" style="float:right" @click="deleteImg03">删除图片</el-button>
         </el-form-item>
         <el-form-item>
           <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarSuccess_04" :before-upload="beforeAvatarUpload">
             <img v-if="minifrom.imageCarouselUrl_04" :src="minifrom.imageCarouselUrl_04" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <el-button type="text" style="float:right" @click="deleteImg04">删除</el-button>
+        </el-form-item>
+        <el-form-item style="width:100%" prop="input_01" :rules="[
+          { type: 'url', message: '请填写正确的URL', trigger: 'blur' },
+        ]">
+          <el-input v-model="minifrom.input_04" placeholder="请输入链接地址" style="width:240px;"></el-input>
+          <el-button type="text" style="float:right" @click="deleteImg04">删除图片</el-button>
         </el-form-item>
         <el-form-item>
           <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarSuccess_05" :before-upload="beforeAvatarUpload">
             <img v-if="minifrom.imageCarouselUrl_05" :src="minifrom.imageCarouselUrl_05" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
-          <el-button type="text" style="float:right" @click="deleteImg05">删除</el-button>
+        </el-form-item>
+        <el-form-item style="width:100%" prop="input_01" :rules="[
+          { type: 'url', message: '请填写正确的URL', trigger: 'blur' },
+        ]">
+          <el-input v-model="minifrom.input_05" placeholder="请输入链接地址" style="width:240px;"></el-input>
+          <el-button type="text" style="float:right" @click="deleteImg05">删除图片</el-button>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -112,7 +137,12 @@
           imageCarouselUrl_02: '',
           imageCarouselUrl_03: '',
           imageCarouselUrl_04: '',
-          imageCarouselUrl_05: ''
+          imageCarouselUrl_05: '',
+          input_01: '',
+          input_02: '',
+          input_03: '',
+          input_04: '',
+          input_05: ''
         },
         addLoading: false,
         listLoading: false,
@@ -142,6 +172,11 @@
         this.minifrom.imageCarouselUrl_03 = row.image3
         this.minifrom.imageCarouselUrl_04 = row.image4
         this.minifrom.imageCarouselUrl_05 = row.image5
+        this.minifrom.input_01 = row.imageUrl1
+        this.minifrom.input_02 = row.imageUrl2
+        this.minifrom.input_03 = row.imageUrl3
+        this.minifrom.input_04 = row.imageUrl4
+        this.minifrom.input_05 = row.imageUrl5
       },
       handleDelete(index, row) {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -180,6 +215,11 @@
               image3: this.minifrom.imageCarouselUrl_03,
               image4: this.minifrom.imageCarouselUrl_04,
               image5: this.minifrom.imageCarouselUrl_05,
+              imageUrl1: this.minifrom.input_01,
+              imageUrl2: this.minifrom.input_02,
+              imageUrl3: this.minifrom.input_03,
+              imageUrl4: this.minifrom.input_04,
+              imageUrl5: this.minifrom.input_05
             }
             updateMiniInfo(para).then(res => {
               if (res.status === 200) {
@@ -209,6 +249,11 @@
               image3: this.minifrom.imageCarouselUrl_03,
               image4: this.minifrom.imageCarouselUrl_04,
               image5: this.minifrom.imageCarouselUrl_05,
+              imageUrl1: this.minifrom.input_01,
+              imageUrl2: this.minifrom.input_02,
+              imageUrl3: this.minifrom.input_03,
+              imageUrl4: this.minifrom.input_04,
+              imageUrl5: this.minifrom.input_05
             }
             addWdMiniInfo(para).then(res => {
               if (res.status === 200) {
@@ -259,7 +304,12 @@
           imageCarouselUrl_02: '',
           imageCarouselUrl_03: '',
           imageCarouselUrl_04: '',
-          imageCarouselUrl_05: ''
+          imageCarouselUrl_05: '',
+          input_01: '',
+          input_02: '',
+          input_03: '',
+          input_04: '',
+          input_05: ''
         }
       },
       handleAvatarSuccess_01(res, file) {

@@ -43,15 +43,15 @@
         </el-table-column>
         <el-table-column prop="trans_amt" label="交易金额" min-width="100" :formatter="format_trans_amt">
         </el-table-column>
-        <el-table-column prop="amount" label="实收金额" align="center" :render-header="renderHeaderMoney" min-width="120" :formatter="format_amount">
+        <el-table-column prop="amount" label="实收金额" align="center" :render-header="renderHeaderMoney" min-width="180" :formatter="format_amount">
         </el-table-column>
         <el-table-column prop="sum_total" label="交易笔数">
         </el-table-column>
         <el-table-column prop="refund_amt" label="退款金额" :formatter="format_refund_amt">
         </el-table-column>
-        <el-table-column prop="factorage" label="手续费" align="center" :render-header="renderHeaderFactorage" :formatter="format_factorage" min-width="120">
+        <el-table-column prop="factorage" label="手续费" align="center" :render-header="renderHeaderFactorage" :formatter="format_factorage" min-width="180">
         </el-table-column>
-        <el-table-column prop="surplus" label="结算金额" align="center" :render-header="renderHeaderAmount" min-width="120">
+        <el-table-column prop="surplus" label="结算金额" align="center" :render-header="renderHeaderAmount" min-width="210">
         </el-table-column>
         <el-table-column align="center" label="操作" width="100">
           <template slot-scope="scope">
@@ -155,9 +155,9 @@
         $index
       }) {
         return h('span', {}, [
-          h('span', { style: 'color: #F56C6C;font-weight: normal' }, '（*交易金额-退款金额）'),
+          h('span', {}, column.label),
           h('br'),
-          h('span', {}, column.label)
+          h('span', { style: 'color: #F56C6C;font-weight: normal' }, '（*交易金额-退款金额）'),
         ])
       },
       renderHeaderFactorage(h, {
@@ -165,9 +165,9 @@
         $index
       }) {
         return h('span', {}, [
-          h('span', { style: 'color: #F56C6C;font-weight: normal' }, '（*此数据仅供参考）'),
+          h('span', {}, column.label),
           h('br'),
-          h('span', {}, column.label)
+          h('span', { style: 'color: #F56C6C;font-weight: normal' }, '（*此数据仅供参考）')
         ])
       },
       renderHeaderAmount(h, {
@@ -175,9 +175,9 @@
         $index
       }) {
         return h('span', {}, [
-          h('span', { style: 'color: #F56C6C;font-weight: normal' }, '（*到账金额以银行打款为准）'),
+          h('span', {}, column.label),
           h('br'),
-          h('span', {}, column.label)
+          h('span', { style: 'color: #F56C6C;font-weight: normal' }, '（*到账金额以银行打款为准）')
         ])
       },
       // dialogHandleCurrentChange(val) {
