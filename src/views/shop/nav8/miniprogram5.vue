@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form ref="postForm" :inline="true" :model="postForm" label-width="95px">
+    <el-form ref="postForm" :inline="true" label-position="left" :model="postForm" label-width="95px">
       <el-row>
         <el-col :span="8">
           <el-form-item label="文章标题" prop="title" :rules="[
@@ -37,9 +37,23 @@
             <el-input v-model="postForm.url"></el-input>
           </el-form-item>
         </el-col>
-        <el-form-item style="float:right">
-          <el-button type="success" @click="submitForm('postForm')">保存</el-button>
-        </el-form-item>
+        <el-col :span="8">
+          <el-form-item label="预览图" prop="imageUrl" :rules="[
+            { required: true, message: '请上传预览图', trigger: 'change' }
+          ]">
+            <el-upload class="avatar-uploader" :action="uploadimg" :show-file-list="false" :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="postForm.imageUrl" :src="postForm.imageUrl" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item>
+            <el-button type="success" @click="submitForm('postForm')">保存</el-button>
+            <el-button type="warning" @click="clickReturn('postForm')">返回</el-button>
+          </el-form-item>
+        </el-col>
       </el-row>
       <Tinymce ref="editor" v-model="postForm.content"></Tinymce>
     </el-form>
@@ -52,7 +66,8 @@
     selectInfoByMid,
     addMiniNews,
     updateMiniNews,
-    getNewDetail
+    getNewDetail,
+    uploadImage
   } from '../../../api/shop';
   import {
     Tinymce
@@ -63,11 +78,13 @@
     },
     data() {
       return {
+        uploadimg: uploadImage,
         postForm: {
           title: '',
           newsType: '',
           miniinfoType: '',
           url: '',
+          imageUrl: '',
           content: 'Hello,word'
         },
         newsOptions: [{
@@ -81,6 +98,9 @@
       }
     },
     methods: {
+      clickReturn() {
+        this.$router.go(-1)
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -90,7 +110,8 @@
               title: this.postForm.title,
               title_url: this.postForm.url,
               title_contents: this.postForm.content,
-              title_type: this.postForm.newsType
+              title_type: this.postForm.newsType,
+              image: this.postForm.imageUrl
             }
             updateMiniNews(para).then(res => {
               if (res.status === 200) {
@@ -117,6 +138,7 @@
             this.postForm.title = res.data.title
             this.postForm.newsType = String(res.data.title_type)
             this.postForm.miniinfoType = res.data.appid
+            this.postForm.imageUrl = res.data.image
             if (res.data.title_url) {
               this.postForm.url = res.data.title_url
             }else{
@@ -131,6 +153,21 @@
             this.miniinfoOptions = res.data.miniMenu
           }
         })
+      },
+      handleAvatarSuccess(res, file) {
+        this.postForm.imageUrl = res.data.locationPath;
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 1;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
       }
     },
     mounted() {
@@ -140,3 +177,32 @@
   }
 
 </script>
+<style scoped>
+  .avatar-uploader {
+    border: 1px dashed #d9d9d9;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    width: 75px;
+    height: 55px;
+  }
+
+  .avatar-uploader:hover {
+    border-color: #409EFF;
+  }
+
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 75px;
+    line-height: 55px;
+    text-align: center;
+    background: #fff;
+  }
+
+  .avatar {
+    width: 75px;
+    height: 55px;
+  }
+
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form ref="postForm" :inline="true" :model="postForm" label-width="95px">
+    <el-form ref="postForm" :inline="true" label-position="left" :model="postForm" label-width="95px">
       <el-row>
         <el-col :span="8">
           <el-form-item label="文章标题" prop="title" :rules="[
@@ -47,9 +47,12 @@
             </el-upload>
           </el-form-item>
         </el-col>
-        <el-form-item style="float:right">
-          <el-button type="success" @click="submitForm('postForm')">保存</el-button>
-        </el-form-item>
+        <el-col :span="8">
+          <el-form-item>
+            <el-button type="success" @click="submitForm('postForm')">保存</el-button>
+            <el-button type="warning" @click="clickReturn('postForm')">返回</el-button>
+          </el-form-item>
+        </el-col>
       </el-row>
       <Tinymce ref="editor" v-model="postForm.content"></Tinymce>
     </el-form>
@@ -94,6 +97,9 @@
       }
     },
     methods: {
+      clickReturn() {
+        this.$router.go(-1)
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {

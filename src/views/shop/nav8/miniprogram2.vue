@@ -65,7 +65,7 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
-        <el-form-item style="width:100%" prop="input_01" :rules="[
+        <el-form-item style="width:100%" prop="input_02" :rules="[
           { type: 'url', message: '请填写正确的URL', trigger: 'blur' },
         ]">
           <el-input v-model="minifrom.input_02" placeholder="请输入链接地址" style="width:240px;"></el-input>
@@ -77,7 +77,7 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
-        <el-form-item style="width:100%" prop="input_01" :rules="[
+        <el-form-item style="width:100%" prop="input_03" :rules="[
           { type: 'url', message: '请填写正确的URL', trigger: 'blur' },
         ]">
           <el-input v-model="minifrom.input_03" placeholder="请输入链接地址" style="width:240px;"></el-input>
@@ -89,7 +89,7 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
-        <el-form-item style="width:100%" prop="input_01" :rules="[
+        <el-form-item style="width:100%" prop="input_04" :rules="[
           { type: 'url', message: '请填写正确的URL', trigger: 'blur' },
         ]">
           <el-input v-model="minifrom.input_04" placeholder="请输入链接地址" style="width:240px;"></el-input>
@@ -101,7 +101,7 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
-        <el-form-item style="width:100%" prop="input_01" :rules="[
+        <el-form-item style="width:100%" prop="input_05" :rules="[
           { type: 'url', message: '请填写正确的URL', trigger: 'blur' },
         ]">
           <el-input v-model="minifrom.input_05" placeholder="请输入链接地址" style="width:240px;"></el-input>

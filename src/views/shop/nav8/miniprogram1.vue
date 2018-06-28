@@ -117,11 +117,11 @@
 <script>
   import * as util from '../../../util/util.js'
   import Sortable from 'sortablejs'
-  import { uploadLogo, addWdMiniInfo, selectInfoByMid, queryWdMiniMenu, addMiniMenu, deleteWdMiniMenu, updateMiniMenu  } from '../../../api/shop';
+  import { uploadImage, addWdMiniInfo, selectInfoByMid, queryWdMiniMenu, addMiniMenu, deleteWdMiniMenu, updateMiniMenu  } from '../../../api/shop';
   export default {
     data() {
       return {
-        uploadimg: uploadLogo,
+        uploadimg: uploadImage,
         filters: {
           appid: '',
           title: ''
@@ -144,13 +144,13 @@
         },
         navOptions: [{
           value: '1',
-          label: '选项1'
+          label: '小程序'
         }, {
           value: '2',
-          label: '选项2'
+          label: 'WEB（1）'
         }, {
           value: '3',
-          label: '选项3'
+          label: 'WEB（2）'
         }],
         miniinfoOptions: [],
         dialogTitle: '新增小程序导航',

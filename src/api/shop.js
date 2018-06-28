@@ -318,8 +318,6 @@ export const updateNewsStatu = params => { return instance.post(`${preUrlPath}/a
 
 export const uploadImage = `${preUrlPath}/admin/wp/mer/mini/1/uploadImage`;
 
-export const uploadLogo = `${preUrlPath}/admin/wp/mer/mini/1/uploadLogo`;
-
 /*
 2018-6-21
 */

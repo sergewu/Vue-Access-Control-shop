@@ -171,13 +171,14 @@
   },
   watch: {
     excel_type(curVal,oldVal) {
-      // return curVal !== 'od' ? this.ruleForm.accountType = 0 : this.ruleForm.accountType
+      let myDate = new Date(this.ruleForm.endTime)
       if (curVal !== 'od') {
         this.ruleForm.accountType = '0'
         this.dateType = 'date'
         this.ruleForm.empName = ''
       }else{
         this.dateType = 'datetime'
+        this.ruleForm.endTime = new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate(), 23,59,59)
       }
     }
   },
