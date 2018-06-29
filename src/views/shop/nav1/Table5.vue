@@ -78,6 +78,9 @@
             <el-form-item prop="transaction_id" class="fixed_search_input">
               <el-input v-model.trim="filters.transaction_id" placeholder="第三方订单号"></el-input>
             </el-form-item>
+            <!-- <el-form-item prop="isOnly">
+              <el-checkbox v-model="filters.isOnly">仅通过订单号查询</el-checkbox>
+            </el-form-item> -->
           </el-row>
         </div>
       </el-collapse-transition>
@@ -212,7 +215,8 @@
           goodsprice: '',
           transaction_id: '',
           goodsprice: '',
-          cardType: ''
+          cardType: '',
+          isOnly: false
         },
         whole: {
           sumAmt: "",
@@ -257,18 +261,6 @@
       },
       formatPay2: function (row, column) {
         return util.formatPayStatus(row.status, row.orderType)
-        // if (row.orderType == '0' && row.status == '1') {
-        //   return '已支付'
-        // } else if(row.orderType == '0' && row.status == '3') {
-        //   return '已支付（有退款）'
-        // }else if(row.orderType == '1' && row.status == '1') {
-        //   return '退款成功'
-        // }else if(row.orderType == '0' && row.status == '2') {
-        //   return '支付失败'
-        // }else if(row.orderType == '0' && row.status == '5') {
-        //   return '未知'
-        // }
-        // return row.status == 1 && row.orderType == 0 ? '已支付' : row.status == 3 && row.orderType == 0 ? '已支付（有退款）' : '未知';
       },
       formatPay1: function (row) {
         return util.formatPayment(row)
@@ -375,12 +367,14 @@
           transactionId: this.filters.transaction_id,
           goodsPrice: this.filters.goodsprice,
           cardType: this.filters.cardType,
-          eid: String(this.filters.empName)
+          eid: String(this.filters.empName),
+          isOnly: this.filters.isOnly
         };
         para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(
           para.startTime), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
         para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(new Date(
           para.endTime), 'yyyy/MM/dd hh:mm:ss'))); //开始时间
+        para.isOnly = para.isOnly === true ? 'Y' : 'N'
         downloadQueryOrderShop(para).then((res) => {
           var _this = this;
           let {
