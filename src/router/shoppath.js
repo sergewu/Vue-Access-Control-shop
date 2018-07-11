@@ -66,6 +66,13 @@ export default [{
     },
     component: Abstract,
     children: [{
+      path: 'page3',
+      name: '商户信息',
+      meta: {
+        title: '商户信息', icon: 'table', noCache: true, code:''
+      },
+      component: (resolve) => require(['../views/shop/nav2/Page3.vue'], resolve)
+    },{
       path: 'page1',
       name: '门店管理',
       meta: {

@@ -102,8 +102,7 @@
         //时间控制
         pickerOptions1: {
           disabledDate: (time) => {
-            // let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.ruleForm.endTime), 'yyyy-MM-dd')));
-            if (time.getTime() > Date.now()) {
+            if (time.getTime() > Date.now() - 3600 * 1000 * 24) {
               return true;
             }
           }
@@ -111,7 +110,7 @@
         pickerOptions2: {
           disabledDate: (time) => {
             let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.ruleForm.startTime), 'yyyy-MM-dd')));
-            if (time.getTime() > startTimeOne + 3600 * 1000 * 24 * 90 || time.getTime() < startTimeOne - 3600 * 1000 * 24 * 1) {
+            if (time.getTime() > startTimeOne + 3600 * 1000 * 24 * 90 || time.getTime() < startTimeOne - 3600 * 1000 * 24 * 1 || time.getTime() > Date.now() - 3600 * 1000 * 24) {
               return true;
             }
           }

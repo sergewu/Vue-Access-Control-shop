@@ -5,7 +5,7 @@
       <el-col>
         <el-form :inline="true" :model="whole">
           <el-tag type="primary" style="margin:10px 10px 20px 0;">总交易金额（元）：{{whole.sumTrans}}元</el-tag>
-          <el-tag type="primary" style="margin:10px 10px 20px 0;">总退款金额（元）：{{whole.sumRefund}}笔</el-tag>
+          <el-tag type="primary" style="margin:10px 10px 20px 0;">总退款金额（元）：{{whole.sumRefund}}元</el-tag>
           <el-tag type="primary" style="margin:10px 10px 20px 0;">总实收金额（元）：{{whole.sumAmt}}元</el-tag>
         </el-form>
       </el-col>

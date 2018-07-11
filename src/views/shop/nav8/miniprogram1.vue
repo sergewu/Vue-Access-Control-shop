@@ -143,14 +143,38 @@
           sort: ''
         },
         navOptions: [{
-          value: '1',
+          value: '0',
           label: '小程序'
         }, {
-          value: '2',
+          value: '1',
           label: 'WEB（1）'
         }, {
-          value: '3',
+          value: '2',
           label: 'WEB（2）'
+        }, {
+          value: '3',
+          label: 'WEB（3）'
+        }, {
+          value: '4',
+          label: 'WEB（4）'
+        }, {
+          value: '5',
+          label: 'WEB（5）'
+        }, {
+          value: '6',
+          label: 'WEB（6）'
+        }, {
+          value: '7',
+          label: 'WEB（7）'
+        }, {
+          value: '8',
+          label: 'WEB（8）'
+        }, {
+          value: '9',
+          label: 'WEB（9）'
+        }, {
+          value: '10',
+          label: 'WEB（10）'
         }],
         miniinfoOptions: [],
         dialogTitle: '新增小程序导航',
