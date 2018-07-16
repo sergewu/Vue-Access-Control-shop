@@ -324,6 +324,26 @@ export const uploadImage = `${preUrlPath}/admin/wp/mer/mini/1/uploadImage`;
 export const queryMerDaySumDetail = params => { return instance.post(`${preUrlPath}/admin/wp/mer/queryMerDaySumDetail`,params).then(res => res.data); };
 
 
+/*
+2018-7-11
+*/ 
+export const queryYuBaoDevice = params => { return instance.post(`${preUrlPath}/admin/wp/mer/queryYuBaoDevice`,params).then(res => res.data); };
 
+/*
+2018-7-12
+*/ 
+export const eidSendVerCode = params => { return instance.post(`${preUrlPath}/admin/wp/mer/100/sendVerCode`,params).then(res => res.data); };
 
+export const eidcheckVerCode = params => { return instance.get(`${preUrlPath}/admin/wp/mer/100/checkVerCode`,{ params: params }); };
 
+export const removeManager = params => { return instance.post(`${preUrlPath}/admin/wp/mer/100/removeManager`,params).then(res => res.data); };
+
+export const queryStoreDetail = params => { return instance.post(`${preUrlPath}/admin/wp/mer/100/queryStoreDetail`,params).then(res => res.data); };
+
+export const sendVerCodeT = params => { return instance.post(`${preUrlPath}/admin/wp/mer/100/sendVerCodeT`,params).then(res => res.data); };
+
+export const addYuBaoDevice = params => { return instance.post(`${preUrlPath}/admin/wp/mer/addYuBaoDevice`,params).then(res => res.data); };
+
+export const updateYuBaoDevice = params => { return instance.post(`${preUrlPath}/admin/wp/mer/updateYuBaoDevice`,params).then(res => res.data); };
+
+export const getDeviceQrCode = `${preUrlPath}/admin/wp/mer/getDeviceQrCode`;
