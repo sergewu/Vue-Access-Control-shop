@@ -1,8 +1,12 @@
 language: node_js
+
 node_js: stable
+
 script: npm run build
+
 notifications:
-  email: false
+  email: '962271461@qq.com'
+
 after_script:
   - cd ./dist
   - git init
