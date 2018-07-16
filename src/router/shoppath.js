@@ -108,6 +108,13 @@ export default [{
         title: '喇叭配置', icon: 'table', noCache: true, code:''
       },
       component: (resolve) => require(['../views/shop/nav3/configure2.vue'], resolve)
+    },{
+      path: 'configure3',
+      name: '充电桩管理',
+      meta: {
+        title: '充电桩管理', icon: 'table', noCache: true, code:''
+      },
+      component: (resolve) => require(['../views/shop/nav3/configure3.vue'], resolve)
     }]
   },{
     path: '/index3',
