@@ -7,7 +7,7 @@
   <a href="https://github.com/ElemeFE/element">
     <img src="https://img.shields.io/badge/element--ui-2.4.0-brightgreen.svg" alt="element-ui">
   </a>
-  <a href="https://travis-ci.org/LaoHu97/Vue-Access-Control-shop.svg?branch=master">
+  <a href="https://www.travis-ci.org/LaoHu97/Vue-Access-Control-shop">
     <img src="https://travis-ci.org/LaoHu97/Vue-Access-Control-shop.svg?branch=master" alt="travis-ci">
   </a>
 </p>
